@@ -7,6 +7,6 @@
 
 require 'test/unit'
 require 'xot/test'
-require 'rubysketch'
+require 'rubysketch/all'
 
 include Xot::Test
