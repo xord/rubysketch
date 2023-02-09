@@ -28,8 +28,7 @@ Gem::Specification.new do |s|
   s.platform              = Gem::Platform::RUBY
   s.required_ruby_version = '>= 2.7.0'
 
-  s.add_runtime_dependency 'reflexion', '~> 0.1.29'
-  s.add_runtime_dependency 'processing', '~> 0.4.0'
+  s.add_runtime_dependency 'processing', '~> 0.5.0'
 
   s.add_development_dependency 'yard'
 
