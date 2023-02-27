@@ -1,21 +1,22 @@
 # -*- mode: ruby -*-
 
 
-%w[../xot ../rucy ../rays ../reflex ../processing .]
+%w[../xot ../rucy ../beeps ../rays ../reflex ../processing ../rubysketch .]
   .map  {|s| File.expand_path "#{s}/lib", __dir__}
   .each {|s| $:.unshift s if !$:.include?(s) && File.directory?(s)}
 
 require 'rucy/rake'
 
-require 'xot/module'
-require 'rucy/module'
-require 'rays/module'
-require 'reflex/module'
-require 'processing/module'
-require 'rubysketch/module'
+require 'xot/extension'
+require 'rucy/extension'
+require 'beeps/extension'
+require 'rays/extension'
+require 'reflex/extension'
+require 'processing/extension'
+require 'rubysketch/extension'
 
 
-MODULES = [Xot, Rucy, Rays, Reflex, Processing, RubySketch]
+EXTENSIONS = [Xot, Rucy, Beeps, Rays, Reflex, Processing, RubySketch]
 
 ENV['RDOC'] = 'yardoc --no-private'
 

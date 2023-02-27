@@ -1,7 +1,7 @@
 require 'forwardable'
 require 'processing/all'
 
-require 'rubysketch/module'
+require 'rubysketch/extension'
 require 'rubysketch/helper'
 
 require 'rubysketch/sprite'
