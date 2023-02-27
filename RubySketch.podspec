@@ -3,7 +3,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "RubySketch"
-  s.version      = File.readlines(File.expand_path 'VERSION', __dir__)[0].chomp
+  s.version      = File.read(File.expand_path 'VERSION', __dir__)[/[\d\.]+/]
   s.summary      = "A game engine based on the Processing API"
   s.description  = "A game engine based on the Processing API"
   s.license      = "MIT"

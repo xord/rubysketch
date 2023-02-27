@@ -10,7 +10,7 @@ module RubySketch
     end
 
     def version()
-      open(root_dir 'VERSION') {|f| f.readline.chomp}
+      File.read(root_dir 'VERSION')[/[\d\.]+/]
     end
 
     def root_dir(path = '')
