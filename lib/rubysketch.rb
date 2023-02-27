@@ -3,17 +3,13 @@ require 'rubysketch/all'
 
 module RubySketch
   WINDOW  = Processing::Window.new {start}
-  CONTEXT = Processing::Context.new WINDOW
+  CONTEXT = RubySketch::Context.new WINDOW
 
   refine Object do
     (CONTEXT.methods - Object.instance_methods).each do |method|
       define_method method do |*args, **kwargs, &block|
         CONTEXT.__send__ method, *args, **kwargs, &block
       end
-    end
-
-    def createSprite()
-      Sprite.new
     end
   end
 end# RubySketch
