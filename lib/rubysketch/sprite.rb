@@ -20,6 +20,7 @@ module RubySketch
       :y, :y=,
       :w,     :h,
       :width, :height,
+      :dynamic?,    :dynamic=,
       :density,     :density=,
       :friction,    :friction=,
       :restitution, :restitution=
@@ -52,44 +53,12 @@ module RubySketch
       @offset__
     end
 
-    def dynamic=(state)
-      @view__.dynamic = state
-    end
-
-    def dynamic?()
-      @view__.dynamic?
-    end
-
     def velocity()
       @view__.velocity.toVector
     end
 
     def velocity=(vector)
       @view__.velocity = vector.getInternal__
-    end
-
-    def density()
-      @view__.density
-    end
-
-    def density=(value)
-      @view__.density = value
-    end
-
-    def friction()
-      @view__.friction
-    end
-
-    def friction=(value)
-      @view__.frictino = value
-    end
-
-    def restitution()
-      @view__.restitution
-    end
-
-    def restitution=(value)
-      @view__.restitution = value
     end
 
     alias pos   position
@@ -114,7 +83,7 @@ module RubySketch
 
       def initialize(sprite, *a, **k, &b)
         @sprite = sprite
-        super *a, **k, &b
+        super(*a, **k, &b)
       end
 
       def on_update(e)
