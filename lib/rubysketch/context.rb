@@ -11,7 +11,7 @@ module RubySketch
     end
 
     def createSprite(*args, **kwargs)
-      Sprite.new(*args, **kwargs)
+      addSprite Sprite.new(*args, **kwargs)
     end
 
     def addSprite(sprite)

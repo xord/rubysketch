@@ -12,7 +12,6 @@ module RubySketch
 
       @image__, @offset__ = image, offset
       @view__ = View.new self, x: x, y: y, w: w, h: h, back: :white, dynamic: dynamic
-      CONTEXT.addSprite self
     end
 
     def_delegators :@view__,
