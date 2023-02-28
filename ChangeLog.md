@@ -1,11 +1,16 @@
 # rubysketch ChangeLog
 
 
-## [0.5.0] - 2023-02-09
+## [v0.5.1] - 2023-03-01
+
+- fix bugs
+
+
+## [v0.5.0] - 2023-02-09
 
 - add Sprite class
 
 
-## [0.4.0] - 2023-02-08
+## [v0.4.0] - 2023-02-08
 
 - first version
