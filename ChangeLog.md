@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.2] - 2023-03-02
+
+- depend to processing-0.5.2 gem
+
+
 ## [v0.5.1] - 2023-03-01
 
 - fix bugs
