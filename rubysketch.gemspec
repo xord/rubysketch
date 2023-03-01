@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'beeps',      '~> 0.1.32'
   s.add_runtime_dependency 'rays',       '~> 0.1.32'
   s.add_runtime_dependency 'reflexion',  '~> 0.1.32'
-  s.add_runtime_dependency 'processing', '~> 0.5.1'
+  s.add_runtime_dependency 'processing', '~> 0.5.2'
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'test-unit'
