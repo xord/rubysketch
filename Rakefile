@@ -47,11 +47,15 @@ namespace :pod do
 
   repos.each do |repo, ver|
     rakefile = "#{repo}/Rakefile"
+    opts     = {
+      depth:  1,
+      branch: env(:BRANCH, "v#{ver}")
+    }.map {|k, v| "--#{k} #{v}"}.join ' '
 
     task :setup => rakefile
 
     file rakefile do
-      sh %( git clone --depth 1 --branch v#{ver} #{github}/#{repo} )
+      sh %( git clone #{opts} #{github}/#{repo} )
       sh %( cd #{repo} && VENDOR_NOCOMPILE=1 rake vendor erb )
     end
   end
