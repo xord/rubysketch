@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
     ${PODS_ROOT}/CRuby/CRuby/include
   ]
 
-  s.prepare_command    = 'rake pod:setup'
+  s.prepare_command    = 'rake -f pod.rake setup'
   s.preserve_paths     = exts + %w[src]
   s.requires_arc       = false
   s.osx.compiler_flags = "-DOSX"
