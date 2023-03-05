@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
     .map {|line| line[%r|require\s*['"](\w+)/extension['"]|, 1]}
     .compact - [s.name.downcase]
 
-  incdirs = %W[
+  incdirs = exts.map {|x| "#{root}/#{x}/include"}.concat %W[
     #{root}/src
     #{root}/beeps/vendor/stk/include
     #{root}/rays/vendor/glm
