@@ -4,6 +4,11 @@
 #include "../reflex/src/ios/view_controller.h"
 
 
+void Init_beeps_native ();
+void Init_rays_native ();
+void Init_reflex_native ();
+
+
 static ReflexViewController* active_reflex_view_controller = nil;
 
 static ReflexViewController*
