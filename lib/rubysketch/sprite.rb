@@ -64,6 +64,24 @@ module RubySketch
       @view__.velocity = vector.getInternal__
     end
 
+    def vx()
+      @view__.velocity.x
+    end
+
+    def vx=(value)
+      @view__.velocity = @view__.velocity.tap {|v| v.x = value}
+      value
+    end
+
+    def vy()
+      @view__.velocity.y
+    end
+
+    def vy=(value)
+      @view__.velocity = @view__.velocity.tap {|v| v.y = value}
+      value
+    end
+
     alias pos   position
     alias pos=  position=
     alias vel   velocity
