@@ -25,11 +25,15 @@ module RubySketch
       :restitution, :restitution=
 
     def update(&block)
-      @view__.update = block
+      @view__.on_update = block
     end
 
     def contact(&block)
-      @view__.contact = block
+      @view__.on_contact = block
+    end
+
+    def contact?(&block)
+      @view__.will_contact = block
     end
 
     def position()
@@ -77,7 +81,7 @@ module RubySketch
     end
 
     class View < Reflex::View
-      attr_accessor :update, :contact
+      attr_accessor :on_update, :on_contact, :will_contact
       attr_reader :sprite
 
       def initialize(sprite, *a, **k, &b)
@@ -86,12 +90,17 @@ module RubySketch
       end
 
       def on_update(e)
-        @update.call if @update
+        @on_update.call if @on_update
       end
 
       def on_contact(e)
         v = e.view
-        @contact.call v.sprite, e.action if @contact && v.is_a?(View)
+        @on_contact.call v.sprite, e.action if @on_contact && v.is_a?(View)
+      end
+
+      def will_contact?(v)
+        return true if !@will_contact || !v.is_a?(View)
+        @will_contact.call v.sprite
       end
     end
 
