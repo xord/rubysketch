@@ -24,6 +24,10 @@ module RubySketch
       sprite
     end
 
+    def loadSound(path)
+      Sound.load path
+    end
+
     def gravity(*args)
       x, y =
         case args
