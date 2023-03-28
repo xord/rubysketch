@@ -13,8 +13,7 @@ module RubySketch
     end
 
     def self.load(path)
-      wav = Beeps::FileIn.new path
-      self.new Beeps::Sound.new wav, wav.seconds, wav.nchannels
+      self.new Beeps::Sound.load path
     end
 
   end# Sound
