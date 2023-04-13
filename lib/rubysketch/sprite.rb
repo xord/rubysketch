@@ -99,7 +99,7 @@ module RubySketch
     end
 
     class View < Reflex::View
-      attr_accessor :on_update, :on_contact, :will_contact
+      attr_accessor :update, :contact, :will_contact
       attr_reader :sprite
 
       def initialize(sprite, *a, **k, &b)
@@ -108,12 +108,12 @@ module RubySketch
       end
 
       def on_update(e)
-        @on_update.call if @on_update
+        @update.call if @update
       end
 
       def on_contact(e)
         v = e.view
-        @on_contact.call v.sprite, e.action if @on_contact && v.is_a?(View)
+        @contact.call v.sprite, e.action if @contact && v.is_a?(View)
       end
 
       def will_contact?(v)
