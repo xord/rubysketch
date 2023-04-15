@@ -16,7 +16,7 @@ class TestSound < Test::Unit::TestCase
   end
 
   def setup()
-    B::Sound.new(B::Oscillator.new, 0.1).save PATH
+    B::Sound.new(B::Oscillator.new >> B::Gain.new(gain: 0), 0.1).save PATH
   end
 
   def teardown()
