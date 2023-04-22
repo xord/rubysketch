@@ -23,11 +23,14 @@ Pod::Spec.new do |s|
   incdirs = exts.map {|x| "#{root}/#{x}/include"}.concat %W[
     #{root}/src
     #{root}/beeps/vendor/stk/include
+    #{root}/beeps/vendor/AudioFile
+    #{root}/beeps/vendor/r8brain-free-src
+    #{root}/beeps/vendor/signalsmith-stretch
     #{root}/rays/vendor/glm
     #{root}/rays/vendor/clipper/cpp
     #{root}/rays/vendor/poly2tri/poly2tri
     #{root}/rays/vendor/splines-lib
-    #{root}/reflex/vendor/Box2D/Box2D
+    #{root}/reflex/vendor/box2d/include
     ${PODS_ROOT}/CRuby/CRuby/include
   ]
 
@@ -64,12 +67,20 @@ Pod::Spec.new do |s|
 
   s.subspec "Beeps" do |spec|
     spec.source_files = "beeps/src/*.cpp"
-    spec.frameworks   = %w[OpenAL]
+    spec.source_files = "beeps/src/osx/*.{cpp,mm}"
+    spec.frameworks   = %w[OpenAL AVFoundation]
 
     spec.subspec "STK" do |sub|
       sub.source_files  = "beeps/vendor/stk/src/*.cpp"
-      sub.exclude_files = %W[Tcp Udp Socket Thread Mutex InetWv Rt].map {|s|
+      sub.exclude_files = %w[Tcp Udp Socket Thread Mutex InetWv Rt].map {|s|
         "beeps/vendor/stk/src/#{s}*.cpp"
+      }
+    end
+
+    spec.subspec "R8BrainFreeSrc" do |sub|
+      sub.source_files  = "beeps/vendor/r8brain-free-src/*.cpp"
+      sub.exclude_files = %w[example pffft_double/].map {|s|
+        "beeps/vendor/r8brain-free-src/#{s}*.cpp"
       }
     end
 
@@ -108,7 +119,7 @@ Pod::Spec.new do |s|
     spec.ios.frameworks   = %w[CoreMotion]
 
     spec.subspec "Box2D" do |sub|
-      sub.source_files = "reflex/vendor/Box2D/Box2D/Box2D/**/*.cpp"
+      sub.source_files = "reflex/vendor/box2d/src/**/*.cpp"
     end
 
     spec.subspec "Ext" do |ext|
