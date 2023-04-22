@@ -31,6 +31,7 @@ Pod::Spec.new do |s|
     #{root}/rays/vendor/poly2tri/poly2tri
     #{root}/rays/vendor/splines-lib
     #{root}/reflex/vendor/box2d/include
+    #{root}/reflex/vendor/box2d/src
     ${PODS_ROOT}/CRuby/CRuby/include
   ]
 
