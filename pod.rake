@@ -1,7 +1,6 @@
 # -*- mode: ruby -*-
 
 
-version = File.readlines('VERSION', chomp: true).first
 github  = 'https://github.com/xord'
 renames = {reflexion: 'reflex'}
 regexp  = /add\w+dependency.*['"](\w+)['"].*['"]\s*~>\s*([\d\.]+)\s*['"]/
@@ -18,7 +17,7 @@ end
 
 task :setup
 
-repos.merge('rubysketch' => version).each do |repo, ver|
+repos.each do |repo, ver|
   rakefile = "#{repo}/Rakefile"
   opts     = {
     '-c':       'advice.detachedHead=false'
