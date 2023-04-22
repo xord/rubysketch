@@ -20,7 +20,7 @@ task :setup
 repos.each do |repo, ver|
   rakefile = "#{repo}/Rakefile"
   opts     = {
-    '-c':       'advice.detachedHead=false'
+    '-c':       'advice.detachedHead=false',
     '--depth':  1,
     '--branch': (ENV['RUBYSKETCH_BRANCH'] || "v#{ver}")
   }.map {|k, v| "#{k} #{v}"}.join ' '
