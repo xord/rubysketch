@@ -21,9 +21,10 @@ task :setup
 repos.merge('rubysketch' => version).each do |repo, ver|
   rakefile = "#{repo}/Rakefile"
   opts     = {
-    depth:  1,
-    branch: (ENV['RUBYSKETCH_BRANCH'] || "v#{ver}")
-  }.map {|k, v| "--#{k} #{v}"}.join ' '
+    '-c':       'advice.detachedHead=false'
+    '--depth':  1,
+    '--branch': (ENV['RUBYSKETCH_BRANCH'] || "v#{ver}")
+  }.map {|k, v| "#{k} #{v}"}.join ' '
 
   task :setup => rakefile
 
