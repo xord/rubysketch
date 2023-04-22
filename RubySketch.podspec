@@ -67,9 +67,10 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "Beeps" do |spec|
-    spec.source_files = "beeps/src/*.cpp"
-    spec.source_files = "beeps/src/osx/*.{cpp,mm}"
-    spec.frameworks   = %w[OpenAL AVFoundation]
+    spec    .source_files = "beeps/src/*.cpp"
+    spec.osx.source_files = "beeps/src/osx/*.{cpp,mm}"
+    spec.ios.source_files = "beeps/src/osx/*.{cpp,mm}"
+    spec.frameworks       = %w[OpenAL AVFoundation]
 
     spec.subspec "STK" do |sub|
       sub.source_files  = "beeps/vendor/stk/src/*.cpp"
