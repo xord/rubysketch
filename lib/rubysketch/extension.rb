@@ -1,6 +1,7 @@
 module RubySketch
 
 
+  # @private
   module Extension
 
     module_function

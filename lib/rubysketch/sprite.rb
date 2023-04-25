@@ -98,6 +98,7 @@ module RubySketch
       @view__
     end
 
+    # @private
     class View < Reflex::View
       attr_accessor :update, :contact, :will_contact
       attr_reader :sprite

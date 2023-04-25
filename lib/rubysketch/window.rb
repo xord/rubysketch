@@ -1,6 +1,7 @@
 module RubySketch
 
 
+  # @private
   class Window < Processing::Window
 
     def on_update(e)

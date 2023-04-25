@@ -5,6 +5,7 @@ module RubySketch
 
     include GraphicsContext
 
+    # @private
     def initialize(window)
       super
       @sprites__ = window.add SpritesView.new
@@ -39,6 +40,7 @@ module RubySketch
       end
     end
 
+    # @private
     class SpritesView < Reflex::View
       def on_draw(e)
         e.block

@@ -20,6 +20,7 @@ module RubySketch
       end
     end
 
+    # @private
     def drawSprite__(x, y, w, h, img, offset)
       if img && offset
         ox, oy = offset
