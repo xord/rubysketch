@@ -6,18 +6,163 @@ require_relative 'helper'
 
 class TestSprite < Test::Unit::TestCase
 
+  RS = RubySketch
+
   def sprite(*args, **kwargs)
-    RubySketch::Sprite.new(*args, **kwargs)
+    RS::Sprite.new(*args, **kwargs)
   end
 
   def vec(*args, **kwargs)
-    Processing::Vector.new(*args, **kwargs)
+    RS::Vector.new(*args, **kwargs)
+  end
+
+  def image(w, h)
+    RS::Image.new Rays::Image.new(w, h)
   end
 
   def test_initialize()
-    assert_equal 0,         sprite.x
-    assert_equal 0,         sprite.y
-    assert_equal vec(0, 0), sprite.pos
+    assert_equal vec(0, 0), sprite            .pos
+    assert_equal vec(1, 2), sprite(1, 2)      .pos
+    assert_equal vec(1, 2), sprite(1, 2, 3, 4).pos
+
+    assert_equal vec(0, 0), sprite                                .size
+    assert_equal vec(3, 4), sprite(1, 2, 3, 4)                    .size
+    assert_equal vec(5, 6), sprite(            image: image(5, 6)).size
+    assert_equal vec(5, 6), sprite(1, 2,       image: image(5, 6)).size
+    assert_equal vec(3, 4), sprite(1, 2, 3, 4, image: image(5, 6)).size
+
+    assert_equal nil,    sprite                    .image
+    assert_equal [1, 2], sprite(image: image(1, 2)).image.then {[_1.w, _1.h]}
+
+    assert_equal nil,       sprite.offset
+    assert_equal vec(1, 2), sprite(offset:    [1, 2]).offset
+    assert_equal vec(1, 2), sprite(offset: vec(1, 2)).offset
+
+    assert_equal false, sprite               .dynamic?
+    assert_equal true,  sprite(dynamic: true).dynamic?
+
+    assert_raise {sprite 0, 0, -1, 0}
+    assert_raise {sprite 0, 0, 0, -1}
+  end
+
+  def test_position()
+    s = sprite
+    assert_equal vec(0, 0), s.pos
+
+    s.pos = vec(1, 2)
+    assert_equal vec(1, 2), s.pos
+
+    s.pos = [3, 4]
+    assert_equal vec(3, 4), s.pos
+  end
+
+  def test_xy()
+    s = sprite
+    assert_equal     0,     s.x
+    assert_equal vec(0, 0), s.pos
+
+    s.x = 1
+    assert_equal     1,     s.x
+    assert_equal vec(1, 0), s.pos
+
+    s.y = 2
+    assert_equal        2,  s.y
+    assert_equal vec(1, 2), s.pos
+  end
+
+  def test_size()
+    assert_equal vec(0, 0), sprite                    .size
+    assert_equal vec(1, 0), sprite(0, 0, 1)           .size
+    assert_equal vec(1, 2), sprite(0, 0, 1, 2)        .size
+    assert_equal vec(3, 4), sprite(image: image(3, 4)).size
+  end
+
+  def test_wh()
+    assert_equal 1, sprite(0, 0, 1, 2).width
+    assert_equal 2, sprite(0, 0, 1, 2).height
+  end
+
+  def test_velocity()
+    s = sprite
+    assert_equal vec(0, 0), s.vel
+
+    s.vel = vec(1, 2)
+    assert_equal vec(1, 2), s.vel
+
+    s.vel = [3, 4]
+    assert_equal vec(3, 4), s.vel
+  end
+
+  def test_vxvy()
+    s = sprite
+    assert_equal     0,     s.vx
+    assert_equal vec(0, 0), s.vel
+
+    s.vx = 1
+    assert_equal     1,     s.vx
+    assert_equal vec(1, 0), s.vel
+
+    s.vy = 2
+    assert_equal        2,  s.vy
+    assert_equal vec(1, 2), s.vel
+  end
+
+  def test_dynamic?()
+    s = sprite
+    assert_equal false, s.dynamic?
+
+    s.dynamic = true
+    assert_equal true,  s.dynamic?
+
+    s.dynamic = false
+    assert_equal false, s.dynamic?
+  end
+
+  def test_density()
+    s = sprite
+    assert_equal 0, s.dens
+
+    s.dens = 1
+    assert_equal 1, s.dens
+  end
+
+  def test_friction()
+    s = sprite
+    assert_equal 0, s.fric
+
+    s.fric = 1
+    assert_equal 1, s.fric
+  end
+
+  def test_restitution()
+    s = sprite
+    assert_equal 0, s.rest
+
+    s.rest = 1
+    assert_equal 1, s.rest
+  end
+
+  def test_blocks()
+    s = sprite
+    v = s.instance_variable_get :@view__
+    assert_nil v.update
+    assert_nil v.contact
+    assert_nil v.will_contact
+
+    s.update {}
+    assert_not_nil v.update
+    assert_nil     v.contact
+    assert_nil     v.will_contact
+
+    s.contact {}
+    assert_not_nil v.update
+    assert_not_nil v.contact
+    assert_nil     v.will_contact
+
+    s.contact? {}
+    assert_not_nil v.update
+    assert_not_nil v.contact
+    assert_not_nil v.will_contact
   end
 
 end# TestSprite
