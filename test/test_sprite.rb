@@ -38,9 +38,6 @@ class TestSprite < Test::Unit::TestCase
     assert_equal vec(1, 2), sprite(offset:    [1, 2]).offset
     assert_equal vec(1, 2), sprite(offset: vec(1, 2)).offset
 
-    assert_equal false, sprite               .dynamic?
-    assert_equal true,  sprite(dynamic: true).dynamic?
-
     assert_raise {sprite 0, 0, -1, 0}
     assert_raise {sprite 0, 0, 0, -1}
   end

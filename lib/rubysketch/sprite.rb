@@ -5,28 +5,35 @@ module RubySketch
   #
   class Sprite
 
-    extend Forwardable
-
     # Initialize sprite object.
     #
+    # @overload new(image: img)
+    #  pos: [0, 0], size: [image.width, image.height]
+    #  @param [Image] img sprite image
     #
-    # @overload new(image:) pos: [0, 0], size: [image.width, image.height]
-    # @overload new(x, y, image:) pos: [x, y], size: [image.width, image.height]
-    # @overload new(x, y, w, h) pos(x, y), size: [w, h]
-    # @overload new(x, y, w, h, image:, offset:) pos: [x, y], size: [w, h], offset: [offset[0], offset[1]]
+    # @overload new(x, y, image: img)
+    #  pos: [x, y], size: [image.width, image.height]
+    #  @param [Numeric] x   x of sprite position
+    #  @param [Numeric] y   y of sprite position
+    #  @param [Image]   img sprite image
     #
-    # @param x [Numeric] x of sprite position
-    # @param y [Numeric] y of sprite position
-    # @param w [Numeric] width of sprite
-    # @param h [Numeric] height of sprite
-    # @param image [Image] sprite image
-    # @param offset [Array] offset [x, y] for sprite image
-    # @param dynamic [Boolean] false(static) or true(dynamic) for physics
+    # @overload new(x, y, w, h)
+    #  pos(x, y), size: [w, h]
+    #  @param [Numeric] x x of sprite position
+    #  @param [Numeric] y y of sprite position
+    #  @param [Numeric] w width of sprite
+    #  @param [Numeric] h height of sprite
     #
-    def initialize(
-      x = 0, y = 0, w = nil, h = nil,
-      image: nil, offset: nil, dynamic: false)
-
+    # @overload new(x, y, w, h, image: img, offset: off)
+    #  pos: [x, y], size: [w, h], offset: [offset.x, offset.x]
+    #  @param [Numeric] x   x of sprite position
+    #  @param [Numeric] y   y of sprite position
+    #  @param [Numeric] w   width of sprite
+    #  @param [Numeric] h   height of sprite
+    #  @param [Image]   img sprite image
+    #  @param [Vector]  off offset of sprite image
+    #
+    def initialize(x = 0, y = 0, w = nil, h = nil, image: nil, offset: nil)
       w ||= (image&.width  || 0)
       h ||= (image&.height || 0)
       raise 'invalid size'  unless w >= 0 && h >= 0
@@ -34,8 +41,7 @@ module RubySketch
 
       @image__  = image
       @offset__ = offset ? Vector.new(*offset.to_a[0, 2]) : nil
-      @view__   = View.new(
-        self, x: x, y: y, w: w, h: h, back: :white, dynamic: dynamic)
+      @view__   = View.new(self, x: x, y: y, w: w, h: h, back: :white)
     end
 
     # Returns the position of the sprite.
@@ -48,11 +54,11 @@ module RubySketch
 
     # Sets the position of the sprite.
     #
-    # @overload position=(ary)
     # @overload position=(vec)
+    #  @param [Vector] vec position vector
     #
-    # @param ary [Array] [x, y]
-    # @param vec [Vector] position
+    # @overload position=(ary)
+    #  @param [Array] ary positionX, positionY
     #
     # @return [Vector] position
     #
@@ -71,7 +77,7 @@ module RubySketch
 
     # Set the x-coordinate position of the sprite.
     #
-    # @param n [Numeric] sprite position x
+    # @param [Numeric] n sprite position x
     #
     # @return [Numeric] sprite position x
     #
@@ -90,7 +96,7 @@ module RubySketch
 
     # Set the y-coordinate position of the sprite.
     #
-    # @param n [Numeric] sprite position y
+    # @param [Numeric] n sprite position y
     #
     # @return [Numeric] sprite position y
     #
@@ -139,11 +145,11 @@ module RubySketch
 
     # Sets the velocity of the sprite.
     #
-    # #overload velocity=(ary)
-    # #overload velocity=(vec)
+    # @overload velocity=(vec)
+    #  @param [Vector] vec velocity vector
     #
-    # @param ary [Array] [vx, vy]
-    # @param vec [Vector] velocity
+    # @overload velocity=(ary)
+    #  @param [Array] ary velocityX, velocityY
     #
     # @return [Vector] velocity
     #
@@ -162,7 +168,7 @@ module RubySketch
 
     # Sets the x-axis velocity of the sprite.
     #
-    # @param n [Numeric] x-axis velocity
+    # @param [Numeric] n x-axis velocity
     #
     # @return [Numeric] velocity.x
     #
@@ -181,7 +187,7 @@ module RubySketch
 
     # Sets the y-axis velocity of the sprite.
     #
-    # @param n [Numeric] y-axis velocity
+    # @param [Numeric] n y-axis velocity
     #
     # @return [Numeric] velocity.y
     #
@@ -219,7 +225,7 @@ module RubySketch
 
     # Sets whether the sprite is movable by the physics engine.
     #
-    # @param bool [Boolean] movable or not
+    # @param [Boolean] bool movable or not
     #
     # @return [Boolean] true if dynamic
     #
@@ -238,7 +244,7 @@ module RubySketch
 
     # Sets the density of the sprite.
     #
-    # @param n [Numeric] density
+    # @param [Numeric] n density
     #
     # @return [Numeric] density
     #
@@ -257,7 +263,7 @@ module RubySketch
 
     # Sets the friction of the sprite.
     #
-    # @param n [Numeric] friction
+    # @param [Numeric] n friction
     #
     # @return [Numeric] friction
     #
@@ -276,7 +282,7 @@ module RubySketch
 
     # Sets the restitution of the sprite.
     #
-    # @param n [Numeric] restitution
+    # @param [Numeric] n restitution
     #
     # @return [Numeric] restitution
     #

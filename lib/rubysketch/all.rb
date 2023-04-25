@@ -1,4 +1,3 @@
-require 'forwardable'
 require 'beeps'
 require 'processing/all'
 
