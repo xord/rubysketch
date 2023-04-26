@@ -73,7 +73,7 @@ class TestSound < Test::Unit::TestCase
     assert_equal [false, false, true],  [s.playing?, s.paused?, s.stopped?]
   end
 
-  def test_save()
+  def test_save_load()
     s = sound
 
     File.delete PATH
@@ -81,10 +81,8 @@ class TestSound < Test::Unit::TestCase
 
     s.save PATH
     assert_true  File.exist? PATH
-  end
 
-  def test_load()
-    assert_nothing_raised {sound.play}
+    assert_nothing_raised {RS::Sound.load(PATH).play}
   end
 
 end# TestSound
