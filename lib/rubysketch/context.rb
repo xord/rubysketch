@@ -61,6 +61,7 @@ module RubySketch
       sprite
     end
 
+    # @private
     def loadSound(path)
       Sound.load path
     end
