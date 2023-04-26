@@ -19,16 +19,17 @@ task :setup
 
 repos.each do |repo, ver|
   rakefile = "#{repo}/Rakefile"
-  opts     = {
-    '-c':       'advice.detachedHead=false',
-    '--depth':  1,
-    '--branch': (ENV['RUBYSKETCH_BRANCH'] || "v#{ver}")
-  }.map {|k, v| "#{k} #{v}"}.join ' '
+  opts     = [
+    '-c advice.detachedHead=false',
+    '--no-single-branch',
+    '--depth 1',
+    "--branch #{ENV['RUBYSKETCH_BRANCH'] || ('v' + ver)}"
+  ]
 
   task :setup => rakefile
 
   file rakefile do
-    sh %( git clone #{opts} #{github}/#{repo} )
+    sh %( git clone #{opts.join ' '} #{github}/#{repo} )
     sh %( cd #{repo} && VENDOR_NOCOMPILE=1 rake vendor erb )
   end
 end
