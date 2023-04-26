@@ -58,7 +58,7 @@ module RubySketch
     #  @param [Vector] vec position vector
     #
     # @overload position=(ary)
-    #  @param [Array] ary positionX, positionY
+    #  @param [Array<Numeric>] ary positionX, positionY
     #
     # @return [Vector] position
     #
@@ -149,7 +149,7 @@ module RubySketch
     #  @param [Vector] vec velocity vector
     #
     # @overload velocity=(ary)
-    #  @param [Array] ary velocityX, velocityY
+    #  @param [Array<Numeric>] ary velocityX, velocityY
     #
     # @return [Vector] velocity
     #

@@ -72,7 +72,7 @@ module RubySketch
     #  @param [Vector] vec gracity vector
     #
     # @overload gravity(ary)
-    #  @param [Array] ary gravityX, gravityY
+    #  @param [Array<Numeric>] ary gravityX, gravityY
     #
     # @overload gravity(x, y)
     #  @param [Numeric] x x of gravity vector
