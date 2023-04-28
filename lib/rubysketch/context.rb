@@ -5,6 +5,9 @@ module RubySketch
 
     include GraphicsContext
 
+    Sound  = RubySketch::Sound
+    Sprite = RubySketch::Sprite
+
     # @private
     def initialize(window)
       super
