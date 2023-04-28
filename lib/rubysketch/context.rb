@@ -8,7 +8,7 @@ module RubySketch
     # @private
     def initialize(window)
       super
-      @sprites__ = window.add SpritesView.new
+      @layer__ = window.add SpriteLayer.new
     end
 
     # Creates a new sprite and add it to physics engine.
@@ -48,7 +48,7 @@ module RubySketch
     # @param [Sprite] sprite sprite object
     #
     def addSprite(sprite)
-      @sprites__.add sprite.getInternal__ if sprite
+      @layer__.add sprite.getInternal__ if sprite
       sprite
     end
 
@@ -57,7 +57,7 @@ module RubySketch
     # @param [Sprite] sprite sprite object
     #
     def removeSprite(sprite)
-      @sprites__.remove sprite.getInternal__ if sprite
+      @layer__.remove sprite.getInternal__ if sprite
       sprite
     end
 
@@ -85,19 +85,20 @@ module RubySketch
         when Array  then arg
         else args
         end
-      @sprites__.then do |v|
+      @layer__.then do |v|
         v.gravity x * v.meter, y * v.meter
       end
     end
 
-    # @private
-    class SpritesView < Reflex::View
-      def on_draw(e)
-        e.block
-      end
-    end
-
   end# Context
+
+
+  # @private
+  class SpriteLayer < Reflex::View
+    def on_draw(e)
+      e.block
+    end
+  end
 
 
 end# RubySketch

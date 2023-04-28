@@ -41,7 +41,7 @@ module RubySketch
 
       @image__  = image
       @offset__ = offset ? Vector.new(*offset.to_a[0, 2]) : nil
-      @view__   = View.new(self, x: x, y: y, w: w, h: h, back: :white)
+      @view__   = SpriteView.new(self, x: x, y: y, w: w, h: h, back: :white)
     end
 
     # Returns the position of the sprite.
@@ -342,32 +342,35 @@ module RubySketch
       @view__
     end
 
-    # @private
-    class View < Reflex::View
-      attr_accessor :update, :contact, :will_contact
-      attr_reader :sprite
+  end# Sprite
 
-      def initialize(sprite, *a, **k, &b)
-        @sprite = sprite
-        super(*a, **k, &b)
-      end
 
-      def on_update(e)
-        @update.call if @update
-      end
+  # @private
+  class SpriteView < Reflex::View
 
-      def on_contact(e)
-        v = e.view
-        @contact.call v.sprite, e.action if @contact && v.is_a?(View)
-      end
+    attr_accessor :update, :contact, :will_contact
+    attr_reader :sprite
 
-      def will_contact?(v)
-        return true if !@will_contact || !v.is_a?(View)
-        @will_contact.call v.sprite
-      end
+    def initialize(sprite, *a, **k, &b)
+      @sprite = sprite
+      super(*a, **k, &b)
     end
 
-  end# Sprite
+    def on_update(e)
+      @update.call if @update
+    end
+
+    def on_contact(e)
+      v = e.view
+      @contact.call v.sprite, e.action if @contact && v.is_a?(SpriteView)
+    end
+
+    def will_contact?(v)
+      return true if !@will_contact || !v.is_a?(SpriteView)
+      @will_contact.call v.sprite
+    end
+
+  end# SpriteView
 
 
 end# RubySketch
