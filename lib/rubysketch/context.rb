@@ -98,10 +98,12 @@ module RubySketch
 
   # @private
   class SpriteLayer < Reflex::View
+
     def on_draw(e)
       e.block
     end
-  end
+
+  end# SpriteLayer
 
 
 end# RubySketch
