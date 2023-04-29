@@ -88,9 +88,7 @@ module RubySketch
         when Array  then arg
         else args
         end
-      @layer__.then do |v|
-        v.gravity x * v.meter, y * v.meter
-      end
+      @layer__.gravity x, y
     end
 
   end# Context
