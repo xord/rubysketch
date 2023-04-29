@@ -11,7 +11,7 @@ module RubySketch
     # @private
     def initialize(window)
       super
-      @layer__ = window.add SpriteLayer.new
+      @layer__ = window.add_overlay SpriteLayer.new
     end
 
     # Creates a new sprite and add it to physics engine.
