@@ -39,7 +39,10 @@ module RubySketch
       raise 'invalid size'  unless w >= 0 && h >= 0
       raise 'invalid image' if image && !image.getInternal__.is_a?(Rays::Image)
 
-      @view__ = SpriteView.new(self, x: x, y: y, w: w, h: h, static: true, back: :white)
+      @view__ = SpriteView.new(
+        self, x: x, y: y, w: w, h: h,
+        static: true, density: 1, friction: 0, restitution: 0,
+        back: :white)
 
       self.image  = image  if image
       self.offset = offset if offset

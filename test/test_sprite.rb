@@ -173,10 +173,10 @@ class TestSprite < Test::Unit::TestCase
 
   def test_density()
     s = sprite
-    assert_equal 0, s.dens
-
-    s.dens = 1
     assert_equal 1, s.dens
+
+    s.dens = 2
+    assert_equal 2, s.dens
   end
 
   def test_friction()
