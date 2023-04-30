@@ -359,18 +359,6 @@ module RubySketch
     end
 
     # @private
-    def on_draw__(x, y, w, h)
-      img, off = frame, @image__, @offset__
-      if img && off
-        copy img, off.x, off.y, f.w, h, x, y, w, h
-      elsif img
-        image img, x, y
-      else
-        rect x, y, w, h
-      end
-    end
-
-    # @private
     def getInternal__()
       @view__
     end

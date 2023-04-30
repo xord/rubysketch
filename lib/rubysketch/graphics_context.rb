@@ -13,14 +13,26 @@ module RubySketch
         v = sp.getInternal__
         f, angle = v.frame, v.angle
         if angle == 0
-          sp.on_draw__ f.x, f.y, f.w, f.h
+          drawSprite__ sp, f.x, f.y, f.w, f.h
         else
           pushMatrix do
             translate f.x, f.y
             rotate radians(angle)
-            sp.on_draw__ 0, 0, f.w, f.h
+            drawSprite__ sp, 0, 0, f.w, f.h
           end
         end
+      end
+    end
+
+    # @private
+    def drawSprite__(sp, x, y, w, h)
+      img, off = sp.image, sp.offset
+      if img && off
+        copy img, off.x, off.y, w, h, x, y, w, h
+      elsif img
+        image img, x, y
+      else
+        rect x, y, w, h
       end
     end
 
