@@ -5,7 +5,6 @@ module RubySketch
 
     include GraphicsContext
 
-    Sound  = RubySketch::Sound
     Sprite = RubySketch::Sprite
 
     # @private
@@ -62,11 +61,6 @@ module RubySketch
     def removeSprite(sprite)
       @layer__.remove sprite.getInternal__ if sprite
       sprite
-    end
-
-    # @private
-    def loadSound(path)
-      Sound.load path
     end
 
     # Sets gravity for the physics engine.
