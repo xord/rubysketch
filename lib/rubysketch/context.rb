@@ -97,6 +97,11 @@ module RubySketch
   # @private
   class SpriteLayer < Reflex::View
 
+    def initialize(*a, **k, &b)
+      super
+      remove wall
+    end
+
     def on_draw(e)
       e.block
     end
