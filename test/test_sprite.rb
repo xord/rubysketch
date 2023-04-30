@@ -32,7 +32,7 @@ class TestSprite < Test::Unit::TestCase
     assert_equal vec(3, 4), sprite(1, 2, 3, 4, image: image(5, 6)).size
 
     assert_equal nil,    sprite                    .image
-    assert_equal [1, 2], sprite(image: image(1, 2)).image.then {[_1.w, _1.h]}
+    assert_equal [1, 2], sprite(image: image(1, 2)).image.size
 
     assert_equal nil,       sprite.offset
     assert_equal vec(1, 2), sprite(offset:    [1, 2]).offset
@@ -102,6 +102,36 @@ class TestSprite < Test::Unit::TestCase
     s.vy = 2
     assert_equal        2,  s.vy
     assert_equal vec(1, 2), s.vel
+  end
+
+  def test_image()
+    s = sprite
+    assert_equal nil,    s.image
+
+    s.image = image(1, 2)
+    assert_equal [1, 2], s.image.size
+
+    s.image = image(3, 4)
+    assert_equal [3, 4], s.image.size
+
+    s.image = nil
+    assert_equal nil,    s.image
+  end
+
+  def test_offset()
+    s = sprite
+    assert_equal nil,       s.offset
+
+    s.offset = [1, 2]
+    assert_equal vec(1, 2), s.offset
+
+    s.offset = vec(3, 4)
+    assert_equal vec(3, 4), s.offset
+
+    s.offset = nil
+    assert_equal nil,       s.offset
+
+    assert_raise(ArgumentError) {s.offset = 1}
   end
 
   def test_dynamic?()

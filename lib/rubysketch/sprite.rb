@@ -39,9 +39,10 @@ module RubySketch
       raise 'invalid size'  unless w >= 0 && h >= 0
       raise 'invalid image' if image && !image.getInternal__.is_a?(Rays::Image)
 
-      @image__  = image
-      @offset__ = offset ? Vector.new(*offset.to_a[0, 2]) : nil
-      @view__   = SpriteView.new(self, x: x, y: y, w: w, h: h, back: :white)
+      @view__ = SpriteView.new(self, x: x, y: y, w: w, h: h, back: :white)
+
+      self.image  = image  if image
+      self.offset = offset if offset
     end
 
     # Returns the position of the sprite.
@@ -207,12 +208,32 @@ module RubySketch
       @image__
     end
 
+    # Sets the sprite image.
+    #
+    # @param [Image] img sprite image
+    #
+    # @return [Image] sprite image
+    #
+    def image=(img)
+      @image__ = img
+    end
+
     # Returns the offset of the sprite image.
     #
     # @return [Vector] offset of the sprite image
     #
     def offset()
       @offset__
+    end
+
+    def offset=(arg)
+      @offset__ =
+        case arg
+        when Vector then arg
+        when Array  then Vector.new(*arg[0, 2])
+        when nil    then nil
+        else raise ArgumentError
+        end
     end
 
     # Returns whether the sprite is movable by the physics engine.
