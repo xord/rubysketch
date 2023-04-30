@@ -226,14 +226,62 @@ module RubySketch
       @offset__
     end
 
+    # Sets the offset of the sprite image.
+    #
+    # @overload offset=(vec)
+    #  @param [Vector] vec offset
+    #
+    # @overload velocity=(ary)
+    #  @param [Array<Numeric>] ary an array of offsetX and offsetY
+    #
+    # @return [Vector] offset of the sprite image
+    #
     def offset=(arg)
       @offset__ =
         case arg
         when Vector then arg
-        when Array  then Vector.new(*arg[0, 2])
+        when Array  then Vector.new(arg[0] || 0, arg[1] || 0)
         when nil    then nil
         else raise ArgumentError
         end
+      @offset__
+    end
+
+    # Returns the x-axis offset of the sprite image.
+    #
+    # @return [Numeric] offset.x
+    #
+    def ox()
+      @offset__&.x || 0
+    end
+
+    # Sets the x-axis offset of the sprite image.
+    #
+    # @param [Numeric] n x-axis offset
+    #
+    # @return [Numeric] offset.x
+    #
+    def ox=(n)
+      self.offset = [n, oy]
+      n
+    end
+
+    # Returns the y-axis offset of the sprite image.
+    #
+    # @return [Numeric] offset.y
+    #
+    def oy()
+      @offset__&.y || 0
+    end
+
+    # Sets the y-axis offset of the sprite image.
+    #
+    # @param [Numeric] n y-axis offset
+    #
+    # @return [Numeric] offset.y
+    #
+    def oy=(n)
+      self.offset = [ox, n]
     end
 
     # Returns whether the sprite is movable by the physics engine.

@@ -122,16 +122,42 @@ class TestSprite < Test::Unit::TestCase
     s = sprite
     assert_equal nil,       s.offset
 
-    s.offset = [1, 2]
+    s.offset =      [1, 2]
     assert_equal vec(1, 2), s.offset
 
-    s.offset = vec(3, 4)
+    s.offset =   vec(3, 4)
     assert_equal vec(3, 4), s.offset
 
-    s.offset = nil
+    s.offset =      [5]
+    assert_equal vec(5, 0), s.offset
+
+    s.offset =      []
+    assert_equal vec(0, 0), s.offset
+
+    s.offset =   nil
     assert_equal nil,       s.offset
 
     assert_raise(ArgumentError) {s.offset = 1}
+  end
+
+  def test_oxoy()
+    s = sprite
+    assert_equal    [0, 0], [s.ox, s.oy]
+    assert_equal    nil,    s.offset
+
+    s.ox = 1
+    assert_equal    [1, 0], [s.ox, s.oy]
+    assert_equal vec(1, 0), s.offset
+
+    s = sprite
+
+    s.oy = 2
+    assert_equal    [0, 2], [s.ox, s.oy]
+    assert_equal vec(0, 2), s.offset
+
+    s.offset = nil
+    assert_equal    [0, 0], [s.ox, s.oy]
+    assert_equal    nil,    s.offset
   end
 
   def test_dynamic?()
