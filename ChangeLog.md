@@ -1,6 +1,13 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.4] - 2023-04-30
+
+- Add Sprite#image=() and Sprite#offset=()
+- gravity() takes vector by pixel
+- Add documents for Sprite class and test it
+
+
 ## [v0.5.3] - 2023-04-22
 
 - Depends on Beeps
