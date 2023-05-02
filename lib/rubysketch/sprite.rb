@@ -457,6 +457,22 @@ module RubySketch
       @view__.update = block
     end
 
+    # Defines draw block.
+    #
+    # @example Draw on your own before and after default drawing
+    #  sprite.draw do |&defaultDrawSprite|
+    #    rect 0, 0, 10, 10
+    #    defaultDrawSprite.call
+    #    text :hello, 10, 20
+    #  end
+    #
+    # @return [nil] nil
+    #
+    def draw(&block)
+      @drawBlock__ = block
+      nil
+    end
+
     # Defines mousePressed block.
     #
     # @example
