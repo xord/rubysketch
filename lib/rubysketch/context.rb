@@ -3,8 +3,6 @@ module RubySketch
 
   class Context < Processing::Context
 
-    include GraphicsContext
-
     Sprite = RubySketch::Sprite
 
     # @private

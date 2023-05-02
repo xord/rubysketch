@@ -6,7 +6,6 @@ require 'rubysketch/window'
 require 'rubysketch/helper'
 
 require 'rubysketch/sprite'
-require 'rubysketch/graphics_context'
 require 'rubysketch/context'
 
 
