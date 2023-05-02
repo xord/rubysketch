@@ -49,6 +49,8 @@ module RubySketch
     #
     # @param [Sprite] sprite sprite object
     #
+    # @return [Sprite] added sprite
+    #
     def addSprite(sprite)
       @layer__.add sprite.getInternal__ if sprite
       sprite
@@ -58,9 +60,53 @@ module RubySketch
     #
     # @param [Sprite] sprite sprite object
     #
+    # @return [Sprite] removed sprite
+    #
     def removeSprite(sprite)
       @layer__.remove sprite.getInternal__ if sprite
       sprite
+    end
+
+    # Draws one or more sprites.
+    #
+    # @param [Array<Sprite>] sprites
+    #
+    # @return [nil] nil
+    #
+    def sprite(*sprites)
+      sprites.flatten! if sprites.first&.is_a? Array
+      sprites.each do |sp|
+        view, draw = sp.getInternal__, sp.instance_variable_get(:@drawBlock__)
+        f, degrees = view.frame, view.angle
+        if draw
+          push do
+            translate f.x, f.y
+            rotate fromDegrees__ degrees
+            draw.call {drawSprite__ sp, 0, 0, f.w, f.h}
+          end
+        elsif degrees == 0
+          drawSprite__ sp, f.x, f.y, f.w, f.h
+        else
+          pushMatrix do
+            translate f.x, f.y
+            rotate fromDegrees__ degrees
+            drawSprite__ sp, 0, 0, f.w, f.h
+          end
+        end
+      end
+      nil
+    end
+
+    # @private
+    def drawSprite__(sp, x, y, w, h)
+      img, off = sp.image, sp.offset
+      if img && off
+        copy img, off.x, off.y, w, h, x, y, w, h
+      elsif img
+        image img, x, y
+      else
+        rect x, y, w, h
+      end
     end
 
     # Sets gravity for the physics engine.
