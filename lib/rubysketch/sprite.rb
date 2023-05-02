@@ -691,11 +691,11 @@ module RubySketch
 
     def on_contact(e)
       v = e.view
-      @contact.call v.sprite, e.action if @contact && v.response_to?(:sprite)
+      @contact.call v.sprite, e.action if @contact && v.respond_to?(:sprite)
     end
 
     def will_contact?(v)
-      return true unless @will_contact && v.response_to?(:sprite)
+      return true unless @will_contact && v.respond_to?(:sprite)
       @will_contact.call v.sprite
     end
 
