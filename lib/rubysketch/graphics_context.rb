@@ -11,19 +11,19 @@ module RubySketch
       sprites.flatten! if sprites.first&.is_a? Array
       sprites.each do |sp|
         view, draw = sp.getInternal__, sp.instance_variable_get(:@drawBlock__)
-        f, angle   = view.frame, view.angle
+        f, degrees = view.frame, view.angle
         if draw
           push do
             translate f.x, f.y
-            rotate radians(angle)
+            rotate fromDegrees__ degrees
             draw.call {drawSprite__ sp, 0, 0, f.w, f.h}
           end
-        elsif angle == 0
+        elsif degrees == 0
           drawSprite__ sp, f.x, f.y, f.w, f.h
         else
           pushMatrix do
             translate f.x, f.y
-            rotate radians(angle)
+            rotate fromDegrees__ degrees
             drawSprite__ sp, 0, 0, f.w, f.h
           end
         end
