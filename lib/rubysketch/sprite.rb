@@ -475,7 +475,7 @@ module RubySketch
 
     # Defines mousePressed block.
     #
-    # @example
+    # @example Print mouse states on mouse press
     #  sprite.mousePressed do
     #    p [sprite.mouseX, sprite.mouseY, sprite.mouseButton]
     #  end
@@ -489,7 +489,7 @@ module RubySketch
 
     # Defines mouseReleased block.
     #
-    # @example
+    # @example Print mouse states on mouse release
     #  sprite.mouseReleased do
     #    p [sprite.mouseX, sprite.mouseY, sprite.mouseButton]
     #  end
@@ -503,7 +503,7 @@ module RubySketch
 
     # Defines mouseMoved block.
     #
-    # @example
+    # @example Print mouse states on mouse move
     #  sprite.mouseMoved do
     #    p [sprite.mouseX, sprite.mouseY, sprite.pmouseX, sprite.pmouseY]
     #  end
@@ -517,7 +517,7 @@ module RubySketch
 
     # Defines mouseDragged block.
     #
-    # @example
+    # @example Print mouse states on mouse drag
     #  sprite.mouseDragged do
     #    p [sprite.mouseX, sprite.mouseY, sprite.pmouseX, sprite.pmouseY]
     #  end
@@ -531,7 +531,7 @@ module RubySketch
 
     # Defines mouseClicked block.
     #
-    # @example
+    # @example Print mouse states on mouse click
     #  sprite.mouseClicked do
     #    p [sprite.mouseX, sprite.mouseY, sprite.mouseButton]
     #  end
@@ -545,7 +545,7 @@ module RubySketch
 
     # Defines touchStarted block.
     #
-    # @example
+    # @example Print touches on touch start
     #  sprite.touchStarted do
     #    p sprite.touches
     #  end
@@ -559,7 +559,7 @@ module RubySketch
 
     # Defines touchEnded block.
     #
-    # @example
+    # @example Print touches on touch end
     #  sprite.touchEnded do
     #    p sprite.touches
     #  end
@@ -573,7 +573,7 @@ module RubySketch
 
     # Defines touchMoved block.
     #
-    # @example
+    # @example Print touches on touch move
     #  sprite.touchMoved do
     #    p sprite.touches
     #  end
