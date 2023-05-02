@@ -33,13 +33,17 @@ module RubySketch
     #  @param [Image]   img sprite image
     #  @param [Vector]  off offset of sprite image
     #
-    def initialize(x = 0, y = 0, w = nil, h = nil, image: nil, offset: nil)
+    def initialize(
+      x = 0, y = 0, w = nil, h = nil, image: nil, offset: nil,
+      context: nil)
+
       w ||= (image&.width  || 0)
       h ||= (image&.height || 0)
       raise 'invalid size'  unless w >= 0 && h >= 0
       raise 'invalid image' if image && !image.getInternal__.is_a?(Rays::Image)
 
-      @view__ = SpriteView.new(
+      @context__ = context || Context.context__
+      @view__    = SpriteView.new(
         self, x: x, y: y, w: w, h: h,
         static: true, density: 1, friction: 0, restitution: 0,
         back: :white)
@@ -138,6 +142,28 @@ module RubySketch
 
     alias w width
     alias h height
+
+    # Returns the rotation angle of sprite.
+    #
+    # @return [Numeric] radians or degrees depending on angleMode()
+    #
+    def angle()
+      a, c = @view__.angle, @context__
+      c ? c.fromAngle__(a) : a * Processing::GraphicsContext::DEG2RAD__
+    end
+
+    # Sets the rotation angle of sprite.
+    #
+    # @param [Numeric] angle radians or degrees depending on angleMode()
+    #
+    # @return [Numeric] angle
+    #
+    def angle=(angle)
+      c = @context__
+      @view__.angle =
+        c ? c.toAngle__(angle) : angle * Processing::GraphicsContext::RAD2DEG__
+      angle
+    end
 
     # Returns the velocity of the sprite.
     #

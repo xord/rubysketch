@@ -42,7 +42,7 @@ module RubySketch
     #  @param [Vector]  off offset of sprite image
     #
     def createSprite(*args, **kwargs)
-      addSprite Sprite.new(*args, **kwargs)
+      addSprite Sprite.new(*args, **kwargs, context: self)
     end
 
     # Adds the sprite to the physics engine.

@@ -79,6 +79,14 @@ class TestSprite < Test::Unit::TestCase
     assert_equal 2, sprite(0, 0, 1, 2).height
   end
 
+  def test_angle()
+    s = sprite
+    assert_equal 0,             s.angle
+
+    s.angle = Math::PI
+    assert_in_epsilon Math::PI, s.angle
+  end
+
   def test_velocity()
     s = sprite
     assert_equal vec(0, 0), s.vel
