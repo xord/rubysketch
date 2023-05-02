@@ -396,6 +396,54 @@ module RubySketch
     alias rest  restitution
     alias rest= restitution=
 
+    # Returns the x-position of the mouse in the sprite coordinates.
+    #
+    # @return [Numeric] x position
+    #
+    def mouseX()
+      @view__.mouseX
+    end
+
+    # Returns the y-position of the mouse in the sprite coordinates.
+    #
+    # @return [Numeric] y position
+    #
+    def mouseY()
+      @view__.mouseY
+    end
+
+    # Returns the previous x-position of the mouse in the sprite coordinates.
+    #
+    # @return [Numeric] x position
+    #
+    def pmouseX()
+      @view__.pmouseX
+    end
+
+    # Returns the previous y-position of the mouse in the sprite coordinates.
+    #
+    # @return [Numeric] y position
+    #
+    def pmouseY()
+      @view__.pmouseY
+    end
+
+    # Returns the mouse button clicked on the sprite.
+    #
+    # @return [LEFT, RIGHT, CENTER] mouse button
+    #
+    def mouseButton()
+      @view__.mouseButton
+    end
+
+    # Returns the touch objects touched on the sprite.
+    #
+    # @return [Array<Touch>] touches
+    #
+    def touches()
+      @view__.touches
+    end
+
     # Defines update block.
     #
     # @example vx is updated every frame
@@ -407,6 +455,118 @@ module RubySketch
     #
     def update(&block)
       @view__.update = block
+    end
+
+    # Defines mousePressed block.
+    #
+    # @example
+    #  sprite.mousePressed do
+    #    p [sprite.mouseX, sprite.mouseY, sprite.mouseButton]
+    #  end
+    #
+    # @return [nil] nil
+    #
+    def mousePressed(&block)
+      @view__.mousePressed = block
+      nil
+    end
+
+    # Defines mouseReleased block.
+    #
+    # @example
+    #  sprite.mouseReleased do
+    #    p [sprite.mouseX, sprite.mouseY, sprite.mouseButton]
+    #  end
+    #
+    # @return [nil] nil
+    #
+    def mouseReleased(&block)
+      @view__.mouseReleased = block
+      nil
+    end
+
+    # Defines mouseMoved block.
+    #
+    # @example
+    #  sprite.mouseMoved do
+    #    p [sprite.mouseX, sprite.mouseY, sprite.pmouseX, sprite.pmouseY]
+    #  end
+    #
+    # @return [nil] nil
+    #
+    def mouseMoved(&block)
+      @view__.mouseMoved = block
+      nil
+    end
+
+    # Defines mouseDragged block.
+    #
+    # @example
+    #  sprite.mouseDragged do
+    #    p [sprite.mouseX, sprite.mouseY, sprite.pmouseX, sprite.pmouseY]
+    #  end
+    #
+    # @return [nil] nil
+    #
+    def mouseDragged(&block)
+      @view__.mouseDragged = block
+      nil
+    end
+
+    # Defines mouseClicked block.
+    #
+    # @example
+    #  sprite.mouseClicked do
+    #    p [sprite.mouseX, sprite.mouseY, sprite.mouseButton]
+    #  end
+    #
+    # @return [nil] nil
+    #
+    def mouseClicked(&block)
+      @view__.mouseClicked = block
+      nil
+    end
+
+    # Defines touchStarted block.
+    #
+    # @example
+    #  sprite.touchStarted do
+    #    p sprite.touches
+    #  end
+    #
+    # @return [nil] nil
+    #
+    def touchStarted(&block)
+      @view__.touchStarted = block
+      nil
+    end
+
+    # Defines touchEnded block.
+    #
+    # @example
+    #  sprite.touchEnded do
+    #    p sprite.touches
+    #  end
+    #
+    # @return [nil] nil
+    #
+    def touchEnded(&block)
+      @view__.touchEnded = block
+      nil
+    end
+
+    # Defines touchMoved block.
+    #
+    # @example
+    #  sprite.touchMoved do
+    #    p sprite.touches
+    #  end
+    #
+    # @return [nil] nil
+    #
+    def touchMoved(&block)
+      @view__.touchMoved = block
+      nil
     end
 
     # Defines contact block.
@@ -446,16 +606,71 @@ module RubySketch
   # @private
   class SpriteView < Reflex::View
 
-    attr_accessor :update, :contact, :will_contact
-    attr_reader :sprite
+    attr_accessor :update,
+      :mousePressed, :mouseReleased, :mouseMoved, :mouseDragged, :mouseClicked,
+      :touchStarted, :touchEnded, :touchMoved,
+      :contact, :will_contact
+
+    attr_reader :sprite, :touches
 
     def initialize(sprite, *a, **k, &b)
       @sprite = sprite
       super(*a, **k, &b)
+
+      @pointerPos       =
+      @pointerPrevPos   = Rays::Point.new 0
+      @pointersPressed  = []
+      @pointersReleased = []
+      @touches          = []
+    end
+
+    def mouseX()
+      @pointerPos.x
+    end
+
+    def mouseY()
+      @pointerPos.y
+    end
+
+    def pmouseX()
+      @pointerPrevPos.x
+    end
+
+    def pmouseY()
+      @pointerPrevPos.y
+    end
+
+    def mouseButton()
+      ((@pointersPressed + @pointersReleased) & [LEFT, RIGHT, CENTER]).last
     end
 
     def on_update(e)
       @update.call if @update
+    end
+
+    def on_pointer_down(e)
+      updatePointerStates e, true
+      @pointerDownStartPos = @pointerPos.dup
+      (@touchStarted || @mousePressed)&.call
+    end
+
+    def on_pointer_up(e)
+      updatePointerStates e, false
+      (@touchEnded || @mouseReleased)&.call
+      if startPos = @pointerDownStartPos
+        @mouseClicked&.call if (@pointerPos - startPos).length < 3
+        @pointerDownStartPos = nil
+      end
+      @pointersReleased.clear
+    end
+
+    def on_pointer_move(e)
+      updatePointerStates e
+      (@touchMoved || (e.drag? ? @mouseDragged : @mouseMoved))&.call
+    end
+
+    def on_pointer_cancel(e)
+      on_pointer_up e
     end
 
     def on_contact(e)
@@ -466,6 +681,29 @@ module RubySketch
     def will_contact?(v)
       return true if !@will_contact || !v.is_a?(SpriteView)
       @will_contact.call v.sprite
+    end
+
+    private
+
+    MOUSE_BUTTON_MAP = {
+      mouse_left:   Processing::GraphicsContext::LEFT,
+      mouse_right:  Processing::GraphicsContext::RIGHT,
+      mouse_middle: Processing::GraphicsContext::CENTER
+    }
+
+    def updatePointerStates(event, pressed = nil)
+      @pointerPrevPos = @pointerPos
+      @pointerPos     = event.pos.dup
+      @touches        = event.pointers.map {|p| Touch.new(p.id, *p.pos.to_a)}
+      if pressed != nil
+        event.types
+          .tap {|types| types.delete :mouse}
+          .map {|type| MOUSE_BUTTON_MAP[type] || type}
+          .each do |type|
+            (pressed ? @pointersPressed : @pointersReleased).push type
+            @pointersPressed.delete type unless pressed
+          end
+      end
     end
 
   end# SpriteView
