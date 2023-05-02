@@ -600,7 +600,7 @@ module RubySketch
 
     # Defines contact? block.
     #
-    # @example only collide with an enemy
+    # @example Only collide with an enemy
     #  playerSprite.contact? do |o|
     #    o.enemy?
     #  end
@@ -661,7 +661,7 @@ module RubySketch
     end
 
     def on_update(e)
-      @update.call if @update
+      @update&.call
     end
 
     def on_pointer_down(e)
@@ -691,11 +691,11 @@ module RubySketch
 
     def on_contact(e)
       v = e.view
-      @contact.call v.sprite, e.action if @contact && v.is_a?(SpriteView)
+      @contact.call v.sprite, e.action if @contact && v.response_to?(:sprite)
     end
 
     def will_contact?(v)
-      return true if !@will_contact || !v.is_a?(SpriteView)
+      return true unless @will_contact && v.response_to?(:sprite)
       @will_contact.call v.sprite
     end
 
