@@ -95,6 +95,8 @@ module RubySketch
       nil
     end
 
+    alias drawSprite sprite
+
     # @private
     def drawSprite__(sp, x, y, w, h)
       img, off = sp.image, sp.offset
