@@ -87,6 +87,14 @@ class TestSprite < Test::Unit::TestCase
     assert_in_epsilon Math::PI, s.angle
   end
 
+  def test_pivot()
+    s = sprite
+    assert_each_in_epsilon [0, 0],     s.pivot
+
+    s.pivot =              [0.1, 0.2]
+    assert_each_in_epsilon [0.1, 0.2], s.pivot
+  end
+
   def test_velocity()
     s = sprite
     assert_equal vec(0, 0), s.vel

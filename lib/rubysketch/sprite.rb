@@ -165,6 +165,26 @@ module RubySketch
       angle
     end
 
+    # Returns the rotation center of sprite.
+    #
+    # @return [Array<Numeric>] [pivotX, pivotY]
+    #
+    def pivot()
+      @view__.pivot.to_a[0, 2]
+    end
+
+    # Sets the rotation center of sprite.
+    # [0.0, 0.0] is the left-top, [1.0, 1.0] is the right-bottom, and [0.5, 0.5] is the center.
+    #
+    # @param [Array<Numeric>] ary an array of pivotX and pivotY
+    #
+    # @return [Array<Numeric>] [pivotX, pivotY]
+    #
+    def pivot=(array)
+      @view__.pivot = array
+      pivot
+    end
+
     # Returns the velocity of the sprite.
     #
     # @return [Vector] velocity
