@@ -234,4 +234,8 @@ class TestSprite < Test::Unit::TestCase
     assert_not_nil v.will_contact
   end
 
+  def test_inspect()
+    assert_match %r|#<RubySketch::Sprite:0x\w{16}>|, sprite.inspect
+  end
+
 end# TestSprite

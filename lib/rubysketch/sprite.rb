@@ -5,6 +5,8 @@ module RubySketch
   #
   class Sprite
 
+    include Xot::Inspectable
+
     # Initialize sprite object.
     #
     # @overload new(image: img)
