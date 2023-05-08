@@ -1,6 +1,22 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.5] - 2023-05-08
+
+- Add Sprite#draw()
+- Add Sprite#angle accessor
+- Add Sprite#pivot accessor
+- Add Sprite#ox and Sprite#oy
+- Add mousePressed, mouseReleased, mouseMoved, mouseDragged, mouseClicked, touchStarted, touchEnded, and touchMoved to Sprite class
+- Add inspect() to classes
+- Alias draw methods
+- Sprite has density 1 by default
+- Sprite is static by deault
+- Add sprite.rb and physics.rb as an example
+- Delete Sound class
+- Remove wall collision by default
+
+
 ## [v0.5.4] - 2023-04-30
 
 - Add Sprite#image=() and Sprite#offset=()
