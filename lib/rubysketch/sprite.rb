@@ -150,12 +150,31 @@ module RubySketch
       @view__.size.toVector
     end
 
+    # Returns the size of the sprite.
+    #
+    # @return [Vector] size
+    #
+    def size=(arg)
+      @view__.size = arg.is_a?(Vector) ? arg.getInternal__ : arg
+      arg
+    end
+
     # Returns the width of the sprite.
     #
     # @return [Numeric] width
     #
     def width()
       @view__.width
+    end
+
+    # Sets the width of the sprite.
+    #
+    # @param [Numeric] w width
+    #
+    # @return [Numeric] width
+    #
+    def width=(w)
+      @view__.width = w
     end
 
     # Returns the height of the sprite.
@@ -166,8 +185,20 @@ module RubySketch
       @view__.height
     end
 
-    alias w width
-    alias h height
+    # Sets the height of the sprite.
+    #
+    # @param [Numeric] h height
+    #
+    # @return [Numeric] height
+    #
+    def height=(h)
+      @view__.height = h
+    end
+
+    alias w  width
+    alias w= width=
+    alias h  height
+    alias h= height=
 
     # Returns the rotation angle of sprite.
     #

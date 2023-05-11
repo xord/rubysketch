@@ -80,11 +80,33 @@ class TestSprite < Test::Unit::TestCase
     assert_equal vec(1, 0), sprite(0, 0, 1)           .size
     assert_equal vec(1, 2), sprite(0, 0, 1, 2)        .size
     assert_equal vec(3, 4), sprite(image: image(3, 4)).size
+
+    s      = sprite
+    s.size =     vec 10, 20
+    assert_equal vec(10, 20), s.size
+
+    s.size =        [30, 40]
+    assert_equal vec(30, 40), s.size
   end
 
   def test_wh()
     assert_equal 1, sprite(0, 0, 1, 2).width
+    assert_equal 1, sprite(0, 0, 1, 2).w
     assert_equal 2, sprite(0, 0, 1, 2).height
+    assert_equal 2, sprite(0, 0, 1, 2).h
+
+    s        = sprite
+    s.width  =       10
+    assert_equal vec(10, 0),   s.size
+
+    s.w      =       20
+    assert_equal vec(20, 0),   s.size
+
+    s.height =            30
+    assert_equal vec(200, 30), s.size
+
+    s.h      =            40
+    assert_equal vec(200, 40), s.size
   end
 
   def test_angle()
