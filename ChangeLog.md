@@ -1,6 +1,12 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.6] - 2023-05-11
+
+- Add Sprite#center accessor
+- Add Sprite#size=, Sprite#width=, and Sprite#height=
+
+
 ## [v0.5.5] - 2023-05-08
 
 - Add Sprite#draw()
