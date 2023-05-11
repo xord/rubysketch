@@ -78,18 +78,18 @@ module RubySketch
         f, degrees, pivot = view.frame, view.angle, view.pivot
         if draw
           push do
-            translate f.x + pivot.x * f.w, f.y + pivot.y * f.h
+            translate f.x + pivot.x  * f.w, f.y + pivot.y  * f.h
             rotate fromDegrees__ degrees
-            translate      -pivot.x * f.w,      -pivot.y * f.h
+            translate     (-pivot.x) * f.w,     (-pivot.y) * f.h
             draw.call {drawSprite__ sp, 0, 0, f.w, f.h}
           end
         elsif degrees == 0
           drawSprite__ sp, f.x, f.y, f.w, f.h
         else
           pushMatrix do
-            translate f.x + pivot.x * f.w, f.y + pivot.y * f.h
+            translate f.x + pivot.x  * f.w, f.y + pivot.y  * f.h
             rotate fromDegrees__ degrees
-            translate      -pivot.x * f.w,      -pivot.y * f.h
+            translate     (-pivot.x) * f.w,     (-pivot.y) * f.h
             drawSprite__ sp, 0, 0, f.w, f.h
           end
         end
