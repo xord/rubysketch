@@ -64,6 +64,17 @@ class TestSprite < Test::Unit::TestCase
     assert_equal vec(1, 2), s.pos
   end
 
+  def test_center()
+    s = sprite 0, 0, 10, 20
+    assert_equal vec( 5, 10),   s.center
+
+    s.center =   vec 100, 200
+    assert_equal vec( 95, 190), s.pos
+
+    s.center =      [300, 400]
+    assert_equal vec(295, 390), s.pos
+  end
+
   def test_size()
     assert_equal vec(0, 0), sprite                    .size
     assert_equal vec(1, 0), sprite(0, 0, 1)           .size

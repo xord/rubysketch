@@ -118,6 +118,30 @@ module RubySketch
     alias pos  position
     alias pos= position=
 
+    # Returns the center position of the sprite.
+    #
+    # @return [Vector] center position
+    #
+    def center()
+      Vector.new(x + w / 2, y + h / 2)
+    end
+
+    # Sets the center position of the sprite.
+    #
+    # @overload center=(vec)
+    #  @param [Vector] vec center position
+    #
+    # @overload center=(ary)
+    #  @param [Array<Numeric>] ary an array of centerX and centerY
+    #
+    # @return [Vector] center position
+    #
+    def center=(arg)
+      x, y = *(arg.is_a?(Vector) ? arg.getInternal__.to_a : arg)
+      self.pos = [x - w / 2, y - h / 2]
+      self.center
+    end
+
     # Returns the size of the sprite.
     #
     # @return [Vector] size
