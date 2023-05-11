@@ -97,16 +97,16 @@ class TestSprite < Test::Unit::TestCase
 
     s        = sprite
     s.width  =       10
-    assert_equal vec(10, 0),   s.size
+    assert_equal vec(10, 0),  s.size
 
     s.w      =       20
-    assert_equal vec(20, 0),   s.size
+    assert_equal vec(20, 0),  s.size
 
-    s.height =            30
-    assert_equal vec(200, 30), s.size
+    s.height =           30
+    assert_equal vec(20, 30), s.size
 
-    s.h      =            40
-    assert_equal vec(200, 40), s.size
+    s.h      =           40
+    assert_equal vec(20, 40), s.size
   end
 
   def test_angle()
