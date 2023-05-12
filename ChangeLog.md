@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.7] - 2023-05-13
+
+- Update dependencies
+
+
 ## [v0.5.6] - 2023-05-11
 
 - Add Sprite#center accessor
