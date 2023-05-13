@@ -145,7 +145,7 @@ module RubySketch
     end
 
     def on_draw(e)
-      e.block
+      e.block false
     end
 
   end# SpriteLayer
