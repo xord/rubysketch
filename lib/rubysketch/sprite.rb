@@ -115,6 +115,25 @@ module RubySketch
       n
     end
 
+    # Returns the z-coordinate position of the sprite.
+    #
+    # @return [Numeric] sprite position z
+    #
+    def z()
+      @view__.z
+    end
+
+    # Set the z-coordinate position of the sprite.
+    #
+    # @param [Numeric] n sprite position z
+    #
+    # @return [Numeric] sprite position z
+    #
+    def z=(n)
+      @view__.z = n
+      n
+    end
+
     alias pos  position
     alias pos= position=
 
