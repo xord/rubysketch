@@ -7,74 +7,79 @@ using RubySketch
 
 red = green = 0
 
-sp1 = createSprite 100, 100, 100, 100
-sp2 = createSprite 150, 150, 100, 100
+sprites = (0..10).map do |n|
+  createSprite(100 + 50 * n, 100 + 50 * n, 100, 100).tap do |sp|
+    name = "sp#{n}"
+    sp.instance_variable_set :@n, n
+    sp.mousePressed do
+      p [name, :pressed, sp.mouseX, sp.mouseY, sp.mouseButton]
+    end
 
-sp1.angle += Math::PI * 0.2
+    sp.mouseReleased do
+      p [name, :released, sp.mouseX, sp.mouseY, sp.mouseButton]
+    end
 
-sp1.update do
-  red = (red + 1) % 255
+    sp.mouseMoved do
+      p [name, :moved, sp.mouseX, sp.mouseY, sp.pmouseX, sp.pmouseY]
+    end
+
+    sp.mouseDragged do
+      p [name, :dragged, sp.mouseX, sp.mouseY, sp.pmouseX, sp.pmouseY]
+    end
+
+    sp.mouseClicked do
+      p [name, :clicked, sp.mouseX, sp.mouseY, sp.mouseButton]
+      sp.z += 10
+    end
+  end
 end
 
-sp1.draw do |&draw|
+sprites[1].angle += Math::PI * 0.2
+sprites[1].z      = 10
+
+sprites[1].update {red   = (red + 1)   % 255}
+sprites[2].update {green = (green + 1) % 255}
+
+sprites[1].draw do |&draw|
   fill red, 200, 200
   draw.call
   fill 0
   text :hello, 10, 20
 end
 
-sp1.mousePressed do
-  p [:sp1_pressed, sp1.mouseX, sp1.mouseY, sp1.mouseButton]
-end
-
-sp1.mouseReleased do
-  p [:sp1_released, sp1.mouseX, sp1.mouseY, sp1.mouseButton]
-end
-
-sp1.mouseMoved do
-  p [:sp1_moved, sp1.mouseX, sp1.mouseY, sp1.pmouseX, sp1.pmouseY]
-end
-
-sp1.mouseDragged do
-  p [:sp1_dragged, sp1.mouseX, sp1.mouseY, sp1.pmouseX, sp1.pmouseY]
-end
-
-sp1.mouseClicked do
-  p [:sp1_clicked, sp1.mouseX, sp1.mouseY, sp1.mouseButton]
-end
-
-sp2.update do
-  green = (green + 1) % 255
-end
-
-sp2.draw do |&draw|
+sprites[2].draw do |&draw|
   fill 200, green, 200
   draw.call
   fill 0
-  text :hello, 10, 20
-end
-
-sp2.mousePressed do
-  p [:sp2_pressed, sp2.mouseX, sp2.mouseY, sp2.mouseButton]
-end
-
-sp2.mouseReleased do
-  p [:sp2_released, sp2.mouseX, sp2.mouseY, sp2.mouseButton]
-end
-
-sp2.mouseMoved do
-  p [:sp2_moved, sp2.mouseX, sp2.mouseY, sp2.pmouseX, sp2.pmouseY]
-end
-
-sp2.mouseDragged do
-  p [:sp2_dragged, sp2.mouseX, sp2.mouseY, sp2.pmouseX, sp2.pmouseY]
-end
-
-sp2.mouseClicked do
-  p [:sp2_clicked, sp2.mouseX, sp2.mouseY, sp2.mouseButton]
+  text :world, 10, 20
 end
 
 draw do
   background 0
-  sprite sp1, sp2
+  text sprites.map {|sp| sp.z}, 100, 50
+  sprite sprites.sort {|a, b|
+    an, bn = [a, b].map {|o| o.instance_variable_get :@n}
+    a.z != b.z ? a.z <=> b.z : an <=> bn
+  }
+end
+
+mousePressed do
+  p [:pressed, mouseX, mouseY, mouseButton]
+end
+
+mouseReleased do
+  p [:released, mouseX, mouseY, mouseButton]
+end
+
+mouseMoved do
+  p [:moved, mouseX, mouseY, pmouseX, pmouseY]
+end
+
+mouseDragged do
+  p [:dragged, mouseX, mouseY, pmouseX, pmouseY]
+end
+
+mouseClicked do
+  p [:clicked, mouseX, mouseY, mouseButton]
+  sprites.each {|sp| sp.z = 0}
 end
