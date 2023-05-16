@@ -81,5 +81,4 @@ end
 
 mouseClicked do
   p [:clicked, mouseX, mouseY, mouseButton]
-  sprites.each {|sp| sp.z = 0}
 end
