@@ -763,7 +763,7 @@ module RubySketch
     def on_pointer_down(e)
       updatePointerStates e, true
       @pointerDownStartPos = @pointerPos.dup
-      (@touchStarted || @mousePressed)&.call if e.index == 0
+      (@touchStarted || @mousePressed)&.call
     end
 
     def on_pointer_up(e)
@@ -779,7 +779,7 @@ module RubySketch
     def on_pointer_move(e)
       updatePointerStates e
       mouseMoved = e.drag? ? @mouseDragged : @mouseMoved
-      (@touchMoved || mouseMoved)&.call if e.index == 0
+      (@touchMoved || mouseMoved)&.call
     end
 
     def on_pointer_cancel(e)
