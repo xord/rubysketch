@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.8] - 2023-05-18
+
+- Dispatch pointer events only to the topmost sprite
+
+
 ## [v0.5.7] - 2023-05-13
 
 - Update dependencies
