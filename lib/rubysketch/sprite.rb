@@ -551,6 +551,7 @@ module RubySketch
     #
     def update(&block)
       @view__.update = block
+      nil
     end
 
     # Defines draw block.
