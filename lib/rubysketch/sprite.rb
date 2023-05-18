@@ -783,17 +783,16 @@ module RubySketch
 
     def on_pointer_down(e)
       updatePointerStates e, true
-      @pointerDownStartPos = @pointerPos.dup
+      @pointerDownStartPos = to_screen @pointerPos
       (@touchStarted || @mousePressed)&.call if e.view_index == 0
     end
 
     def on_pointer_up(e)
       updatePointerStates e, false
-      (@touchEnded || @mouseReleased)&.call if e.view_index == 0
-      if startPos = @pointerDownStartPos
-        @mouseClicked&.call if e.view_index == 0 && (@pointerPos - startPos).length < 3
-        @pointerDownStartPos = nil
-      end
+      clickCount = clicked? ? 1 : 0
+      (@touchEnded || @mouseReleased)&.call clickCount if e.view_index == 0
+      @mouseClicked&.call            if clickCount > 0 && e.view_index == 0
+      @pointerDownStartPos = nil
       @pointersReleased.clear
     end
 
@@ -838,6 +837,13 @@ module RubySketch
             @pointersPressed.delete type unless pressed
           end
       end
+    end
+
+    def clicked?()
+      return false unless @pointerPos && @pointerDownStartPos
+      [to_screen(@pointerPos), @pointerDownStartPos]
+        .map {|pos| Rays::Point.new pos.x, pos.y, 0}
+        .then {|pos, startPos| (pos - startPos).length < 3}
     end
 
   end# SpriteView
