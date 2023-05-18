@@ -492,6 +492,26 @@ module RubySketch
     alias rest  restitution
     alias rest= restitution=
 
+    # Converts a vector from the screen coordinate
+    #
+    # @param [Vector] vec screen coordinate vector
+    #
+    # @return [Vector] sprite coordinate vector
+    #
+    def from_screen(vec)
+      @view__.from_parent(vec.getInternal__).toVector
+    end
+
+    # Converts a vector to the screen coordinate
+    #
+    # @param [Vector] vec sprite coordinate vector
+    #
+    # @return [Vector] screen coordinate vector
+    #
+    def to_screen(vec)
+      @view__.to_parent(vec.getInternal__).toVector
+    end
+
     # Returns the x-position of the mouse in the sprite coordinates.
     #
     # @return [Numeric] x position
