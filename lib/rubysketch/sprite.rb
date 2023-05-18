@@ -142,7 +142,7 @@ module RubySketch
     # @return [Vector] center position
     #
     def center()
-      Vector.new(x + w / 2, y + h / 2)
+      Vector.new(x + w / 2, y + h / 2, z)
     end
 
     # Sets the center position of the sprite.
@@ -157,7 +157,7 @@ module RubySketch
     #
     def center=(arg)
       x, y = *(arg.is_a?(Vector) ? arg.getInternal__.to_a : arg)
-      self.pos = [x - w / 2, y - h / 2]
+      self.pos = [x - w / 2, y - h / 2, z]
       self.center
     end
 
