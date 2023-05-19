@@ -552,6 +552,14 @@ module RubySketch
       @view__.mouseButton
     end
 
+    # Returns the mouse button click count on the sprite.
+    #
+    # @return [Numeric] click count
+    #
+    def clickCount()
+      @view__.clickCount
+    end
+
     # Returns the touch objects touched on the sprite.
     #
     # @return [Array<Touch>] touches
@@ -777,6 +785,10 @@ module RubySketch
       ((@pointersPressed + @pointersReleased) & [LEFT, RIGHT, CENTER]).last
     end
 
+    def clickCount()
+      clicked? ? 1 : 0
+    end
+
     def on_update(e)
       @update&.call
     end
@@ -789,9 +801,10 @@ module RubySketch
 
     def on_pointer_up(e)
       updatePointerStates e, false
-      clickCount = clicked? ? 1 : 0
-      (@touchEnded || @mouseReleased)&.call clickCount if e.view_index == 0
-      @mouseClicked&.call            if clickCount > 0 && e.view_index == 0
+      if e.view_index == 0
+        (@touchEnded || @mouseReleased)&.call
+        @mouseClicked&.call if clicked?
+      end
       @pointerDownStartPos = nil
       @pointersReleased.clear
     end
