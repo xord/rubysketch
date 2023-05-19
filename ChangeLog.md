@@ -1,6 +1,14 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.9] - 2023-05-19
+
+- Add Sprite#clickCount()
+- Add Sprite#from_screen() and to_screen()
+- Sprite#update returns nil
+- Sprite#center includes z
+
+
 ## [v0.5.8] - 2023-05-18
 
 - Dispatch pointer events only to the topmost sprite
