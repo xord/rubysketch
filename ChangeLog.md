@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.10] - 2023-05-21
+
+- Update dependencies
+
+
 ## [v0.5.9] - 2023-05-19
 
 - Add Sprite#clickCount()
