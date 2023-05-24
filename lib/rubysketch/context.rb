@@ -74,6 +74,7 @@ module RubySketch
     def sprite(*sprites)
       sprites.flatten! if sprites.first&.is_a? Array
       sprites.each do |sp|
+        next if sp.hidden?
         view, draw = sp.getInternal__, sp.instance_variable_get(:@drawBlock__)
         f, degrees, pivot = view.frame, view.angle, view.pivot
         if draw

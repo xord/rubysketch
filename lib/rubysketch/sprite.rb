@@ -54,6 +54,35 @@ module RubySketch
       self.offset = offset if offset
     end
 
+    # Shows the sprite
+    #
+    # Since one call to "hide()" increases the hide count, it is necessary to call "show()" n times to make the sprite visible again after calling "hide()" n times.
+    #
+    # @return [Sprite] self
+    #
+    def show()
+      @view__.show
+      self
+    end
+
+    # Hides the sprite
+    #
+    # Since one call to "hide()" increases the hide count, it is necessary to call "show()" n times to make the sprite visible again after calling "hide()" n times.
+    #
+    # @return [Sprite] self
+    #
+    def hide()
+      @view__.hide
+    end
+
+    # Returns the sprite is visible
+    #
+    # @return [Boolean] true: invisible, false: visible
+    #
+    def hidden?()
+      @view__.hidden?
+    end
+
     # Returns the position of the sprite.
     #
     # @return [Vector] position

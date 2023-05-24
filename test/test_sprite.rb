@@ -39,6 +39,18 @@ class TestSprite < Test::Unit::TestCase
     assert_raise {sprite 0, 0, 0, -1}
   end
 
+  def test_show_hide()
+    s = sprite;       assert_false s.hidden?
+    s.hide;           assert_true  s.hidden?
+    s.show;           assert_false s.hidden?
+    2.times {s.hide}; assert_true  s.hidden?
+    s.show;           assert_true  s.hidden?
+    s.show;           assert_false s.hidden?
+    s.show;           assert_false s.hidden?
+    s.hide;           assert_false s.hidden?
+    s.hide;           assert_true  s.hidden?
+  end
+
   def test_position()
     s = sprite
     assert_equal vec(0, 0), s.pos
