@@ -166,6 +166,79 @@ module RubySketch
     alias pos  position
     alias pos= position=
 
+    # Returns the left position of the sprite.
+    #
+    # @return [Numeric] left position
+    #
+    def left()
+      @view__.left
+    end
+
+    # Set the left position of the sprite.
+    #
+    # @param [Numeric] n sprite left position
+    #
+    # @return [Numeric] sprite left position
+    #
+    def left=(n)
+      @view__.left = n
+      n
+    end
+
+    # Returns the top position of the sprite.
+    #
+    # @return [Numeric] top position
+    #
+    def top()
+      @view__.top
+    end
+
+    # Set the top position of the sprite.
+    #
+    # @param [Numeric] n sprite top position
+    #
+    # @return [Numeric] sprite top position
+    #
+    def top=(n)
+      @view__.top = n
+    end
+
+    # Returns the right position of the sprite.
+    #
+    # @return [Numeric] right position
+    #
+    def right()
+      @view__.right
+    end
+
+    # Set the right position of the sprite.
+    #
+    # @param [Numeric] n sprite right position
+    #
+    # @return [Numeric] sprite right position
+    #
+    def right=(n)
+      @view__.right = n
+    end
+
+    # Returns the bottom position of the sprite.
+    #
+    # @return [Numeric] bottom
+    #
+    def bottom()
+      @view__.bottom
+    end
+
+    # Set the bottom position of the sprite.
+    #
+    # @param [Numeric] n sprite bottom position
+    #
+    # @return [Numeric] sprite bottom position
+    #
+    def bottom=(bottom)
+      @view__.bottom = bottom
+    end
+
     # Returns the center position of the sprite.
     #
     # @return [Vector] center position
