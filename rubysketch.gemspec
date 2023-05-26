@@ -17,13 +17,13 @@ Gem::Specification.new do |s|
   rdocs = glob.call *%w[README]
 
   s.name        = name
+  s.version     = ext.version
+  s.license     = 'MIT'
   s.summary     = 'A game engine based on the Processing API.'
   s.description = 'A game engine based on the Processing API.'
-  s.version     = ext.version
-
-  s.authors  = %w[xordog]
-  s.email    = 'xordog@gmail.com'
-  s.homepage = "https://github.com/xord/rubysketch"
+  s.authors     = %w[xordog]
+  s.email       = 'xordog@gmail.com'
+  s.homepage    = "https://github.com/xord/rubysketch"
 
   s.platform              = Gem::Platform::RUBY
   s.required_ruby_version = '>= 2.7.0'
