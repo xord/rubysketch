@@ -1,6 +1,12 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.11] - 2023-05-26
+
+- add left, top, right, and bottom accessors to Sprite class
+- add show(), hide(), and hidden?() to Sprite class
+
+
 ## [v0.5.10] - 2023-05-21
 
 - Update dependencies
