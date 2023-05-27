@@ -15,25 +15,25 @@ module RubySketch
     #
     # @overload new(x, y, image: img)
     #  pos: [x, y], size: [image.width, image.height]
-    #  @param [Numeric] x   x of sprite position
-    #  @param [Numeric] y   y of sprite position
+    #  @param [Numeric] x   x of the sprite position
+    #  @param [Numeric] y   y of the sprite position
     #  @param [Image]   img sprite image
     #
     # @overload new(x, y, w, h)
     #  pos(x, y), size: [w, h]
-    #  @param [Numeric] x x of sprite position
-    #  @param [Numeric] y y of sprite position
-    #  @param [Numeric] w width of sprite
-    #  @param [Numeric] h height of sprite
+    #  @param [Numeric] x x of the sprite position
+    #  @param [Numeric] y y of the sprite position
+    #  @param [Numeric] w width of the sprite
+    #  @param [Numeric] h height of the sprite
     #
     # @overload new(x, y, w, h, image: img, offset: off)
     #  pos: [x, y], size: [w, h], offset: [offset.x, offset.x]
-    #  @param [Numeric] x   x of sprite position
-    #  @param [Numeric] y   y of sprite position
-    #  @param [Numeric] w   width of sprite
-    #  @param [Numeric] h   height of sprite
+    #  @param [Numeric] x   x of the sprite position
+    #  @param [Numeric] y   y of the sprite position
+    #  @param [Numeric] w   width of the sprite
+    #  @param [Numeric] h   height of the sprite
     #  @param [Image]   img sprite image
-    #  @param [Vector]  off offset of sprite image
+    #  @param [Vector]  off offset of the sprite image
     #
     def initialize(
       x = 0, y = 0, w = nil, h = nil, image: nil, offset: nil,
@@ -321,7 +321,7 @@ module RubySketch
     alias h  height
     alias h= height=
 
-    # Returns the rotation angle of sprite.
+    # Returns the rotation angle of the sprite.
     #
     # @return [Numeric] radians or degrees depending on angleMode()
     #
@@ -330,7 +330,7 @@ module RubySketch
       c ? c.fromDegrees__(a) : a * Processing::GraphicsContext::DEG2RAD__
     end
 
-    # Sets the rotation angle of sprite.
+    # Sets the rotation angle of the sprite.
     #
     # @param [Numeric] angle radians or degrees depending on angleMode()
     #
@@ -362,7 +362,7 @@ module RubySketch
       @view__.fix_angle?
     end
 
-    # Returns the rotation center of sprite.
+    # Returns the rotation center of the sprite.
     #
     # @return [Array<Numeric>] [pivotX, pivotY]
     #
@@ -370,7 +370,7 @@ module RubySketch
       @view__.pivot.to_a[0, 2]
     end
 
-    # Sets the rotation center of sprite.
+    # Sets the rotation center of the sprite.
     # [0.0, 0.0] is the left-top, [1.0, 1.0] is the right-bottom, and [0.5, 0.5] is the center.
     #
     # @param [Array<Numeric>] ary an array of pivotX and pivotY
