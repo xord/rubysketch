@@ -129,6 +129,20 @@ class TestSprite < Test::Unit::TestCase
     assert_in_epsilon Math::PI, s.angle
   end
 
+  def test_fixAngle()
+    s = sprite
+    assert_false s.angleFixed?
+
+    s.fixAngle true
+    assert_true  s.angleFixed?
+
+    s.fixAngle false
+    assert_false s.angleFixed?
+
+    s.fixAngle
+    assert_true  s.angleFixed?
+  end
+
   def test_pivot()
     s = sprite
     assert_each_in_epsilon [0, 0],     s.pivot

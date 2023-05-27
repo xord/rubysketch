@@ -343,6 +343,25 @@ module RubySketch
       angle
     end
 
+    # Fixes the angle of the sprite.
+    #
+    # @param [Boolean] fix fix rotation or not
+    #
+    # @return [Sprite] self
+    #
+    def fixAngle(fix = true)
+      @view__.fix_angle = fix
+      self
+    end
+
+    # Returns the angle of the sprite is fixed or not.
+    #
+    # @return [Boolean] whether the rotation is fixed or not
+    #
+    def angleFixed?()
+      @view__.fix_angle?
+    end
+
     # Returns the rotation center of sprite.
     #
     # @return [Array<Numeric>] [pivotX, pivotY]
