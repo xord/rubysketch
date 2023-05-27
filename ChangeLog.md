@@ -1,6 +1,13 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.12] - 2023-05-27
+
+- required_ruby_version >= 3.0.0
+- Add spec.license
+- Add fixAngle() and angleFixed() to Sprite class
+
+
 ## [v0.5.11] - 2023-05-26
 
 - add left, top, right, and bottom accessors to Sprite class
