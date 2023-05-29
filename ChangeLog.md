@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.13] - 2023-05-29
+
+- Update dependencies
+
+
 ## [v0.5.12] - 2023-05-27
 
 - required_ruby_version >= 3.0.0
