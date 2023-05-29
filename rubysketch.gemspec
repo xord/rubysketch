@@ -1,10 +1,7 @@
 # -*- mode: ruby -*-
 
 
-File.expand_path('lib', __dir__)
-  .tap {|s| $:.unshift s if !$:.include?(s) && File.directory?(s)}
-
-require 'rubysketch/extension'
+require_relative 'lib/rubysketch/extension'
 
 
 Gem::Specification.new do |s|
