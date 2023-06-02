@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.15] - 2023-06-02
+
+- Update dependencies
+
+
 ## [v0.5.14] - 2023-06-02
 
 - Use WIDTH and HEIGHT env vars for initial canvas size
