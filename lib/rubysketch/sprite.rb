@@ -726,11 +726,11 @@ module RubySketch
     #    p [sprite.mouseX, sprite.mouseY, sprite.mouseButton]
     #  end
     #
-    # @return [nil] nil
+    # @return [Boolean] is any mouse button pressed or not
     #
     def mousePressed(&block)
       @view__.mousePressed = block
-      nil
+      @view__.mousePressed?
     end
 
     # Defines mouseReleased block.
@@ -879,27 +879,31 @@ module RubySketch
       @sprite = sprite
       super(*a, **k, &b)
 
-      @pointerPos       =
-      @pointerPrevPos   = Rays::Point.new 0
+      @pointer          = nil
+      @pointerPrev      = nil
       @pointersPressed  = []
       @pointersReleased = []
       @touches          = []
     end
 
     def mouseX()
-      @pointerPos.x
+      @pointer&.x || 0
     end
 
     def mouseY()
-      @pointerPos.y
+      @pointer&.y || 0
     end
 
     def pmouseX()
-      @pointerPrevPos.x
+      @pointerPrev&.x || 0
     end
 
     def pmouseY()
-      @pointerPrevPos.y
+      @pointerPrev&.y || 0
+    end
+
+    def mousePressed?()
+      not @pointersPressed.empty?
     end
 
     def mouseButton()
@@ -907,7 +911,7 @@ module RubySketch
     end
 
     def clickCount()
-      clicked? ? 1 : 0
+      mouseClicked? ? 1 : 0
     end
 
     def on_update(e)
@@ -915,16 +919,24 @@ module RubySketch
     end
 
     def on_pointer_down(e)
-      updatePointerStates e, true
-      @pointerDownStartPos = to_screen @pointerPos
-      (@touchStarted || @mousePressed)&.call if e.view_index == 0
+      updatePointerStates e
+      updatePointersPressedAndReleased e, true
+      @pointerDownStartPos = to_screen @pointer.pos
+      if e.view_index == 0
+        @mousePressed&.call if e.any? {|p| p.id == @pointer.id}
+        @touchStarted&.call
+      end
     end
 
     def on_pointer_up(e)
-      updatePointerStates e, false
+      updatePointerStates e
+      updatePointersPressedAndReleased e, false
       if e.view_index == 0
-        (@touchEnded || @mouseReleased)&.call
-        @mouseClicked&.call if clicked?
+        if e.any? {|p| p.id == @pointer.id}
+          @mouseReleased&.call
+          @mouseClicked&.call if mouseClicked?
+        end
+        @touchEnded&.call
       end
       @pointerDownStartPos = nil
       @pointersReleased.clear
@@ -932,8 +944,11 @@ module RubySketch
 
     def on_pointer_move(e)
       updatePointerStates e
-      mouseMoved = e.drag? ? @mouseDragged : @mouseMoved
-      (@touchMoved || mouseMoved)&.call if e.view_index == 0
+      if e.view_index == 0
+        mouseMoved = e.drag? ? @mouseDragged : @mouseMoved
+        mouseMoved&.call if e.any? {|p| p.id == @pointer.id}
+        @touchMoved&.call
+      end
     end
 
     def on_pointer_cancel(e)
@@ -958,24 +973,29 @@ module RubySketch
       mouse_middle: Processing::GraphicsContext::CENTER
     }
 
-    def updatePointerStates(event, pressed = nil)
-      @pointerPrevPos = @pointerPos
-      @pointerPos     = event.pos.dup
-      @touches        = event.pointers.map {|p| Touch.new(p.id, *p.pos.to_a)}
-      if pressed != nil
-        event.types
-          .tap {|types| types.delete :mouse}
-          .map {|type| MOUSE_BUTTON_MAP[type] || type}
-          .each do |type|
-            (pressed ? @pointersPressed : @pointersReleased).push type
-            @pointersPressed.delete type unless pressed
-          end
+    def updatePointerStates(event)
+      pointer = event.find {|p| p.id == @pointer&.id} || event.first
+      if !mousePressed? || pointer.id == @pointer&.id
+        @pointerPrev, @pointer = @pointer, pointer.dup
       end
+      @touches = event.map {|p| Touch.new(p.id, *p.pos.to_a)}
     end
 
-    def clicked?()
-      return false unless @pointerPos && @pointerDownStartPos
-      [to_screen(@pointerPos), @pointerDownStartPos]
+    def updatePointersPressedAndReleased(event, pressed)
+      event.map(&:types).flatten
+        .tap {|types| types.delete :mouse}
+        .map {|type| MOUSE_BUTTON_MAP[type] || type}
+        .each do |type|
+          (pressed ? @pointersPressed : @pointersReleased).push type
+          if !pressed && index = @pointersPressed.index(type)
+            @pointersPressed.delete_at index
+          end
+        end
+    end
+
+    def mouseClicked?()
+      return false unless @pointer && @pointerDownStartPos
+      [to_screen(@pointer.pos), @pointerDownStartPos]
         .map {|pos| Rays::Point.new pos.x, pos.y, 0}
         .then {|pos, startPos| (pos - startPos).length < 3}
     end
