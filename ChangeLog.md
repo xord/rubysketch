@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.17] - 2023-06-11
+
+- Improve mouse event handling for Sprite class
+
+
 ## [v0.5.16] - 2023-06-08
 
 - Update dependencies
