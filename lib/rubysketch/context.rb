@@ -4,6 +4,7 @@ module RubySketch
   class Context < Processing::Context
 
     Sprite = RubySketch::Sprite
+    Sound  = RubySketch::Sound
 
     # @private
     def initialize(window)
@@ -110,6 +111,16 @@ module RubySketch
       else
         rect x, y, w, h
       end
+    end
+
+    # Loads sound file.
+    #
+    # @param [String] path path for sound file
+    #
+    # @return [Sound] sound object
+    #
+    def loadSound(path)
+      Sound.load path
     end
 
     # Sets gravity for the physics engine.

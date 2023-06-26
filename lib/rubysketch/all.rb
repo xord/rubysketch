@@ -6,6 +6,7 @@ require 'rubysketch/window'
 require 'rubysketch/helper'
 
 require 'rubysketch/sprite'
+require 'rubysketch/sound'
 require 'rubysketch/context'
 
 
