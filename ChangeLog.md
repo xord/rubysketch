@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.19] - 2023-06-27
+
+- add loadSound() and RubySketch::Sound class
+
+
 ## [v0.5.18] - 2023-06-22
 
 - Update dependencies
