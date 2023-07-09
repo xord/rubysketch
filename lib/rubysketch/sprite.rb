@@ -921,7 +921,7 @@ module RubySketch
     def on_pointer_down(e)
       updatePointerStates e
       updatePointersPressedAndReleased e, true
-      @pointerDownStartPos = toScreen @pointer.pos
+      @pointerDownStartPos = to_screen @pointer.pos
       if e.view_index == 0
         @mousePressed&.call if e.any? {|p| p.id == @pointer.id}
         @touchStarted&.call
@@ -995,7 +995,7 @@ module RubySketch
 
     def mouseClicked?()
       return false unless @pointer && @pointerDownStartPos
-      [toScreen(@pointer.pos), @pointerDownStartPos]
+      [to_screen(@pointer.pos), @pointerDownStartPos]
         .map {|pos| Rays::Point.new pos.x, pos.y, 0}
         .then {|pos, startPos| (pos - startPos).length < 3}
     end
