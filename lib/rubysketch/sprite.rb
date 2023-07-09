@@ -619,7 +619,7 @@ module RubySketch
     #
     # @return [Vector] sprite coordinate vector
     #
-    def from_screen(vec)
+    def fromScreen(vec)
       @view__.from_parent(vec.getInternal__).toVector
     end
 
@@ -629,7 +629,7 @@ module RubySketch
     #
     # @return [Vector] screen coordinate vector
     #
-    def to_screen(vec)
+    def toScreen(vec)
       @view__.to_parent(vec.getInternal__).toVector
     end
 
@@ -921,7 +921,7 @@ module RubySketch
     def on_pointer_down(e)
       updatePointerStates e
       updatePointersPressedAndReleased e, true
-      @pointerDownStartPos = to_screen @pointer.pos
+      @pointerDownStartPos = toScreen @pointer.pos
       if e.view_index == 0
         @mousePressed&.call if e.any? {|p| p.id == @pointer.id}
         @touchStarted&.call
@@ -995,7 +995,7 @@ module RubySketch
 
     def mouseClicked?()
       return false unless @pointer && @pointerDownStartPos
-      [to_screen(@pointer.pos), @pointerDownStartPos]
+      [toScreen(@pointer.pos), @pointerDownStartPos]
         .map {|pos| Rays::Point.new pos.x, pos.y, 0}
         .then {|pos, startPos| (pos - startPos).length < 3}
     end
