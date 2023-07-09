@@ -699,7 +699,7 @@ module RubySketch
     # @return [nil] nil
     #
     def update(&block)
-      @view__.update = block
+      @view__.update = block if block
       nil
     end
 
@@ -715,7 +715,7 @@ module RubySketch
     # @return [nil] nil
     #
     def draw(&block)
-      @drawBlock__ = block
+      @drawBlock__ = block if block
       nil
     end
 
@@ -729,7 +729,7 @@ module RubySketch
     # @return [Boolean] is any mouse button pressed or not
     #
     def mousePressed(&block)
-      @view__.mousePressed = block
+      @view__.mousePressed = block if block
       @view__.mousePressed?
     end
 
@@ -743,7 +743,7 @@ module RubySketch
     # @return [nil] nil
     #
     def mouseReleased(&block)
-      @view__.mouseReleased = block
+      @view__.mouseReleased = block if block
       nil
     end
 
@@ -757,7 +757,7 @@ module RubySketch
     # @return [nil] nil
     #
     def mouseMoved(&block)
-      @view__.mouseMoved = block
+      @view__.mouseMoved = block if block
       nil
     end
 
@@ -771,7 +771,7 @@ module RubySketch
     # @return [nil] nil
     #
     def mouseDragged(&block)
-      @view__.mouseDragged = block
+      @view__.mouseDragged = block if block
       nil
     end
 
@@ -785,7 +785,7 @@ module RubySketch
     # @return [nil] nil
     #
     def mouseClicked(&block)
-      @view__.mouseClicked = block
+      @view__.mouseClicked = block if block
       nil
     end
 
@@ -799,7 +799,7 @@ module RubySketch
     # @return [nil] nil
     #
     def touchStarted(&block)
-      @view__.touchStarted = block
+      @view__.touchStarted = block if block
       nil
     end
 
@@ -813,7 +813,7 @@ module RubySketch
     # @return [nil] nil
     #
     def touchEnded(&block)
-      @view__.touchEnded = block
+      @view__.touchEnded = block if block
       nil
     end
 
@@ -827,7 +827,7 @@ module RubySketch
     # @return [nil] nil
     #
     def touchMoved(&block)
-      @view__.touchMoved = block
+      @view__.touchMoved = block if block
       nil
     end
 
@@ -841,7 +841,7 @@ module RubySketch
     # @return [nil] nil
     #
     def contact(&block)
-      @view__.contact = block
+      @view__.contact = block if block
     end
 
     # Defines contact? block.
@@ -854,7 +854,7 @@ module RubySketch
     # @return [nil] nil
     #
     def contact?(&block)
-      @view__.will_contact = block
+      @view__.will_contact = block if block
     end
 
     # @private
