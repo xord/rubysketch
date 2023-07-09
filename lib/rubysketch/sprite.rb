@@ -978,7 +978,7 @@ module RubySketch
       if !mousePressed? || pointer.id == @pointer&.id
         @pointerPrev, @pointer = @pointer, pointer.dup
       end
-      @touches = event.map {|p| Touch.new(p.id, *p.pos.to_a)}
+      @touches = event.map {|p| Processing::Touch.new(p.id, *p.pos.to_a)}
     end
 
     def updatePointersPressedAndReleased(event, pressed)
