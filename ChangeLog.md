@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.20] - 2023-07-09
+
+- fix that calling mousePressed() without block removes mousePressed block
+
+
 ## [v0.5.19] - 2023-06-27
 
 - add loadSound() and RubySketch::Sound class
