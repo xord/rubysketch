@@ -1,6 +1,12 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.21] - 2023-07-10
+
+- Sprite#contact block receives only contact begin event
+- from_screen() -> fromScreen(), to_screen() -> toScreen()
+
+
 ## [v0.5.20] - 2023-07-09
 
 - fix that calling mousePressed() without block removes mousePressed block
