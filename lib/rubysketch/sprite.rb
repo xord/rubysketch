@@ -955,7 +955,7 @@ module RubySketch
       on_pointer_up e
     end
 
-    def on_contact(e)
+    def on_contact_begin(e)
       v = e.view
       @contact.call v.sprite, e.action if @contact && v.respond_to?(:sprite)
     end
