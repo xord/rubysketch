@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.22] - 2023-07-11
+
+- Update dependencies
+
+
 ## [v0.5.21] - 2023-07-10
 
 - Sprite#contact block receives only contact begin event
