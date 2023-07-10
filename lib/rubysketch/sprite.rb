@@ -907,7 +907,7 @@ module RubySketch
     end
 
     def mouseButton()
-      ((@pointersPressed + @pointersReleased) & [LEFT, RIGHT, CENTER]).last
+      ((@pointersPressed + @pointersReleased) & MOUSE_BUTTONS).last
     end
 
     def clickCount()
@@ -972,6 +972,8 @@ module RubySketch
       mouse_right:  Processing::GraphicsContext::RIGHT,
       mouse_middle: Processing::GraphicsContext::CENTER
     }
+
+    MOUSE_BUTTONS = MOUSE_BUTTON_MAP.values
 
     def updatePointerStates(event)
       pointer = event.find {|p| p.id == @pointer&.id} || event.first
