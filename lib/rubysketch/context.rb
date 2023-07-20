@@ -9,11 +9,89 @@ module RubySketch
     # @private
     def initialize(window)
       super
+      @timers__, @nextTimerID__ = {}, 0
+
       @layer__ = window.add_overlay SpriteLayer.new
 
       window.update_window = proc do
+        fireTimers__
         Beeps.process_streams!
       end
+    end
+
+    # Calls block after specified seconds
+    #
+    # @param [Numeric] seconds Time at which the block is called
+    # @param [Array]   args    Arguments passed to block
+    # @param [Object]  id      Timer object identifier
+    #
+    # @return [Object] Timer object identifier
+    #
+    def setTimeout(seconds = 0, *args, id: nextTimerID__, &block)
+      return unless block
+      setTimeout__ id, Time.now.to_f + seconds, args, &block
+    end
+
+    # Repeats block call at each interval
+    #
+    # @param [Numeric] seconds Each interval duration
+    # @param [Array]   args    Arguments passed to block
+    # @param [Object]  id      Timer object identifier
+    # @param [Boolean] now     Wheather or not to call the block right now
+    #
+    # @return [Object] Timer object identifier
+    #
+    def setInterval(seconds = 0, *args, id: nextTimerID__, now: false, &block)
+      return unless block
+      time = Time.now.to_f
+      block.call *args if now
+      setInterval__ id, time, seconds, args, &block
+    end
+
+    # @private
+    def setTimeout__(id, time, args = [], &block)
+      @timers__[id] = [time, args, block]
+      id
+    end
+
+    # @private
+    def setInterval__(id, startTime, seconds, args = [], &block)
+      now, nextTime = Time.now.to_f, startTime + seconds
+      nextTime      = now if nextTime < now
+      setTimeout__ id, nextTime do
+        block.call *args
+        setInterval__ id, nextTime, seconds, args, &block
+      end
+    end
+
+    # Stops timeout or interval timer by id
+    #
+    # @param [Object] id The identifier of timeout or interval timer to stop
+    #
+    # @return [nil] nil
+    #
+    def clearTimer(id)
+      @timers__.delete id
+      nil
+    end
+
+    alias clearTimeout  clearTimer
+    alias clearInterval clearTimer
+
+    # @private
+    def nextTimerID__()
+      @nextTimerID__ += 1
+      @nextTimerID__
+    end
+
+    # @private
+    def fireTimers__()
+      now    = Time.now.to_f
+      blocks = []
+      @timers__.delete_if do |_, (time, args, block)|
+        (now >= time).tap {|fire| blocks.push [block, args] if fire}
+      end
+      blocks.each {|block, args| block.call *args}
     end
 
     # Creates a new sprite and add it to physics engine.
