@@ -10,6 +10,10 @@ module RubySketch
     def initialize(window)
       super
       @layer__ = window.add_overlay SpriteLayer.new
+
+      window.update_window = proc do
+        Beeps.process_streams!
+      end
     end
 
     # Creates a new sprite and add it to physics engine.

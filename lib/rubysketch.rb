@@ -4,7 +4,7 @@ require 'rubysketch/all'
 module RubySketch
   w = (ENV['WIDTH']  || 500).to_i
   h = (ENV['HEIGHT'] || 500).to_i
-  WINDOW  = RubySketch::Window.new(w, h) {start}
+  WINDOW  = Processing::Window.new(w, h) {start}
   CONTEXT = RubySketch::Context.new WINDOW
 
   refine Object do
