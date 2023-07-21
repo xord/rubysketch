@@ -6,6 +6,7 @@ require 'rubysketch/helper'
 
 require 'rubysketch/sprite'
 require 'rubysketch/sound'
+require 'rubysketch/easings'
 require 'rubysketch/context'
 
 

@@ -94,6 +94,51 @@ module RubySketch
       blocks.each {|block, args| block.call *args}
     end
 
+    # Animate with easing functions
+    #
+    # @param [Numeric] seconds Animation duration
+    # @param [Object]  id      Timer object identifier
+    # @param [Symbol]  easing  Easing function name
+    #
+    # @return [Object] Timer object identifier
+    #
+    def animate(seconds, id: nextTimerID__, easing: :expoOut, &block)
+      fun   = EASINGS[easing] or raise "'#{easing}' easing function not found"
+      start = Time.now.to_f
+      eachDrawBlock = lambda do
+        t = (Time.now.to_f - start) / seconds
+        if t >= 1.0
+          block.call fun.call(1.0), true
+        else
+          block.call fun.call(t), false
+          setTimeout 0, id: id, &eachDrawBlock
+        end
+      end
+      setTimeout 0, id: id, &eachDrawBlock
+    end
+
+    # Animate value with easing functions
+    #
+    # @param [Numeric]         seconds Animation duration
+    # @param [Numeric, Vector] from    Value at the beggining of the animation
+    # @param [Numeric, Vector] to      Value at the end of the animation
+    # @param [Object]          id      Timer object identifier
+    # @param [Symbol]          easing  Easing function name
+    #
+    # @return [Object] Timer object identifier
+    #
+    def animateValue(seconds, from:, to:, id: nextTimerID__, easing: :expoOut, &block)
+      if from.is_a? Vector
+        animate seconds, id: id, easing: easing do |t, finished|
+          block.call Vector.lerp(from, to, t), finished
+        end
+      else
+        animate seconds, id: id, easing: easing do |t, finished|
+          block.call        lerp(from, to, t), finished
+        end
+      end
+    end
+
     # Creates a new sprite and add it to physics engine.
     #
     # @overload createSprite(image: img)
