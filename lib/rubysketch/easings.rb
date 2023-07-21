@@ -100,6 +100,6 @@ module RubySketch
        backInOut: backInOut,
     elasticInOut: elasticInOut,
      bounceInOut: bounceInOut
-  }
+  }.freeze
 
 end# RubySketch
