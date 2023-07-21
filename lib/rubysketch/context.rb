@@ -9,7 +9,7 @@ module RubySketch
     # @private
     def initialize(window)
       super
-      @timers__, @nextTimerID__ = {}, 0
+      @timers__, @firingTimers__, @nextTimerID__ = {}, {}, 0
 
       @layer__ = window.add_overlay SpriteLayer.new
 
@@ -71,7 +71,7 @@ module RubySketch
     # @return [nil] nil
     #
     def clearTimer(id)
-      @timers__.delete id
+      [@timers__, @firingTimers__].each {|timers| timers.delete id}
       nil
     end
 
@@ -87,11 +87,11 @@ module RubySketch
     # @private
     def fireTimers__()
       now    = Time.now.to_f
-      blocks = []
-      @timers__.delete_if do |_, (time, args, block)|
-        (now >= time).tap {|fire| blocks.push [block, args] if fire}
+      @firingTimers__.clear
+      @timers__.delete_if do |id, (time, args, block)|
+        (now >= time).tap {|fire| @firingTimers__[id] = [block, args] if fire}
       end
-      blocks.each {|block, args| block.call *args}
+      @firingTimers__.each {|_, (block, args)| block.call *args}
     end
 
     # Animate with easing functions
