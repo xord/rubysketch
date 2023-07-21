@@ -1,6 +1,12 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.24] - 2023-07-21
+
+- Add animate(), animateValue(), and EASINGS
+- Add setTimeout(), setInterval(), and clearTimer() (also aliased as clearTimeout, clearInterval)
+
+
 ## [v0.5.23] - 2023-07-11
 
 - Update dependencies
