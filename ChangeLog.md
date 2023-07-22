@@ -1,6 +1,12 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.25] - 2023-07-22
+
+- Freeze EASINGS
+- Fix that clearTimer() fails clearing timer in very rare cases
+
+
 ## [v0.5.24] - 2023-07-21
 
 - Add animate(), animateValue(), and EASINGS
