@@ -879,6 +879,7 @@ module RubySketch
       @sprite = sprite
       super(*a, **k, &b)
 
+      @error            = nil
       @pointer          = nil
       @pointerPrev      = nil
       @pointersPressed  = []
@@ -915,7 +916,7 @@ module RubySketch
     end
 
     def on_update(e)
-      @update&.call
+      call_block @update
     end
 
     def on_pointer_down(e)
@@ -923,8 +924,8 @@ module RubySketch
       updatePointersPressedAndReleased e, true
       @pointerDownStartPos = to_screen @pointer.pos
       if e.view_index == 0
-        @mousePressed&.call if e.any? {|p| p.id == @pointer.id}
-        @touchStarted&.call
+        call_block @mousePressed if e.any? {|p| p.id == @pointer.id}
+        call_block @touchStarted
       end
     end
 
@@ -933,10 +934,10 @@ module RubySketch
       updatePointersPressedAndReleased e, false
       if e.view_index == 0
         if e.any? {|p| p.id == @pointer.id}
-          @mouseReleased&.call
-          @mouseClicked&.call if mouseClicked?
+          call_block @mouseReleased
+          call_block @mouseClicked if mouseClicked?
         end
-        @touchEnded&.call
+        call_block @touchEnded
       end
       @pointerDownStartPos = nil
       @pointersReleased.clear
@@ -946,8 +947,8 @@ module RubySketch
       updatePointerStates e
       if e.view_index == 0
         mouseMoved = e.drag? ? @mouseDragged : @mouseMoved
-        mouseMoved&.call if e.any? {|p| p.id == @pointer.id}
-        @touchMoved&.call
+        call_block mouseMoved if e.any? {|p| p.id == @pointer.id}
+        call_block @touchMoved
       end
     end
 
@@ -957,12 +958,12 @@ module RubySketch
 
     def on_contact_begin(e)
       v = e.view
-      @contact.call v.sprite, e.action if @contact && v.respond_to?(:sprite)
+      call_block @contact, v.sprite, e.action if @contact && v.respond_to?(:sprite)
     end
 
     def will_contact?(v)
       return true unless @will_contact && v.respond_to?(:sprite)
-      @will_contact.call v.sprite
+      call_block @will_contact, v.sprite
     end
 
     private
@@ -1000,6 +1001,13 @@ module RubySketch
       [to_screen(@pointer.pos), @pointerDownStartPos]
         .map {|pos| Rays::Point.new pos.x, pos.y, 0}
         .then {|pos, startPos| (pos - startPos).length < 3}
+    end
+
+    def call_block(block, *args)
+      block.call(*args) if block && !@error
+    rescue Exception => e
+      @error = e
+      $stderr.puts e.full_message
     end
 
   end# SpriteView
