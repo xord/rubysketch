@@ -44,7 +44,7 @@ module RubySketch
     def setInterval(seconds = 0, *args, id: nextTimerID__, now: false, &block)
       return unless block
       time = Time.now.to_f
-      block.call *args if now
+      block.call(*args) if now
       setInterval__ id, time, seconds, args, &block
     end
 
@@ -59,7 +59,7 @@ module RubySketch
       now, nextTime = Time.now.to_f, startTime + seconds
       nextTime      = now if nextTime < now
       setTimeout__ id, nextTime do
-        block.call *args
+        block.call(*args)
         setInterval__ id, nextTime, seconds, args, &block
       end
     end
@@ -91,7 +91,7 @@ module RubySketch
       @timers__.delete_if do |id, (time, args, block)|
         (now >= time).tap {|fire| @firingTimers__[id] = [block, args] if fire}
       end
-      @firingTimers__.each {|_, (block, args)| block.call *args}
+      @firingTimers__.each {|_, (block, args)| block.call(*args)}
     end
 
     # Animate with easing functions
