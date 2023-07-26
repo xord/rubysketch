@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.26] - 2023-07-26
+
+- Rescue exceptions thrown at sprite event handlers
+
+
 ## [v0.5.25] - 2023-07-22
 
 - Freeze EASINGS
