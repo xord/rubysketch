@@ -272,6 +272,14 @@ module RubySketch
       @layer__.gravity x, y
     end
 
+    # Generates haptic feedback
+    #
+    # @return [nil] nil
+    #
+    def vibrate ()
+      Reflex.vibrate
+    end
+
   end# Context
 
 
