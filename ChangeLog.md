@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.28] - 2023-07-30
+
+- Update dependencies
+
+
 ## [v0.5.27] - 2023-07-30
 
 - add vibrate()
