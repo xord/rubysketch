@@ -29,8 +29,8 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'rucy',       '~> 0.1.39'
   s.add_runtime_dependency 'beeps',      '~> 0.1.41'
   s.add_runtime_dependency 'rays',       '~> 0.1.43'
-  s.add_runtime_dependency 'reflexion',  '~> 0.1.49'
-  s.add_runtime_dependency 'processing', '~> 0.5.25'
+  s.add_runtime_dependency 'reflexion',  '~> 0.1.50'
+  s.add_runtime_dependency 'processing', '~> 0.5.26'
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'test-unit'

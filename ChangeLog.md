@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.27] - 2023-07-30
+
+- add vibrate()
+
+
 ## [v0.5.26] - 2023-07-26
 
 - Rescue exceptions thrown at sprite event handlers
