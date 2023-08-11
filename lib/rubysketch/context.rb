@@ -59,8 +59,8 @@ module RubySketch
       now, nextTime = Time.now.to_f, startTime + seconds
       nextTime      = now if nextTime < now
       setTimeout__ id, nextTime do
-        block.call(*args)
         setInterval__ id, nextTime, seconds, args, &block
+        block.call(*args)
       end
     end
 
