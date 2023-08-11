@@ -958,7 +958,7 @@ module RubySketch
 
     def on_contact_begin(e)
       v = e.view
-      call_block @contact, v.sprite, e.action if v.respond_to?(:sprite)
+      call_block @contact, v.sprite if v.respond_to?(:sprite)
     end
 
     def will_contact?(v)
