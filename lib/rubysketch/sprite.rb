@@ -37,7 +37,7 @@ module RubySketch
     #
     def initialize(
       x = 0, y = 0, w = nil, h = nil, image: nil, offset: nil,
-      context: nil)
+      physics: true, context: nil)
 
       w ||= (image&.width  || 0)
       h ||= (image&.height || 0)
@@ -47,7 +47,7 @@ module RubySketch
       @context__ = context || Context.context__
       @view__    = SpriteView.new(
         self, x: x, y: y, w: w, h: h,
-        static: true, density: 1, friction: 0, restitution: 0,
+        physics: physics, density: 1, friction: 0, restitution: 0,
         back: :white)
 
       self.image  = image  if image
@@ -875,9 +875,9 @@ module RubySketch
 
     attr_reader :sprite, :touches
 
-    def initialize(sprite, *a, **k, &b)
+    def initialize(sprite, *args, physics:, **kwargs, &block)
       @sprite = sprite
-      super(*a, **k, &b)
+      super(*args, **kwargs, &block)
 
       @error            = nil
       @pointer          = nil
@@ -885,6 +885,8 @@ module RubySketch
       @pointersPressed  = []
       @pointersReleased = []
       @touches          = []
+
+      self.static = true if physics
     end
 
     def mouseX()
