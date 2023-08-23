@@ -1,6 +1,13 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.29] - 2023-08-23
+
+- Add Sprite#contact_end()
+- Sprite.new() can take 'physics:' keyword parameter
+- Fix that calling clearInterval() inside interval timer block would be ignored
+
+
 ## [v0.5.28] - 2023-07-30
 
 - Update dependencies
@@ -8,7 +15,7 @@
 
 ## [v0.5.27] - 2023-07-30
 
-- add vibrate()
+- Add vibrate()
 
 
 ## [v0.5.26] - 2023-07-26
@@ -46,12 +53,12 @@
 
 ## [v0.5.20] - 2023-07-09
 
-- fix that calling mousePressed() without block removes mousePressed block
+- Fix that calling mousePressed() without block removes mousePressed block
 
 
 ## [v0.5.19] - 2023-06-27
 
-- add loadSound() and RubySketch::Sound class
+- Add loadSound() and RubySketch::Sound class
 
 
 ## [v0.5.18] - 2023-06-22
@@ -93,8 +100,8 @@
 
 ## [v0.5.11] - 2023-05-26
 
-- add left, top, right, and bottom accessors to Sprite class
-- add show(), hide(), and hidden?() to Sprite class
+- Add left, top, right, and bottom accessors to Sprite class
+- Add show(), hide(), and hidden?() to Sprite class
 
 
 ## [v0.5.10] - 2023-05-21
@@ -161,19 +168,19 @@
 
 ## [v0.5.2] - 2023-03-02
 
-- depend to processing-0.5.2 gem
+- Depend to processing-0.5.2 gem
 
 
 ## [v0.5.1] - 2023-03-01
 
-- fix bugs
+- Fix bugs
 
 
 ## [v0.5.0] - 2023-02-09
 
-- add Sprite class
+- Add Sprite class
 
 
 ## [v0.4.0] - 2023-02-08
 
-- first version
+- First version
