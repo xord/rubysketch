@@ -841,7 +841,7 @@ module RubySketch
     # @return [nil] nil
     #
     def contact(&block)
-      @view__.contact_begin = block if block
+      @view__.contact = block if block
       nil
     end
 
@@ -887,7 +887,7 @@ module RubySketch
     attr_accessor :update,
       :mousePressed, :mouseReleased, :mouseMoved, :mouseDragged, :mouseClicked,
       :touchStarted, :touchEnded, :touchMoved,
-      :contact_begin, :contact_end, :will_contact
+      :contact, :contact_end, :will_contact
 
     attr_reader :sprite, :touches
 
@@ -975,9 +975,9 @@ module RubySketch
     end
 
     def on_contact_begin(e)
-      return unless @contact_begin
+      return unless @contact
       v = e.view
-      call_block @contact_begin, v.sprite if v.respond_to?(:sprite)
+      call_block @contact, v.sprite if v.respond_to?(:sprite)
     end
 
     def on_contact_end(e)
