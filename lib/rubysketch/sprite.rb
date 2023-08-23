@@ -841,7 +841,22 @@ module RubySketch
     # @return [nil] nil
     #
     def contact(&block)
-      @view__.contact = block if block
+      @view__.contact_begin = block if block
+      nil
+    end
+
+    # Defines contact_end block.
+    #
+    # @example Call jumping() when the player sprite leaves the ground sprite
+    #  playerSprite.contact_end do |o|
+    #    jumping if o == groundSprite
+    #  end
+    #
+    # @return [nil] nil
+    #
+    def contact_end(&block)
+      @view__.contact_end = block if block
+      nil
     end
 
     # Defines contact? block.
@@ -855,6 +870,7 @@ module RubySketch
     #
     def contact?(&block)
       @view__.will_contact = block if block
+      nil
     end
 
     # @private
@@ -871,7 +887,7 @@ module RubySketch
     attr_accessor :update,
       :mousePressed, :mouseReleased, :mouseMoved, :mouseDragged, :mouseClicked,
       :touchStarted, :touchEnded, :touchMoved,
-      :contact, :will_contact
+      :contact_begin, :contact_end, :will_contact
 
     attr_reader :sprite, :touches
 
@@ -959,8 +975,15 @@ module RubySketch
     end
 
     def on_contact_begin(e)
+      return unless @contact_begin
       v = e.view
-      call_block @contact, v.sprite if v.respond_to?(:sprite)
+      call_block @contact_begin, v.sprite if v.respond_to?(:sprite)
+    end
+
+    def on_contact_end(e)
+      return unless @contact_end
+      v = e.view
+      call_block @contact_end, v.sprite if v.respond_to?(:sprite)
     end
 
     def will_contact?(v)
