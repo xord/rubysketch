@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.30] - 2023-08-24
+
+- Fix failed test
+
+
 ## [v0.5.29] - 2023-08-23
 
 - Add Sprite#contact_end()
