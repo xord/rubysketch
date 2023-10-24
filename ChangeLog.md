@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.31] - 2023-10-25
+
+- Add toon.rb
+
+
 ## [v0.5.30] - 2023-08-24
 
 - Fix failed test
