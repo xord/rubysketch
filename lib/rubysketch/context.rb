@@ -4,6 +4,7 @@ module RubySketch
   class Context < Processing::Context
 
     Sprite = RubySketch::Sprite
+    Circle = RubySketch::Circle
     Sound  = RubySketch::Sound
 
     # @private

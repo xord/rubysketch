@@ -37,7 +37,7 @@ module RubySketch
     #
     def initialize(
       x = 0, y = 0, w = nil, h = nil, image: nil, offset: nil,
-      physics: true, context: nil)
+      shape: nil, physics: true, context: nil)
 
       w ||= (image&.width  || 0)
       h ||= (image&.height || 0)
@@ -45,10 +45,11 @@ module RubySketch
       raise 'invalid image' if image && !image.getInternal__.is_a?(Rays::Image)
 
       @context__ = context || Context.context__
+      @shape__   = shape
       @view__    = SpriteView.new(
         self, x: x, y: y, w: w, h: h,
-        physics: physics, density: 1, friction: 0, restitution: 0,
-        back: :white)
+        shape: @shape__, physics: physics, back: :white)
+      @view__.set density: 1, friction: 0, restitution: 0
 
       self.image  = image  if image
       self.offset = offset if offset
@@ -885,6 +886,8 @@ module RubySketch
         c.copy img, off.x, off.y, w, h, x, y, w, h
       elsif img
         c.image img, x, y
+      elsif @shape__
+        @shape__.draw__ c, x, y, w, h
       else
         c.rect x, y, w, h
       end
@@ -903,7 +906,7 @@ module RubySketch
 
     attr_reader :sprite, :touches
 
-    def initialize(sprite, *args, physics:, **kwargs, &block)
+    def initialize(sprite, *args, shape:, physics:, **kwargs, &block)
       @sprite = sprite
       super(*args, **kwargs, &block)
 
@@ -914,6 +917,7 @@ module RubySketch
       @pointersReleased = []
       @touches          = []
 
+      self.shape  = shape.getInternal__ if shape
       self.static = true if physics
     end
 
