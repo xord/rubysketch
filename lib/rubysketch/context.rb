@@ -210,16 +210,16 @@ module RubySketch
             translate f.x + pivot.x  * f.w, f.y + pivot.y  * f.h
             rotate fromDegrees__ degrees
             translate     (-pivot.x) * f.w,     (-pivot.y) * f.h
-            draw.call {drawSprite__ sp, 0, 0, f.w, f.h}
+            draw.call {sp.draw__ self, 0, 0, f.w, f.h}
           end
         elsif degrees == 0
-          drawSprite__ sp, f.x, f.y, f.w, f.h
+          sp.draw__ self, f.x, f.y, f.w, f.h
         else
           pushMatrix do
             translate f.x + pivot.x  * f.w, f.y + pivot.y  * f.h
             rotate fromDegrees__ degrees
             translate     (-pivot.x) * f.w,     (-pivot.y) * f.h
-            drawSprite__ sp, 0, 0, f.w, f.h
+            sp.draw__ self, 0, 0, f.w, f.h
           end
         end
       end
@@ -227,18 +227,6 @@ module RubySketch
     end
 
     alias drawSprite sprite
-
-    # @private
-    def drawSprite__(sp, x, y, w, h)
-      img, off = sp.image, sp.offset
-      if img && off
-        copy img, off.x, off.y, w, h, x, y, w, h
-      elsif img
-        image img, x, y
-      else
-        rect x, y, w, h
-      end
-    end
 
     # Loads sound file.
     #

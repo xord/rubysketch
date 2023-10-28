@@ -878,6 +878,18 @@ module RubySketch
       @view__
     end
 
+    # @private
+    def draw__(c, x, y, w, h)
+      img, off = @image__, @offset__
+      if img && off
+        c.copy img, off.x, off.y, w, h, x, y, w, h
+      elsif img
+        c.image img, x, y
+      else
+        c.rect x, y, w, h
+      end
+    end
+
   end# Sprite
 
 
