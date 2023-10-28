@@ -1,6 +1,8 @@
 module RubySketch
 
 
+  # Shape class for physics calculations.
+  #
   class Shape
 
     include Xot::Inspectable
@@ -11,26 +13,72 @@ module RubySketch
       @shape.instance_variable_set :@owner__, self
     end
 
+    # Returns the width of the shape.
+    #
+    # @return [Numeric] width
+    #
+    def width()
+      @shape.width
+    end
+
+    # Returns the height of the shape.
+    #
+    # @return [Numeric] height
+    #
+    def height()
+      @shape.height
+    end
+
+    alias w width
+    alias h height
+
+    # Set this shape as a sensor object.
+    # Sensor object receives contact events, but no collisions.
+    #
+    # @return [Boolean] sensor or not
+    #
     def sensor=(state)
       @shape.sensor = state
     end
 
+    # Returns weather the shape is a sensor or not.
+    #
+    # @return [Boolean] sensor or not
+    #
     def sensor?()
       @shape.sensor?
     end
 
+    # Defines contact block.
+    #
+    # @example Score increases when the shape touches a coin
+    #  shape.contact do |o|
+    #    score += 1 if o.coin?
+    #  end
+    #
+    # @return [nil] nil
+    #
     def contact(&block)
-      return unless block
       @shape.contact_begin do |other|
-        block.call other.instance_variable_get :@owner__
+        block.call other.instance_variable_get :@owner__ if block
       end
+      nil
     end
 
+    # Defines contact_end block.
+    #
+    # @example Call jumping() when the shape leaves the ground sprite
+    #  shape.contact_end do |o|
+    #    jumping if o == groundSprite
+    #  end
+    #
+    # @return [nil] nil
+    #
     def contact_end(&block)
-      return unless block
       @shape.contact_end do |other|
-        block.call other.instance_variable_get :@owner__
+        block.call other.instance_variable_get :@owner__ if block
       end
+      nil
     end
 
     # @private
@@ -50,6 +98,12 @@ module RubySketch
   #
   class Circle < Shape
 
+    # Initialize circle object.
+    #
+    # @param [Numeric] x    x of the circle shape position
+    # @param [Numeric] y    y of the circle shape position
+    # @param [Numeric] size width and height of the circle shape
+    #
     def initialize(x, y, size)
       super Reflex::EllipseShape.new(frame: [x, y, size, size])
     end

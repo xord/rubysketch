@@ -142,31 +142,49 @@ module RubySketch
 
     # Creates a new sprite and add it to physics engine.
     #
+    # @overload createSprite(x, y, w, h)
+    #  pos(x, y), size: [w, h]
+    #  @param [Numeric] x x of the sprite position
+    #  @param [Numeric] y y of the sprite position
+    #  @param [Numeric] w width of the sprite
+    #  @param [Numeric] h height of the sprite
+    #
     # @overload createSprite(image: img)
     #  pos: [0, 0], size: [image.width, image.height]
     #  @param [Image] img sprite image
     #
     # @overload createSprite(x, y, image: img)
     #  pos: [x, y], size: [image.width, image.height]
-    #  @param [Numeric] x   x of sprite position
-    #  @param [Numeric] y   y of sprite position
+    #  @param [Numeric] x   x of the sprite position
+    #  @param [Numeric] y   y of the sprite position
     #  @param [Image]   img sprite image
     #
-    # @overload createSprite(x, y, w, h)
-    #  pos(x, y), size: [w, h]
-    #  @param [Numeric] x x of sprite position
-    #  @param [Numeric] y y of sprite position
-    #  @param [Numeric] w width of sprite
-    #  @param [Numeric] h height of sprite
-    #
-    # @overload createSprite(x, y, w, h, image: img, offset: off)
-    #  pos: [x, y], size: [w, h], offset: [offset.x, offset.x]
-    #  @param [Numeric] x   x of sprite position
-    #  @param [Numeric] y   y of sprite position
-    #  @param [Numeric] w   width of sprite
-    #  @param [Numeric] h   height of sprite
+    # @overload createSprite(x, y, image: img, offset: off)
+    #  pos: [x, y], size: [image.width, image.height], offset: [offset.x, offset.x]
+    #  @param [Numeric] x   x of the sprite position
+    #  @param [Numeric] y   y of the sprite position
     #  @param [Image]   img sprite image
-    #  @param [Vector]  off offset of sprite image
+    #  @param [Vector]  off offset of the sprite image
+    #
+    # @overload createSprite(x, y, image: img, shape: shp)
+    #  pos: [x, y], size: [image.width, image.height]
+    #  @param [Numeric] x   x of the sprite position
+    #  @param [Numeric] y   y of the sprite position
+    #  @param [Image]   img sprite image
+    #
+    # @overload createSprite(x, y, image: img, offset: off, shape: shp)
+    #  pos: [x, y], size: [image.width, image.height], offset: [offset.x, offset.x]
+    #  @param [Numeric] x   x of the sprite position
+    #  @param [Numeric] y   y of the sprite position
+    #  @param [Image]   img sprite image
+    #  @param [Vector]  off offset of the sprite image
+    #  @param [Shape]   shp shape of the sprite for physics calculations
+    #
+    # @overload createSprite(x, y, shape: shp)
+    #  pos: [x, y], size: [shape.width, shape.height]
+    #  @param [Numeric] x   x of the sprite position
+    #  @param [Numeric] y   y of the sprite position
+    #  @param [Shape]   shp shape of the sprite for physics calculations
     #
     def createSprite(*args, **kwargs)
       addSprite Sprite.new(*args, **kwargs, context: self)

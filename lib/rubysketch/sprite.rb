@@ -9,6 +9,13 @@ module RubySketch
 
     # Initialize sprite object.
     #
+    # @overload new(x, y, w, h)
+    #  pos(x, y), size: [w, h]
+    #  @param [Numeric] x x of the sprite position
+    #  @param [Numeric] y y of the sprite position
+    #  @param [Numeric] w width of the sprite
+    #  @param [Numeric] h height of the sprite
+    #
     # @overload new(image: img)
     #  pos: [0, 0], size: [image.width, image.height]
     #  @param [Image] img sprite image
@@ -19,30 +26,42 @@ module RubySketch
     #  @param [Numeric] y   y of the sprite position
     #  @param [Image]   img sprite image
     #
-    # @overload new(x, y, w, h)
-    #  pos(x, y), size: [w, h]
-    #  @param [Numeric] x x of the sprite position
-    #  @param [Numeric] y y of the sprite position
-    #  @param [Numeric] w width of the sprite
-    #  @param [Numeric] h height of the sprite
-    #
-    # @overload new(x, y, w, h, image: img, offset: off)
-    #  pos: [x, y], size: [w, h], offset: [offset.x, offset.x]
+    # @overload new(x, y, image: img, offset: off)
+    #  pos: [x, y], size: [image.width, image.height], offset: [offset.x, offset.x]
     #  @param [Numeric] x   x of the sprite position
     #  @param [Numeric] y   y of the sprite position
-    #  @param [Numeric] w   width of the sprite
-    #  @param [Numeric] h   height of the sprite
     #  @param [Image]   img sprite image
     #  @param [Vector]  off offset of the sprite image
     #
+    # @overload new(x, y, image: img, shape: shp)
+    #  pos: [x, y], size: [image.width, image.height]
+    #  @param [Numeric] x   x of the sprite position
+    #  @param [Numeric] y   y of the sprite position
+    #  @param [Image]   img sprite image
+    #
+    # @overload new(x, y, image: img, offset: off, shape: shp)
+    #  pos: [x, y], size: [image.width, image.height], offset: [offset.x, offset.x]
+    #  @param [Numeric] x   x of the sprite position
+    #  @param [Numeric] y   y of the sprite position
+    #  @param [Image]   img sprite image
+    #  @param [Vector]  off offset of the sprite image
+    #  @param [Shape]   shp shape of the sprite for physics calculations
+    #
+    # @overload new(x, y, shape: shp)
+    #  pos: [x, y], size: [shape.width, shape.height]
+    #  @param [Numeric] x   x of the sprite position
+    #  @param [Numeric] y   y of the sprite position
+    #  @param [Shape]   shp shape of the sprite for physics calculations
+    #
     def initialize(
-      x = 0, y = 0, w = nil, h = nil, image: nil, offset: nil,
-      shape: nil, physics: true, context: nil)
+      x = 0, y = 0, w = nil, h = nil, image: nil, offset: nil, shape: nil,
+      physics: true, context: nil)
 
-      w ||= (image&.width  || 0)
-      h ||= (image&.height || 0)
+      w ||= (image&.width  || shape&.width  || 0)
+      h ||= (image&.height || shape&.height || 0)
       raise 'invalid size'  unless w >= 0 && h >= 0
       raise 'invalid image' if image && !image.getInternal__.is_a?(Rays::Image)
+      raise 'invalid shape' if shape && !shape.getInternal__.is_a?(Reflex::Shape)
 
       @context__ = context || Context.context__
       @shape__   = shape
