@@ -1,6 +1,12 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.32] - 2023-10-29
+
+- Add Shape class
+- Add Circle shape class and Sprite can take 'shape' parameter
+
+
 ## [v0.5.31] - 2023-10-25
 
 - Add toon.rb
