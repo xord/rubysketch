@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.33] - 2023-10-29
+
+- Update dependencies
+
+
 ## [v0.5.32] - 2023-10-29
 
 - Add Shape class
