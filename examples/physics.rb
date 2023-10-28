@@ -17,7 +17,8 @@ draw do
 end
 
 mousePressed do
-  sp             = createSprite mouseX, mouseY, 20, 20
+  shape          = Circle.new 0, 0, 20
+  sp             = createSprite mouseX + rand, mouseY + rand, shape: shape
   sp.dynamic     = true
   sp.restitution = 0.5
   sprites << sp
