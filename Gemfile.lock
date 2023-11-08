@@ -1,0 +1,19 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    power_assert (2.0.3)
+    rake (13.1.0)
+    test-unit (3.6.1)
+      power_assert
+    yard (0.9.34)
+
+PLATFORMS
+  arm64-darwin-21
+
+DEPENDENCIES
+  rake
+  test-unit
+  yard
+
+BUNDLED WITH
+   2.4.13
