@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.34] - 2023-11-09
+
+- Use Gemfile to install gems for development instead of add_development_dependency in gemspec
+
+
 ## [v0.5.33] - 2023-10-29
 
 - Update dependencies
