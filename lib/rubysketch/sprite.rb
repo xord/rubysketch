@@ -359,7 +359,7 @@ module RubySketch
     def angle=(angle)
       c = @context__
       @view__.angle =
-        c ? c.toAngle__(angle) : angle * Processing::GraphicsContext::RAD2DEG__
+        c ? c.toDegrees__(angle) : angle * Processing::GraphicsContext::RAD2DEG__
       angle
     end
 
