@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
     #{root}/beeps/vendor/signalsmith-stretch
     #{root}/rays/vendor/glm
     #{root}/rays/vendor/clipper/cpp
-    #{root}/rays/vendor/poly2tri/poly2tri
+    #{root}/rays/vendor/earcut.hpp/include/mapbox
     #{root}/rays/vendor/splines-lib
     #{root}/reflex/vendor/box2d/include
     #{root}/reflex/vendor/box2d/src
@@ -99,10 +99,6 @@ Pod::Spec.new do |s|
 
     spec.subspec "Clipper" do |sub|
       sub.source_files = "rays/vendor/clipper/cpp/*.cpp"
-    end
-
-    spec.subspec "Poly2Tri" do |sub|
-      sub.source_files = "rays/vendor/poly2tri/poly2tri/**/*.cc"
     end
 
     spec.subspec "SplineLib" do |sub|
