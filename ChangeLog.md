@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.36] - 2024-01-08
+
+- Update dependencies
+
+
 ## [v0.5.35] - 2023-12-09
 
 - Delete poly2tri
