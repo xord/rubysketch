@@ -18,6 +18,8 @@ module RubySketch
         fireTimers__
         Beeps.process_streams!
       end
+
+      noSmooth
     end
 
     # Calls block after specified seconds
