@@ -25,12 +25,12 @@ Gem::Specification.new do |s|
   s.platform              = Gem::Platform::RUBY
   s.required_ruby_version = '>= 3.0.0'
 
-  s.add_runtime_dependency 'xot',        '~> 0.1.41'
-  s.add_runtime_dependency 'rucy',       '~> 0.1.43'
-  s.add_runtime_dependency 'beeps',      '~> 0.1.45'
-  s.add_runtime_dependency 'rays',       '~> 0.1.48'
-  s.add_runtime_dependency 'reflexion',  '~> 0.1.56'
-  s.add_runtime_dependency 'processing', '~> 0.5.32'
+  s.add_runtime_dependency 'xot',        '~> 0.1.42'
+  s.add_runtime_dependency 'rucy',       '~> 0.1.44'
+  s.add_runtime_dependency 'beeps',      '~> 0.1.46'
+  s.add_runtime_dependency 'rays',       '~> 0.1.49'
+  s.add_runtime_dependency 'reflexion',  '~> 0.1.57'
+  s.add_runtime_dependency 'processing', '~> 0.5.33'
 
   s.files            = `git ls-files`.split $/
   s.test_files       = s.files.grep %r{^(test|spec|features)/}

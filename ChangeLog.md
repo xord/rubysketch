@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.5.37] - 2024-02-07
+
+- Call noSmooth() by default
+
+
 ## [v0.5.36] - 2024-01-08
 
 - Update dependencies
