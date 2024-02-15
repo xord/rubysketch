@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'beeps',      '~> 0.1.46'
   s.add_runtime_dependency 'rays',       '~> 0.1.49'
   s.add_runtime_dependency 'reflexion',  '~> 0.1.57'
-  s.add_runtime_dependency 'processing', '~> 0.5.33'
+  s.add_runtime_dependency 'processing', '~> 0.5.34'
 
   s.files            = `git ls-files`.split $/
   s.test_files       = s.files.grep %r{^(test|spec|features)/}
