@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.6.1] - 2024-03-14
+
+- Update dependencies
+
+
 ## [v0.6] - 2024-03-14
 
 - Depend to processing v1.0
