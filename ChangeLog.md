@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.6.2] - 2024-03-14
+
+- Add 'rexml' to Gemfile
+
+
 ## [v0.6.1] - 2024-03-14
 
 - Update dependencies
