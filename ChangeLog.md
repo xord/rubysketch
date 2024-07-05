@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.7] - 2024-07-06
+
+- Support Windows
+
+
 ## [v0.6.3] - 2024-07-05
 
 - Update workflows for test
