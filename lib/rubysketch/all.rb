@@ -1,5 +1,5 @@
-require 'beeps'
 require 'processing/all'
+require 'beeps'
 
 require 'rubysketch/extension'
 require 'rubysketch/helper'
