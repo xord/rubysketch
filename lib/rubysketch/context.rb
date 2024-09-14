@@ -114,10 +114,10 @@ module RubySketch
           block.call fun.call(1.0), true
         else
           block.call fun.call(t), false
-          setTimeout 0, id: id, &eachDrawBlock
+          setTimeout id: id, &eachDrawBlock
         end
       end
-      setTimeout 0, id: id, &eachDrawBlock
+      setTimeout id: id, &eachDrawBlock
     end
 
     # Animate value with easing functions
