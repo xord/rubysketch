@@ -93,6 +93,7 @@ module RubySketch
     #
     def hide()
       @view__.hide
+      self
     end
 
     # Returns the sprite is visible
