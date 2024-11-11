@@ -8,11 +8,13 @@ module RubySketch
   CONTEXT = RubySketch::Context.new WINDOW
 
   refine Object do
-    (CONTEXT.methods - Object.instance_methods).each do |method|
-      define_method method do |*args, **kwargs, &block|
-        CONTEXT.__send__ method, *args, **kwargs, &block
+    (CONTEXT.methods - Object.instance_methods)
+      .reject {_1 =~ /__$/} # method for internal use
+      .each do |method|
+        define_method(method) do |*args, **kwargs, &block|
+          CONTEXT.__send__(method, *args, **kwargs, &block)
+        end
       end
-    end
   end
 end# RubySketch
 
@@ -20,7 +22,7 @@ end# RubySketch
 begin
   w, c = RubySketch::WINDOW, RubySketch::CONTEXT
 
-  c.class.constants.each do |const|
+  c.class.constants.reject {_1 =~ /__$/}.each do |const|
     self.class.const_set const, c.class.const_get(const)
   end
 
