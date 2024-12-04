@@ -72,8 +72,8 @@ ReflexViewController_show (UIViewController*, ReflexViewController*)
 		CRBValue* ret = [CRuby evaluate:[NSString stringWithFormat:@
 			"raise 'already started' unless require 'rubysketch'\n"
 			"load '%@'\n"
-			"RubySketch::WINDOW.__send__ :end_draw\n"
-			"RubySketch::WINDOW.show",
+			"RubySketch::WINDOW__.__send__ :end_draw\n"
+			"RubySketch::WINDOW__.show",
 			path
 		]];
 		return ret && ret.toBOOL;
