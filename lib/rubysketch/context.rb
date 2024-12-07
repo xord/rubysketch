@@ -192,26 +192,26 @@ module RubySketch
       addSprite Sprite.new(*args, **kwargs, context: self)
     end
 
-    # Adds the sprite to the physics engine.
+    # Adds sprites to the physics engine.
     #
-    # @param [Sprite] sprite sprite object
+    # @param [Sprite] sprites sprite objects
     #
-    # @return [Sprite] added sprite
+    # @return [Sprite] first added sprite
     #
-    def addSprite(sprite)
-      @layer__.add sprite.getInternal__ if sprite
-      sprite
+    def addSprite(*sprites)
+      sprites.each {@layer__.add _1.getInternal__}
+      sprites.first
     end
 
-    # Removes the sprite from the physics engine.
+    # Removes sprites from the physics engine.
     #
-    # @param [Sprite] sprite sprite object
+    # @param [Sprite] sprites sprite objects
     #
-    # @return [Sprite] removed sprite
+    # @return [Sprite] first removed sprite
     #
-    def removeSprite(sprite)
-      @layer__.remove sprite.getInternal__ if sprite
-      sprite
+    def removeSprite(*sprites)
+      sprites.each {@layer__.remove _1.getInternal__}
+      sprites.first
     end
 
     # Draws one or more sprites.
