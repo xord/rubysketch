@@ -3,18 +3,20 @@ module RubySketch
 
   class Context < Processing::Context
 
-    Sprite = RubySketch::Sprite
-    Circle = RubySketch::Circle
-    Sound  = RubySketch::Sound
+    Sprite      = RubySketch::Sprite
+    SpriteWorld = RubySketch::SpriteWorld
+    Circle      = RubySketch::Circle
+    Sound       = RubySketch::Sound
 
     # @private
     def initialize(window)
       super
+      @window__                                  = window
       @timers__, @firingTimers__, @nextTimerID__ = {}, {}, 0
 
-      @layer__ = window.add_overlay SpriteLayer.new
+      @world__ = createWorld
 
-      window.update_window = proc do
+      @window__.update_window = proc do
         fireTimers__
         Beeps.process_streams!
       end
@@ -188,8 +190,10 @@ module RubySketch
     #  @param [Numeric] y   y of the sprite position
     #  @param [Shape]   shp shape of the sprite for physics calculations
     #
+    # @return [Sprite] the new sprite object
+    #
     def createSprite(*args, **kwargs)
-      addSprite Sprite.new(*args, **kwargs, context: self)
+      @world__.createSprite(*args, context: self, **kwargs)
     end
 
     # Adds sprites to the physics engine.
@@ -199,8 +203,7 @@ module RubySketch
     # @return [Sprite] first added sprite
     #
     def addSprite(*sprites)
-      sprites.each {@layer__.add _1.getInternal__}
-      sprites.first
+      @world__.addSprite(*sprites)
     end
 
     # Removes sprites from the physics engine.
@@ -210,8 +213,7 @@ module RubySketch
     # @return [Sprite] first removed sprite
     #
     def removeSprite(*sprites)
-      sprites.each {@layer__.remove _1.getInternal__}
-      sprites.first
+      @world__.removeSprite(*sprites)
     end
 
     # Draws one or more sprites.
@@ -249,6 +251,36 @@ module RubySketch
 
     alias drawSprite sprite
 
+    # Creates a new world to calculate the physics of sprites.
+    #
+    # @return [SpriteWorld] the new world object
+    #
+    def createWorld()
+      addWorld SpriteWorld.new
+    end
+
+    # Adds worlds
+    #
+    # @param [SpriteWorld] worlds world objects
+    #
+    # @return [SpriteWorld] first added world
+    #
+    def addWorld(*worlds)
+      worlds.each {@window__.add_overlay _1.getInternal__}
+      worlds.first
+    end
+
+    # Removes worlds
+    #
+    # @param [SpriteWorld] worlds world objects
+    #
+    # @return [SpriteWorld] first removed world
+    #
+    def removeWorld(*worlds)
+      worlds.each {@window__.remove_overlay _1.getInternal__}
+      worlds.first
+    end
+
     # Loads sound file.
     #
     # @param [String] path path for sound file
@@ -271,14 +303,10 @@ module RubySketch
     #  @param [Numeric] x x of gravity vector
     #  @param [Numeric] y y of gracity vector
     #
-    def gravity(*args)
-      x, y =
-        case arg = args.first
-        when Vector then arg.array
-        when Array  then arg
-        else args
-        end
-      @layer__.gravity x, y
+    # @return [nil] nil
+    #
+    def gravity(...)
+      @world__.gravity(...)
     end
 
     # Generates haptic feedback
@@ -290,21 +318,6 @@ module RubySketch
     end
 
   end# Context
-
-
-  # @private
-  class SpriteLayer < Reflex::View
-
-    def initialize(*a, **k, &b)
-      super
-      remove wall
-    end
-
-    def on_draw(e)
-      e.block false
-    end
-
-  end# SpriteLayer
 
 
 end# RubySketch

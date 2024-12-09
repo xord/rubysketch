@@ -916,6 +916,149 @@ module RubySketch
   end# Sprite
 
 
+  # A class Manages sprites.
+  #
+  class SpriteWorld
+
+    # Create a new physics world
+    #
+    def initialize()
+      @view, @debug = View.new, false
+    end
+
+    # Creates a new sprite and add it to physics engine.
+    #
+    # @overload createSprite(x, y, w, h)
+    #  pos(x, y), size: [w, h]
+    #  @param [Numeric] x x of the sprite position
+    #  @param [Numeric] y y of the sprite position
+    #  @param [Numeric] w width of the sprite
+    #  @param [Numeric] h height of the sprite
+    #
+    # @overload createSprite(image: img)
+    #  pos: [0, 0], size: [image.width, image.height]
+    #  @param [Image] img sprite image
+    #
+    # @overload createSprite(x, y, image: img)
+    #  pos: [x, y], size: [image.width, image.height]
+    #  @param [Numeric] x   x of the sprite position
+    #  @param [Numeric] y   y of the sprite position
+    #  @param [Image]   img sprite image
+    #
+    # @overload createSprite(x, y, image: img, offset: off)
+    #  pos: [x, y], size: [image.width, image.height], offset: [offset.x, offset.x]
+    #  @param [Numeric] x   x of the sprite position
+    #  @param [Numeric] y   y of the sprite position
+    #  @param [Image]   img sprite image
+    #  @param [Vector]  off offset of the sprite image
+    #
+    # @overload createSprite(x, y, image: img, shape: shp)
+    #  pos: [x, y], size: [image.width, image.height]
+    #  @param [Numeric] x   x of the sprite position
+    #  @param [Numeric] y   y of the sprite position
+    #  @param [Image]   img sprite image
+    #
+    # @overload createSprite(x, y, image: img, offset: off, shape: shp)
+    #  pos: [x, y], size: [image.width, image.height], offset: [offset.x, offset.x]
+    #  @param [Numeric] x   x of the sprite position
+    #  @param [Numeric] y   y of the sprite position
+    #  @param [Image]   img sprite image
+    #  @param [Vector]  off offset of the sprite image
+    #  @param [Shape]   shp shape of the sprite for physics calculations
+    #
+    # @overload createSprite(x, y, shape: shp)
+    #  pos: [x, y], size: [shape.width, shape.height]
+    #  @param [Numeric] x   x of the sprite position
+    #  @param [Numeric] y   y of the sprite position
+    #  @param [Shape]   shp shape of the sprite for physics calculations
+    #
+    # @return [Sprite] the new sprite object
+    #
+    def createSprite(*args, context: nil, **kwargs)
+      context ||= Context.context__
+      addSprite Sprite.new(*args, context: context, **kwargs)
+    end
+
+    # Adds sprites to the physics engine.
+    #
+    # @param [Sprite] sprites sprite objects
+    #
+    # @return [Sprite] first added sprite
+    #
+    def addSprite(*sprites)
+      sprites.each {@view.add _1.getInternal__}
+      sprites.first
+    end
+
+    # Removes sprites from the physics engine.
+    #
+    # @param [Sprite] sprites sprite objects
+    #
+    # @return [Sprite] first removed sprite
+    #
+    def removeSprite(*sprites)
+      sprites.each {@view.remove _1.getInternal__}
+      sprites.first
+    end
+
+    # Sets gravity for the physics engine.
+    #
+    # @overload gravity(vec)
+    #  @param [Vector] vec gracity vector
+    #
+    # @overload gravity(ary)
+    #  @param [Array<Numeric>] ary gravityX, gravityY
+    #
+    # @overload gravity(x, y)
+    #  @param [Numeric] x x of gravity vector
+    #  @param [Numeric] y y of gracity vector
+    #
+    # @return [nil] nil
+    #
+    def gravity(*args)
+      x, y =
+        case arg = args.first
+        when Vector then arg.array
+        when Array  then arg
+        else args
+        end
+      @view.gravity x, y
+      nil
+    end
+
+    def debug=(state)
+      @view.debug = state
+    end
+
+    def debug? = @view.debug?
+
+    # @private
+    def getInternal__()
+      @view
+    end
+
+    # @private
+    class View < Reflex::View
+
+      def initialize(*a, **k, &b)
+        super
+        @debug = false
+        remove wall
+      end
+
+      attr_writer :debug
+
+      def debug? = @debug
+
+      def on_draw(e)
+        e.block false unless debug?
+      end
+
+    end# View
+
+  end# SpriteWorld
+
+
   # @private
   class SpriteView < Reflex::View
 
