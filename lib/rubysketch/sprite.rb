@@ -1120,33 +1120,33 @@ module RubySketch
       updatePointerStates e
       updatePointersPressedAndReleased e, true
       @pointerDownStartPos = to_screen @pointer.pos
-      if e.view_index == 0
-        call_block @mousePressed if e.any? {|p| p.id == @pointer.id}
-        call_block @touchStarted
-      end
+
+      call_block @mousePressed if e.any? {|p| p.id == @pointer.id}
+      call_block @touchStarted
+
+      e.block
     end
 
     def on_pointer_up(e)
       updatePointerStates e
       updatePointersPressedAndReleased e, false
-      if e.view_index == 0
-        if e.any? {|p| p.id == @pointer.id}
-          call_block @mouseReleased
-          call_block @mouseClicked if mouseClicked?
-        end
-        call_block @touchEnded
+
+      if e.any? {|p| p.id == @pointer.id}
+        call_block @mouseReleased
+        call_block @mouseClicked if mouseClicked?
       end
+      call_block @touchEnded
+
       @pointerDownStartPos = nil
       @pointersReleased.clear
     end
 
     def on_pointer_move(e)
       updatePointerStates e
-      if e.view_index == 0
-        mouseMoved = e.drag? ? @mouseDragged : @mouseMoved
-        call_block mouseMoved if e.any? {|p| p.id == @pointer.id}
-        call_block @touchMoved
-      end
+
+      mouseMoved = e.drag? ? @mouseDragged : @mouseMoved
+      call_block mouseMoved if e.any? {|p| p.id == @pointer.id}
+      call_block @touchMoved
     end
 
     def on_pointer_cancel(e)
