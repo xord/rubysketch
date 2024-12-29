@@ -65,7 +65,7 @@ module RubySketch
 
       @context__ = context || Context.context__
       @shape__   = shape
-      @view__    = SpriteView.new(
+      @view__    = View.new(
         self, x: x, y: y, w: w, h: h,
         shape: @shape__, physics: physics, back: :white)
       @view__.set density: 1, friction: 0, restitution: 0
@@ -1037,30 +1037,11 @@ module RubySketch
       @view
     end
 
-    # @private
-    class View < Reflex::View
-
-      def initialize(*a, **k, &b)
-        super
-        @debug = false
-        remove wall
-      end
-
-      attr_writer :debug
-
-      def debug? = @debug
-
-      def on_draw(e)
-        e.block false unless debug?
-      end
-
-    end# View
-
   end# SpriteWorld
 
 
   # @private
-  class SpriteView < Reflex::View
+  class Sprite::View < Reflex::View
 
     attr_accessor :update,
       :mousePressed, :mouseReleased, :mouseMoved, :mouseDragged, :mouseClicked,
@@ -1214,7 +1195,27 @@ module RubySketch
       $stderr.puts e.full_message
     end
 
-  end# SpriteView
+  end# Sprite::View
+
+
+  # @private
+  class SpriteWorld::View < Reflex::View
+
+    def initialize(*a, **k, &b)
+      super
+      @debug = false
+      remove wall
+    end
+
+    attr_writer :debug
+
+    def debug? = @debug
+
+    def on_draw(e)
+      e.block false unless debug?
+    end
+
+  end# SpriteWorld::View
 
 
 end# RubySketch
