@@ -255,8 +255,8 @@ module RubySketch
     #
     # @return [SpriteWorld] the new world object
     #
-    def createWorld()
-      addWorld SpriteWorld.new
+    def createWorld(pixels_per_meter: 0)
+      addWorld SpriteWorld.new pixels_per_meter: pixels_per_meter
     end
 
     # Adds worlds

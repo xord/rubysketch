@@ -922,8 +922,8 @@ module RubySketch
 
     # Create a new physics world
     #
-    def initialize()
-      @view, @debug = View.new, false
+    def initialize(pixels_per_meter: 0)
+      @view, @debug = View.new(pixels_per_meter: pixels_per_meter), false
     end
 
     # Creates a new sprite and add it to physics engine.
@@ -1201,8 +1201,9 @@ module RubySketch
   # @private
   class SpriteWorld::View < Reflex::View
 
-    def initialize(*a, **k, &b)
-      super
+    def initialize(*a, pixels_per_meter: 0, **k, &b)
+      create_world pixels_per_meter if pixels_per_meter > 0
+      super(*a, **k, &b)
       @debug = false
       remove wall
     end
