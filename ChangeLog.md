@@ -1,6 +1,13 @@
 # rubysketch ChangeLog
 
 
+## [v0.7.1] - 2025-01-13
+
+- Add SpriteWorld class
+- addSprite and removeSprite can take many sprites
+- Sprite#hide returns self
+
+
 ## [v0.7] - 2024-07-06
 
 - Support Windows
