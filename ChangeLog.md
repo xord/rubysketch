@@ -1,6 +1,12 @@
 # rubysketch ChangeLog
 
 
+## [v0.7.2] - 2025-01-14
+
+- Update workflow files
+- Set minumum version for runtime dependency
+
+
 ## [v0.7.1] - 2025-01-13
 
 - Add SpriteWorld class
