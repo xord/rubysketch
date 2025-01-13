@@ -313,7 +313,7 @@ module RubySketch
     #
     # @return [nil] nil
     #
-    def vibrate ()
+    def vibrate()
       Reflex.vibrate
     end
 
