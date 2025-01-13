@@ -1,9 +1,6 @@
 require_relative 'helper'
 
 
-return if ci? # TODO: fix tests fail on github actions
-
-
 class TestContext < Test::Unit::TestCase
 
   RS = RubySketch
