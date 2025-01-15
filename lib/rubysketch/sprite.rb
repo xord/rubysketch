@@ -634,6 +634,23 @@ module RubySketch
     alias rest  restitution
     alias rest= restitution=
 
+    # Set this sprite as a sensor object.
+    # Sensor object receives contact events, but no collisions.
+    #
+    # @return [Boolean] sensor or not
+    #
+    def sensor=(state)
+      @view__.sensor = state
+    end
+
+    # Returns weather the shape is a sensor or not.
+    #
+    # @return [Boolean] sensor or not
+    #
+    def sensor?()
+      @view__.sensor?
+    end
+
     # Converts a vector from the screen coordinate
     #
     # @param [Vector] vec screen coordinate vector
