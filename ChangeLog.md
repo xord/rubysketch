@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.7.3] - 2025-01-15
+
+- Add Sprite#sensor=, Sprite#sensor?
+
+
 ## [v0.7.2] - 2025-01-14
 
 - Update workflow files
