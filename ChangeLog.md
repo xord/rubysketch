@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.7.4] - 2025-01-23
+
+- Update dependencies
+
+
 ## [v0.7.3] - 2025-01-15
 
 - Add Sprite#sensor=, Sprite#sensor?
