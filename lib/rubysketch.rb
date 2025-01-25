@@ -2,6 +2,9 @@ require 'rubysketch/all'
 
 
 module RubySketch
+  Processing.alias_snake_case_methods__ Processing
+  Processing.alias_snake_case_methods__ RubySketch
+
   WINDOW__, CONTEXT__, funcs, events = Processing.setup__ RubySketch
 
   refine Object do
