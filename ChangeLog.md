@@ -1,6 +1,12 @@
 # rubysketch ChangeLog
 
 
+## [v0.7.5] - 2025-01-27
+
+- Event blocks can be defined as methods with 'def'
+- Alias snake case methods
+
+
 ## [v0.7.4] - 2025-01-23
 
 - Update dependencies
