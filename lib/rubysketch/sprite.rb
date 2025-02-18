@@ -256,8 +256,8 @@ module RubySketch
     #
     # @return [Numeric] sprite bottom position
     #
-    def bottom=(bottom)
-      @view__.bottom = bottom
+    def bottom=(n)
+      @view__.bottom = n
     end
 
     # Returns the center position of the sprite.
@@ -394,7 +394,7 @@ module RubySketch
     # Sets the rotation center of the sprite.
     # [0.0, 0.0] is the left-top, [1.0, 1.0] is the right-bottom, and [0.5, 0.5] is the center.
     #
-    # @param [Array<Numeric>] ary an array of pivotX and pivotY
+    # @param [Array<Numeric>] array an array of pivotX and pivotY
     #
     # @return [Array<Numeric>] [pivotX, pivotY]
     #
@@ -498,7 +498,7 @@ module RubySketch
     # @overload offset=(vec)
     #  @param [Vector] vec offset
     #
-    # @overload velocity=(ary)
+    # @overload offset=(ary)
     #  @param [Array<Numeric>] ary an array of offsetX and offsetY
     #
     # @return [Vector] offset of the sprite image
