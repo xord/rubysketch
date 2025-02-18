@@ -511,7 +511,7 @@ module RubySketch
         when nil    then nil
         else raise ArgumentError
         end
-      @offset__
+      offset
     end
 
     # Returns the x-axis offset of the sprite image.
@@ -524,13 +524,15 @@ module RubySketch
 
     # Sets the x-axis offset of the sprite image.
     #
-    # @param [Numeric] n x-axis offset
+    # @param [Numeric] x x-axis offset
     #
     # @return [Numeric] offset.x
     #
-    def ox=(n)
-      self.offset = [n, oy]
-      n
+    def ox=(x)
+      o           = offset.dup
+      o.x         = x
+      self.offset = o
+      x
     end
 
     # Returns the y-axis offset of the sprite image.
@@ -543,12 +545,15 @@ module RubySketch
 
     # Sets the y-axis offset of the sprite image.
     #
-    # @param [Numeric] n y-axis offset
+    # @param [Numeric] y y-axis offset
     #
     # @return [Numeric] offset.y
     #
-    def oy=(n)
-      self.offset = [ox, n]
+    def oy=(y)
+      o           = offset.dup
+      o.y         = y
+      self.offset = o
+      y
     end
 
     # Returns whether the sprite is movable by the physics engine.
