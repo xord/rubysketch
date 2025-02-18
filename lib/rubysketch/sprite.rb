@@ -942,7 +942,7 @@ module RubySketch
   #
   class SpriteWorld
 
-    # Create a new physics world
+    # Create a new physics world.
     #
     def initialize(pixels_per_meter: 0)
       @view, @debug = View.new(pixels_per_meter: pixels_per_meter), false
