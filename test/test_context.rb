@@ -16,16 +16,20 @@ class TestContext < Test::Unit::TestCase
 
   def test_addSprite()
     sp = sprite
-    assert_nil       context.addSprite()
     assert_equal sp, context.addSprite(sp)
-    assert_equal sp, context.addSprite(sp, sprite)
+
+    ary = []
+    assert_equal sp, context.addSprite(ary, sp)
+    assert_equal [sp], ary
   end
 
   def test_removeSprite()
     sp = sprite
-    assert_nil       context.removeSprite()
     assert_equal sp, context.removeSprite(sp)
-    assert_equal sp, context.removeSprite(sp, sprite)
+
+    ary = [sp]
+    assert_equal sp, context.removeSprite(ary, sp)
+    assert_equal [], ary
   end
 
 end# TestContext

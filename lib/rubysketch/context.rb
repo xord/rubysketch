@@ -198,24 +198,26 @@ module RubySketch
       @world__.createSprite(*args, context: self, **kwargs)
     end
 
-    # Adds sprites to the physics engine.
+    # Adds sprite to the physics engine.
     #
-    # @param [Sprite] sprites sprite objects
+    # @param [Array]  array user array to store the sprite
+    # @param [Sprite] sprite sprite object
     #
-    # @return [Sprite] first added sprite
+    # @return [Sprite] the added sprite
     #
-    def addSprite(*sprites)
-      @world__.addSprite(*sprites)
+    def addSprite(array = nil, sprite)
+      @world__.addSprite array, sprite
     end
 
-    # Removes sprites from the physics engine.
+    # Removes sprite from the physics engine.
     #
-    # @param [Sprite] sprites sprite objects
+    # @param [Array]  array user array to remove the sprite
+    # @param [Sprite] sprite sprite object
     #
-    # @return [Sprite] first removed sprite
+    # @return [Sprite] the removed sprite
     #
-    def removeSprite(*sprites)
-      @world__.removeSprite(*sprites)
+    def removeSprite(array = nil, sprite)
+      @world__.removeSprite array, sprite
     end
 
     alias drawSprite sprite

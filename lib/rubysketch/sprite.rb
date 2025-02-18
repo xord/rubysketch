@@ -1087,26 +1087,30 @@ module RubySketch
       addSprite Sprite.new(*args, context: context, **kwargs)
     end
 
-    # Adds sprites to the physics engine.
+    # Adds sprite to the physics engine.
     #
-    # @param [Sprite] sprites sprite objects
+    # @param [Array]  array user array to store the sprite
+    # @param [Sprite] sprite sprite object
     #
-    # @return [Sprite] first added sprite
+    # @return [Sprite] the added sprite
     #
-    def addSprite(*sprites)
-      sprites.each {@view.add _1.getInternal__}
-      sprites.first
+    def addSprite(array = nil, sprite)
+      @view.add sprite.getInternal__
+      array&.push sprite
+      sprite
     end
 
-    # Removes sprites from the physics engine.
+    # Removes sprite from the physics engine.
     #
-    # @param [Sprite] sprites sprite objects
+    # @param [Array]  array user array to remove the sprite
+    # @param [Sprite] sprite sprite object
     #
-    # @return [Sprite] first removed sprite
+    # @return [Sprite] the removed sprite
     #
-    def removeSprite(*sprites)
-      sprites.each {@view.remove _1.getInternal__}
-      sprites.first
+    def removeSprite(array = nil, sprite)
+      @view.remove sprite.getInternal__
+      array&.delete sprite
+      sprite
     end
 
     # Sets gravity for the physics engine.
