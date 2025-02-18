@@ -529,9 +529,7 @@ module RubySketch
     # @return [Numeric] offset.x
     #
     def ox=(x)
-      o           = offset.dup
-      o.x         = x
-      self.offset = o
+      self.offset = [x, oy]
       x
     end
 
@@ -550,9 +548,7 @@ module RubySketch
     # @return [Numeric] offset.y
     #
     def oy=(y)
-      o           = offset.dup
-      o.y         = y
-      self.offset = o
+      self.offset = [ox, y]
       y
     end
 
