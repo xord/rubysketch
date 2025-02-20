@@ -33,6 +33,15 @@ module RubySketch
       nil
     end
 
+    # Returns whether or not playback is in progress.
+    #
+    # @return [Boolean] playing or not
+    #
+    def playing?()
+      clean_stopped_players
+      not @players.empty?
+    end
+
     # Load a sound file.
     #
     # @param [String] path file path
