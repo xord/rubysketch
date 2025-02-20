@@ -811,6 +811,33 @@ module RubySketch
       nil
     end
 
+    # Defines keyPressed block.
+    #
+    # @return [Boolean] is any key pressed or not
+    #
+    def keyPressed(&block)
+      @view__.keyPressed = block if block
+      keyIsPressed
+    end
+
+    # Defines keyReleased block.
+    #
+    # @return [nil] nil
+    #
+    def keyReleased(&block)
+      @view__.keyReleased = block if block
+      nil
+    end
+
+    # Defines keyTyped block.
+    #
+    # @return [nil] nil
+    #
+    def keyTyped(&block)
+      @view__.keyTyped = block if block
+      nil
+    end
+
     # Defines mousePressed block.
     #
     # @example Print mouse states on mouse press
@@ -920,21 +947,6 @@ module RubySketch
     #
     def touchMoved(&block)
       @view__.touchMoved = block if block
-      nil
-    end
-
-    def keyPressed(&block)
-      @view__.keyPressed = block if block
-      nil
-    end
-
-    def keyReleased(&block)
-      @view__.keyReleased = block if block
-      nil
-    end
-
-    def keyTyped(&block)
-      @view__.keyTyped = block if block
       nil
     end
 
