@@ -104,6 +104,25 @@ module RubySketch
       @view__.hidden?
     end
 
+    # Captures key and mouse events
+    #
+    # @param [Boolean] bool whether to capture
+    #
+    # @return [Boolean] the current state
+    #
+    def capture=(bool)
+      @view__.capture = bool ? :all : []
+      bool
+    end
+
+    # Returns whether to capture or not
+    #
+    # @return [Boolean] whether to capture
+    #
+    def capturing?()
+      @view__.capturing?
+    end
+
     # Returns the position of the sprite.
     #
     # @return [Vector] position
