@@ -672,6 +672,40 @@ module RubySketch
       @view__.to_parent(vec.getInternal__).toVector
     end
 
+    # Returns the last key that was pressed or released.
+    #
+    # @return [String] last key
+    #
+    def key()
+      @view__.key
+    end
+
+    # Returns the last key code that was pressed or released.
+    #
+    # @return [Symbol] last key code
+    #
+    def keyCode()
+      @view__.keyCode
+    end
+
+    # Returns whether or not any key is pressed.
+    #
+    # @return [Boolean] is any key pressed or not
+    #
+    def keyIsPressed()
+      not @view__.keysPressed.empty?
+    end
+
+    # Returns weather or not the key is currently pressed.
+    #
+    # @param keyCode [Numeric] code for the key
+    #
+    # @return [Boolean] is the key pressed or not
+    #
+    def keyIsDown(keyCode)
+      @view__.keysPressed.include? keyCode
+    end
+
     # Returns the x-position of the mouse in the sprite coordinates.
     #
     # @return [Numeric] x position
@@ -867,6 +901,21 @@ module RubySketch
     #
     def touchMoved(&block)
       @view__.touchMoved = block if block
+      nil
+    end
+
+    def keyPressed(&block)
+      @view__.keyPressed = block if block
+      nil
+    end
+
+    def keyReleased(&block)
+      @view__.keyReleased = block if block
+      nil
+    end
+
+    def keyTyped(&block)
+      @view__.keyTyped = block if block
       nil
     end
 
@@ -1158,15 +1207,19 @@ module RubySketch
     attr_accessor :update,
       :mousePressed, :mouseReleased, :mouseMoved, :mouseDragged, :mouseClicked,
       :touchStarted, :touchEnded, :touchMoved,
+      :keyPressed, :keyReleased, :keyTyped,
       :contact, :contact_end, :will_contact
 
-    attr_reader :sprite, :touches
+    attr_reader :sprite, :key, :keyCode, :keysPressed, :touches
 
     def initialize(sprite, *args, shape:, physics:, **kwargs, &block)
       @sprite = sprite
       super(*args, **kwargs, &block)
 
       @error            = nil
+      @key              = nil
+      @keyCode          = nil
+      @keysPressed      = nil
       @pointer          = nil
       @pointerPrev      = nil
       @pointersPressed  = []
@@ -1246,6 +1299,19 @@ module RubySketch
       on_pointer_up e
     end
 
+    def on_key_down(e)
+      updateKeyStates e, true
+      call_block @keyPressed
+      call_block @keyTyped if e.chars&.empty? == false
+      e.block
+    end
+
+    def on_key_up(e)
+      updateKeyStates e, false
+      call_block @keyReleased
+      e.block
+    end
+
     def on_contact_begin(e)
       return unless @contact
       v = e.view
@@ -1272,6 +1338,13 @@ module RubySketch
     }
 
     MOUSE_BUTTONS = MOUSE_BUTTON_MAP.values
+
+    def updateKeyStates(event, pressed)
+      @key     = event.chars
+      @keyCode = event.key
+      set      = (@keysPressed ||= Set.new)
+      pressed ? set.add(@keyCode) : set.delete(@keyCode)
+    end
 
     def updatePointerStates(event)
       pointer = event.find {|p| p.id == @pointer&.id} || event.first
