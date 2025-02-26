@@ -1241,7 +1241,7 @@ module RubySketch
       :keyPressed, :keyReleased, :keyTyped,
       :contact, :contactEnd, :willContact
 
-    attr_reader :sprite, :key, :keyCode, :keysPressed, :touches
+    attr_reader :sprite, :key, :keyCode, :touches
 
     def initialize(sprite, *args, shape:, physics:, **kwargs, &block)
       @sprite = sprite
@@ -1259,6 +1259,10 @@ module RubySketch
 
       self.shape  = shape.getInternal__ if shape
       self.static = true if physics
+    end
+
+    def keysPressed()
+      @keysPressed || []
     end
 
     def mouseX()
