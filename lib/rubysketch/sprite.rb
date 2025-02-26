@@ -964,17 +964,17 @@ module RubySketch
       nil
     end
 
-    # Defines contact_end block.
+    # Defines contactEnd block.
     #
     # @example Call jumping() when the player sprite leaves the ground sprite
-    #  playerSprite.contact_end do |o|
+    #  playerSprite.contactEnd do |o|
     #    jumping if o == groundSprite
     #  end
     #
     # @return [nil] nil
     #
-    def contact_end(&block)
-      @view__.contact_end = block if block
+    def contactEnd(&block)
+      @view__.contactEnd = block if block
       nil
     end
 
@@ -988,7 +988,7 @@ module RubySketch
     # @return [nil] nil
     #
     def contact?(&block)
-      @view__.will_contact = block if block
+      @view__.willContact = block if block
       nil
     end
 
@@ -1020,8 +1020,8 @@ module RubySketch
 
     # Create a new physics world.
     #
-    def initialize(pixels_per_meter: 0)
-      @view, @debug = View.new(pixels_per_meter: pixels_per_meter), false
+    def initialize(pixelsPerMeter: 0)
+      @view, @debug = View.new(pixelsPerMeter: pixelsPerMeter), false
     end
 
     # Returns the offset of the sprite world.
@@ -1239,7 +1239,7 @@ module RubySketch
       :mousePressed, :mouseReleased, :mouseMoved, :mouseDragged, :mouseClicked,
       :touchStarted, :touchEnded, :touchMoved,
       :keyPressed, :keyReleased, :keyTyped,
-      :contact, :contact_end, :will_contact
+      :contact, :contactEnd, :willContact
 
     attr_reader :sprite, :key, :keyCode, :keysPressed, :touches
 
@@ -1290,7 +1290,7 @@ module RubySketch
     end
 
     def on_update(e)
-      call_block @update
+      callBlock @update
     end
 
     def on_pointer_down(e)
@@ -1298,8 +1298,8 @@ module RubySketch
       updatePointersPressedAndReleased e, true
       @pointerDownStartPos = to_screen @pointer.pos
 
-      call_block @mousePressed if e.any? {|p| p.id == @pointer.id}
-      call_block @touchStarted
+      callBlock @mousePressed if e.any? {|p| p.id == @pointer.id}
+      callBlock @touchStarted
 
       e.block
     end
@@ -1309,10 +1309,10 @@ module RubySketch
       updatePointersPressedAndReleased e, false
 
       if e.any? {|p| p.id == @pointer.id}
-        call_block @mouseReleased
-        call_block @mouseClicked if mouseClicked?
+        callBlock @mouseReleased
+        callBlock @mouseClicked if mouseClicked?
       end
-      call_block @touchEnded
+      callBlock @touchEnded
 
       @pointerDownStartPos = nil
       @pointersReleased.clear
@@ -1322,8 +1322,8 @@ module RubySketch
       updatePointerStates e
 
       mouseMoved = e.drag? ? @mouseDragged : @mouseMoved
-      call_block mouseMoved if e.any? {|p| p.id == @pointer.id}
-      call_block @touchMoved
+      callBlock mouseMoved if e.any? {|p| p.id == @pointer.id}
+      callBlock @touchMoved
     end
 
     def on_pointer_cancel(e)
@@ -1332,32 +1332,32 @@ module RubySketch
 
     def on_key_down(e)
       updateKeyStates e, true
-      call_block @keyPressed
-      call_block @keyTyped if e.chars&.empty? == false
+      callBlock @keyPressed
+      callBlock @keyTyped if e.chars&.empty? == false
       e.block
     end
 
     def on_key_up(e)
       updateKeyStates e, false
-      call_block @keyReleased
+      callBlock @keyReleased
       e.block
     end
 
     def on_contact_begin(e)
       return unless @contact
       v = e.view
-      call_block @contact, v.sprite if v.respond_to?(:sprite)
+      callBlock @contact, v.sprite if v.respond_to?(:sprite)
     end
 
     def on_contact_end(e)
       return unless @contact_end
       v = e.view
-      call_block @contact_end, v.sprite if v.respond_to?(:sprite)
+      callBlock @contactEnd, v.sprite if v.respond_to?(:sprite)
     end
 
     def will_contact?(v)
-      return true unless @will_contact && v.respond_to?(:sprite)
-      call_block @will_contact, v.sprite
+      return true unless @willContact && v.respond_to?(:sprite)
+      callBlock @willContact, v.sprite
     end
 
     private
@@ -1404,7 +1404,7 @@ module RubySketch
         .then {|pos, startPos| (pos - startPos).length < 3}
     end
 
-    def call_block(block, *args)
+    def callBlock(block, *args)
       block.call(*args) if block && !@error
     rescue Exception => e
       @error = e
@@ -1417,8 +1417,8 @@ module RubySketch
   # @private
   class SpriteWorld::View < Reflex::View
 
-    def initialize(*a, pixels_per_meter: 0, **k, &b)
-      create_world pixels_per_meter if pixels_per_meter > 0
+    def initialize(*a, pixelsPerMeter: 0, **k, &b)
+      create_world pixelsPerMeter if pixelsPerMeter > 0
       super(*a, **k, &b)
       @debug = false
       remove wall
