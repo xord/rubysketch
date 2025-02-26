@@ -1024,96 +1024,6 @@ module RubySketch
       @view, @debug = View.new(pixelsPerMeter: pixelsPerMeter), false
     end
 
-    # Returns the offset of the sprite world.
-    #
-    # @return [Vector] offset of the sprite world
-    #
-    def offset()
-      s, z = @view.scroll, zoom
-      Vector.new s.x / z, s.y / z, s.z / z
-    end
-
-    # Sets the offset of the sprite world.
-    #
-    # @overload offset=(vec)
-    #  @param [Vector] vec offset
-    #
-    # @overload offset=(ary)
-    #  @param [Array<Numeric>] ary an array of offsetX and offsetY
-    #
-    # @return [Vector] offset of the sprite world
-    #
-    def offset=(arg)
-      zoom_   = zoom
-      x, y, z =
-        case arg
-        when Vector then [arg.x,       arg.y,       arg.z]
-        when Array  then [arg[0] || 0, arg[1] || 0, arg[2] || 0]
-        when nil    then [0,           0,           0]
-        else raise ArgumentError
-        end
-      @view.scroll_to x * zoom_, y * zoom_, z * zoom_
-      offset
-    end
-
-    # Returns the x-axis offset of the sprite world.
-    #
-    # @return [Numeric] offset.x
-    #
-    def ox()
-      offset.x
-    end
-
-    # Sets the x-axis offset of the sprite world.
-    #
-    # @param [Numeric] x x-axis offset
-    #
-    # @return [Numeric] offset.x
-    #
-    def ox=(x)
-      o           = offset
-      o.x         = x
-      self.offset = o
-      x
-    end
-
-    # Returns the y-axis offset of the sprite world.
-    #
-    # @return [Numeric] offset.y
-    #
-    def oy()
-      offset.y
-    end
-
-    # Sets the y-axis offset of the sprite world.
-    #
-    # @param [Numeric] x y-axis offset
-    #
-    # @return [Numeric] offset.y
-    #
-    def oy=(x)
-      o           = offset
-      o.y         = y
-      self.offset = o
-      y
-    end
-
-    # Returns the zoom value of the sprite world.
-    #
-    # @return [Numeric] zoom
-    #
-    def zoom()
-      @view.zoom
-    end
-
-    # Sets the zoom value of the sprite world.
-    #
-    # @return [Numeric] zoom
-    #
-    def zoom=(zoom)
-      @view.zoom = zoom
-    end
-
     # Creates a new sprite and add it to physics engine.
     #
     # @overload createSprite(x, y, w, h)
@@ -1218,6 +1128,96 @@ module RubySketch
       nil
     end
 
+    # Returns the offset of the sprite world.
+    #
+    # @return [Vector] offset of the sprite world
+    #
+    def offset()
+      s, z = @view.scroll, zoom
+      Vector.new s.x / z, s.y / z, s.z / z
+    end
+
+    # Sets the offset of the sprite world.
+    #
+    # @overload offset=(vec)
+    #  @param [Vector] vec offset
+    #
+    # @overload offset=(ary)
+    #  @param [Array<Numeric>] ary an array of offsetX and offsetY
+    #
+    # @return [Vector] offset of the sprite world
+    #
+    def offset=(arg)
+      zoom_   = zoom
+      x, y, z =
+        case arg
+        when Vector then [arg.x,       arg.y,       arg.z]
+        when Array  then [arg[0] || 0, arg[1] || 0, arg[2] || 0]
+        when nil    then [0,           0,           0]
+        else raise ArgumentError
+        end
+      @view.scroll_to x * zoom_, y * zoom_, z * zoom_
+      offset
+    end
+
+    # Returns the x-axis offset of the sprite world.
+    #
+    # @return [Numeric] offset.x
+    #
+    def ox()
+      offset.x
+    end
+
+    # Sets the x-axis offset of the sprite world.
+    #
+    # @param [Numeric] x x-axis offset
+    #
+    # @return [Numeric] offset.x
+    #
+    def ox=(x)
+      o           = offset
+      o.x         = x
+      self.offset = o
+      x
+    end
+
+    # Returns the y-axis offset of the sprite world.
+    #
+    # @return [Numeric] offset.y
+    #
+    def oy()
+      offset.y
+    end
+
+    # Sets the y-axis offset of the sprite world.
+    #
+    # @param [Numeric] x y-axis offset
+    #
+    # @return [Numeric] offset.y
+    #
+    def oy=(x)
+      o           = offset
+      o.y         = y
+      self.offset = o
+      y
+    end
+
+    # Returns the zoom value of the sprite world.
+    #
+    # @return [Numeric] zoom
+    #
+    def zoom()
+      @view.zoom
+    end
+
+    # Sets the zoom value of the sprite world.
+    #
+    # @return [Numeric] zoom
+    #
+    def zoom=(zoom)
+      @view.zoom = zoom
+    end
+
     def debug=(state)
       @view.debug = state
     end
@@ -1234,14 +1234,6 @@ module RubySketch
 
   # @private
   class Sprite::View < Reflex::View
-
-    attr_accessor :update,
-      :mousePressed, :mouseReleased, :mouseMoved, :mouseDragged, :mouseClicked,
-      :touchStarted, :touchEnded, :touchMoved,
-      :keyPressed, :keyReleased, :keyTyped,
-      :contact, :contactEnd, :willContact
-
-    attr_reader :sprite, :key, :keyCode, :touches
 
     def initialize(sprite, *args, shape:, physics:, **kwargs, &block)
       @sprite = sprite
@@ -1260,6 +1252,14 @@ module RubySketch
       self.shape  = shape.getInternal__ if shape
       self.static = true if physics
     end
+
+    attr_accessor :update,
+      :mousePressed, :mouseReleased, :mouseMoved, :mouseDragged, :mouseClicked,
+      :touchStarted, :touchEnded, :touchMoved,
+      :keyPressed, :keyReleased, :keyTyped,
+      :contact, :contactEnd, :willContact
+
+    attr_reader :sprite, :key, :keyCode, :touches
 
     def keysPressed()
       @keysPressed || []
