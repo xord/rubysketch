@@ -725,6 +725,14 @@ module RubySketch
       @view__.keysPressed.include? keyCode
     end
 
+    # Returns whether the current key is repeated or not.
+    #
+    # @return [Boolean] is the key repeated or not
+    #
+    def keyIsRepeated()
+      @view__.keyRepeat
+    end
+
     # Returns the x-position of the mouse in the sprite coordinates.
     #
     # @return [Numeric] x position
@@ -1242,6 +1250,7 @@ module RubySketch
       @error            = nil
       @key              = nil
       @keyCode          = nil
+      @keyRepeat        = false
       @keysPressed      = nil
       @pointer          = nil
       @pointerPrev      = nil
@@ -1259,7 +1268,7 @@ module RubySketch
       :keyPressed, :keyReleased, :keyTyped,
       :contact, :contactEnd, :willContact
 
-    attr_reader :sprite, :key, :keyCode, :touches
+    attr_reader :sprite, :key, :keyCode, :keyRepeat, :touches
 
     def keysPressed()
       @keysPressed || []
@@ -1375,9 +1384,10 @@ module RubySketch
     MOUSE_BUTTONS = MOUSE_BUTTON_MAP.values
 
     def updateKeyStates(event, pressed)
-      @key     = event.chars
-      @keyCode = event.key
-      set      = (@keysPressed ||= Set.new)
+      set        = (@keysPressed ||= Set.new)
+      @key       = event.chars
+      @keyCode   = event.key
+      @keyRepeat = pressed && set.include?(@keyCode)
       pressed ? set.add(@keyCode) : set.delete(@keyCode)
     end
 
