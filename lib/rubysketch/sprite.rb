@@ -663,7 +663,7 @@ module RubySketch
       @view__.sensor = state
     end
 
-    # Returns weather the shape is a sensor or not.
+    # Returns whether the shape is a sensor or not.
     #
     # @return [Boolean] sensor or not
     #
@@ -715,7 +715,7 @@ module RubySketch
       not @view__.keysPressed.empty?
     end
 
-    # Returns weather or not the key is currently pressed.
+    # Returns whether or not the key is currently pressed.
     #
     # @param keyCode [Numeric] code for the key
     #

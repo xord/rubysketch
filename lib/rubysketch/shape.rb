@@ -41,7 +41,7 @@ module RubySketch
       @shape.sensor = state
     end
 
-    # Returns weather the shape is a sensor or not.
+    # Returns whether the shape is a sensor or not.
     #
     # @return [Boolean] sensor or not
     #
