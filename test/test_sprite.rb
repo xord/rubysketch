@@ -272,32 +272,32 @@ class TestSprite < Test::Unit::TestCase
     v = s.instance_variable_get :@view__
     assert_nil v.update
     assert_nil v.contact
-    assert_nil v.contact_end
-    assert_nil v.will_contact
+    assert_nil v.contactEnd
+    assert_nil v.willContact
 
     s.update {}
     assert_not_nil v.update
     assert_nil     v.contact
-    assert_nil     v.contact_end
-    assert_nil     v.will_contact
+    assert_nil     v.contactEnd
+    assert_nil     v.willContact
 
     s.contact {}
     assert_not_nil v.update
     assert_not_nil v.contact
-    assert_nil     v.contact_end
-    assert_nil     v.will_contact
+    assert_nil     v.contactEnd
+    assert_nil     v.willContact
 
-    s.contact_end {}
+    s.contactEnd {}
     assert_not_nil v.update
     assert_not_nil v.contact
-    assert_not_nil v.contact_end
-    assert_nil     v.will_contact
+    assert_not_nil v.contactEnd
+    assert_nil     v.willContact
 
     s.contact? {}
     assert_not_nil v.update
     assert_not_nil v.contact
-    assert_not_nil v.contact_end
-    assert_not_nil v.will_contact
+    assert_not_nil v.contactEnd
+    assert_not_nil v.willContact
   end
 
   def test_inspect()
