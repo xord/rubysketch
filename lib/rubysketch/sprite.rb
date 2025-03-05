@@ -1080,9 +1080,9 @@ module RubySketch
     #
     # @return [Sprite] the new sprite object
     #
-    def createSprite(*args, context: nil, **kwargs)
+    def createSprite(*args, klass: RubySketch::Sprite, context: nil, **kwargs)
       context ||= Context.context__
-      addSprite Sprite.new(*args, context: context, **kwargs)
+      addSprite klass.new(*args, context: context, **kwargs)
     end
 
     # Adds sprite to the physics engine.
