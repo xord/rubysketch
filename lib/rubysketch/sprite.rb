@@ -366,8 +366,7 @@ module RubySketch
     # @return [Numeric] radians or degrees depending on angleMode()
     #
     def angle()
-      a, c = @view__.angle, @context__
-      c ? c.fromDegrees__(a) : a * Processing::GraphicsContext::DEG2RAD__
+      @context__.fromDegrees__ @view__.angle
     end
 
     # Sets the rotation angle of the sprite.
@@ -377,9 +376,7 @@ module RubySketch
     # @return [Numeric] angle
     #
     def angle=(angle)
-      c = @context__
-      @view__.angle =
-        c ? c.toDegrees__(angle) : angle * Processing::GraphicsContext::RAD2DEG__
+      @view__.angle = @context__.toDegrees__ angle
       angle
     end
 
