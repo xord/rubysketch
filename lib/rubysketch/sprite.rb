@@ -1363,7 +1363,7 @@ module RubySketch
     end
 
     def on_contact_end(e)
-      return unless @contact_end
+      return unless @contactEnd
       v = e.view
       callBlock @contactEnd, v.sprite if v.respond_to?(:sprite)
     end
