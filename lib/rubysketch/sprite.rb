@@ -1003,6 +1003,30 @@ module RubySketch
     end
 
     # @private
+    def drawSprite__(c)
+      return if hidden?
+      view              = getInternal__
+      f, degrees, pivot = view.frame, view.angle, view.pivot
+      if @drawBlock__
+        c.push do
+          c.translate f.x + pivot.x  * f.w, f.y + pivot.y  * f.h
+          c.rotate c.fromDegrees__ degrees
+          c.translate     (-pivot.x) * f.w,     (-pivot.y) * f.h
+          @drawBlock__.call {draw__ c, 0, 0, f.w, f.h}
+        end
+      elsif degrees != 0
+        c.pushMatrix do
+          c.translate f.x + pivot.x  * f.w, f.y + pivot.y  * f.h
+          c.rotate c.fromDegrees__ degrees
+          c.translate     (-pivot.x) * f.w,     (-pivot.y) * f.h
+          draw__ c, 0, 0, f.w, f.h
+        end
+      else
+        draw__ c, f.x, f.y, f.w, f.h
+      end
+    end
+
+    # @private
     def draw__(c, x, y, w, h)
       img, off = @image__, @offset__
       if img && off
