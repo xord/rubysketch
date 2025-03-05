@@ -1080,7 +1080,8 @@ module RubySketch
     #
     # @return [Sprite] the new sprite object
     #
-    def createSprite(*args, klass: RubySketch::Sprite, context: nil, **kwargs)
+    def createSprite(*args, klass: nil, context: nil, **kwargs)
+      klass   ||= RubySketch::Sprite
       context ||= Context.context__
       addSprite klass.new(*args, context: context, **kwargs)
     end
