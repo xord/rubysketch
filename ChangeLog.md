@@ -1,6 +1,21 @@
 # rubysketch ChangeLog
 
 
+## [v0.7.7] - 2025-03-07
+
+- [BREAKING] Change addSprite() and removeSprite() to take only 1 sprite, and can take 'array' parameter for managing user array for sprites
+
+- Add keyPressed, keyReleased, keyTyped, key, keyCode, keyIsPressed, keyIsDown, and keyIsRepeated to Sprite class.
+- Add docs for keyPressed, keyReleased, and keyTyped of Sprite class
+- Add capture=() and capturing?() methods to Sprite class
+- Add SpriteWorld#offset and SpriteWorld#zoom
+
+- Move 'sprite' method from RubySketch::Context to RubySketch::GraphicsContext
+- createSprite can take 'klass' parameter
+
+- Fix the issue where Sprite#contactEnd is not working
+
+
 ## [v0.7.6] - 2025-01-30
 
 - Update dependencies: processing
