@@ -30,17 +30,17 @@ It provides a familiar environment for developers who are accustomed to Processi
 
 Add this line to your Gemfile:
 ```ruby
-gem 'rubysketch'
+$ gem 'rubysketch'
 ```
 
 Then, install gem:
 ```bash
- $ bundle install
+$ bundle install
 ```
 
 Or install it directly:
 ```bash
- $ gem install rubysketch
+$ gem install rubysketch
 ```
 
 ## 📜 License
