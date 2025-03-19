@@ -114,7 +114,7 @@ Pod::Spec.new do |s|
     spec    .source_files = "reflex/src/*.cpp"
     spec.osx.source_files = "reflex/src/osx/*.{cpp,mm}"
     spec.ios.source_files = "reflex/src/ios/*.{cpp,mm}"
-    spec.ios.frameworks   = %w[CoreMotion]
+    spec.ios.frameworks   = %w[CoreMotion GameController]
 
     spec.subspec "Box2D" do |sub|
       sub.source_files = "reflex/vendor/box2d/src/**/*.cpp"
