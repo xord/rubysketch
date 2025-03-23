@@ -1,6 +1,13 @@
 # rubysketch ChangeLog
 
 
+## [v0.7.8] - 2025-03-24
+
+- Add PULL_REQUEST_TEMPLATE.md
+- Add CONTRIBUTING.md
+- Invert screenOffset value
+
+
 ## [v0.7.7] - 2025-03-07
 
 - [BREAKING] Change addSprite() and removeSprite() to take only 1 sprite, and can take 'array' parameter for managing user array for sprites
