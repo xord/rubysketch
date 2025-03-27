@@ -21,6 +21,7 @@ module RubySketch
       @window__.update_window = proc do
         fireTimers__
         Beeps.process_streams!
+        Reflex.process_events!
       end
 
       noSmooth
