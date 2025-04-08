@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.7.9] - 2025-04-08
+
+- Update dependencies: xot, rucy, beeps, rays, reflex, processing
+
+
 ## [v0.7.8] - 2025-03-24
 
 - Add PULL_REQUEST_TEMPLATE.md
