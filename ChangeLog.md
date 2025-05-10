@@ -1,6 +1,12 @@
 # rubysketch ChangeLog
 
 
+## [v0.7.10] - 2025-05-11
+
+- Add notePresse() and noteReleased()
+- Add noteNumber, noteFrequency, and noteVelocity
+
+
 ## [v0.7.9] - 2025-04-08
 
 - Update dependencies: xot, rucy, beeps, rays, reflex, processing
