@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.7.12] - 2025-05-13
+
+- Update dependencies
+
+
 ## [v0.7.11] - 2025-05-12
 
 - Update dependencies
