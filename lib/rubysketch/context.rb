@@ -13,13 +13,15 @@ module RubySketch
     # @private
     def initialize(window)
       super
-      @window__        = window
-      @timers__        = {}
-      @firingTimers__  = {}
-      @nextTimerID__   = 0
-      @noteNumber__    = 69
-      @noteFrequency__ = 440
-      @noteVelocity__  = 1
+      @window__          = window
+      @timers__          = {}
+      @firingTimers__    = {}
+      @nextTimerID__     = 0
+      @noteNumber__      = 69
+      @noteFrequency__   = 440
+      @noteVelocity__    = 1
+      @controllerIndex__ = 0
+      @controllerValue__ = 0
 
       @world__ = createWorld
 
@@ -27,6 +29,11 @@ module RubySketch
         @noteNumber__    = event.note
         @noteFrequency__ = event.frequency
         @noteVelocity__  = event.velocity
+      }
+
+      updateControllerStates = -> event {
+        @controllerIndex__ = event.controller
+        @controllerValue__ = event.value
       }
 
       @window__.update_window = proc do
@@ -45,14 +52,20 @@ module RubySketch
         @noteReleasedBlock__&.call
       end
 
+      @window__.control_change = proc do |e|
+        updateControllerStates.call e
+        @controlChangeBlock__&.call
+      end
+
       noSmooth
     end
 
     # @private
     def hasUserBlocks__()
       super ||
-      @notePressedBlock__ ||
-      @noteReleasedBlock__
+      @notePressedBlock__  ||
+      @noteReleasedBlock__ ||
+      @controlChangeBlock__
     end
 
     # Defines notePressed block.
@@ -70,6 +83,15 @@ module RubySketch
     #
     def noteReleased(&block)
       @noteReleasedBlock__ = block if block
+      nil
+    end
+
+    # Defines controlChange block.
+    #
+    # @return [nil] nil
+    #
+    def controlChange(&block)
+      @controlChangeBlock__ = block if block
       nil
     end
 
@@ -331,6 +353,22 @@ module RubySketch
     #
     def noteVelocity()
       @noteVelocity__
+    end
+
+    # Returns the last controller index that was changed.
+    #
+    # @return [Numeric] last controller index
+    #
+    def controllerIndex()
+      @controllerIndex__
+    end
+
+    # Returns the last controller value that was changed.
+    #
+    # @return [Numeric] last controller value
+    #
+    def controllerValue()
+      @controllerValue__
     end
 
     # Sets gravity for the physics engine.
