@@ -668,6 +668,24 @@ module RubySketch
       @view__.sensor?
     end
 
+    # Sets the gravity scale of the sprite.
+    #
+    # @param [Numeric] scale gravity scale
+    #
+    # @return [Numeric] gravity scale
+    #
+    def gravity_scale=(scale)
+      @view__.gravity_scale = scale
+    end
+
+    # Returns the gravity scale of the sprite.
+    #
+    # @return [Numeric] gravity scale
+    #
+    def gravity_scale()
+      @view__.gravity_scale
+    end
+
     # Converts a vector from the screen coordinate
     #
     # @param [Vector] vec screen coordinate vector
