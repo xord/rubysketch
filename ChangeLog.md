@@ -1,6 +1,12 @@
 # rubysketch ChangeLog
 
 
+## [v0.7.13] - 2025-05-22
+
+- Add Sprite#gravity_scale
+- Add 'controlChange do..end' event handler
+
+
 ## [v0.7.12] - 2025-05-13
 
 - Update dependencies
