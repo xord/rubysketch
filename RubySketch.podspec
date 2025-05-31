@@ -120,6 +120,10 @@ Pod::Spec.new do |s|
       sub.source_files = "reflex/vendor/box2d/src/**/*.cpp"
     end
 
+    spec.subspec "RtMidi" do |sub|
+      sub.source_files = "reflex/vendor/rtmidi/rtmidi/**/*.cpp"
+    end
+
     spec.subspec "Ext" do |ext|
       ext.source_files = "reflex/ext/reflex/*.cpp"
     end
