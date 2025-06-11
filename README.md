@@ -1,5 +1,6 @@
 # RubySketch - A game engine based on the Processing API
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/xord/rubysketch)
 ![License](https://img.shields.io/github/license/xord/rubysketch)
 ![Build Status](https://github.com/xord/rubysketch/actions/workflows/test.yml/badge.svg)
 ![Gem Version](https://badge.fury.io/rb/rubysketch.svg)
