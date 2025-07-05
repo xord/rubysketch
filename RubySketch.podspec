@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/xord/rubysketch"
 
   s.osx.deployment_target = "10.10"
-  s.ios.deployment_target = "10.0"
+  s.ios.deployment_target = "12.0"
 
   root = "${PODS_ROOT}/#{s.name}"
   exts = File.read(File.expand_path 'Rakefile', __dir__)
