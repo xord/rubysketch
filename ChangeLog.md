@@ -1,6 +1,12 @@
 # rubysketch ChangeLog
 
 
+## [v0.7.14] - 2025-07-06
+
+- Add RtMidi to podspec
+- Add deepwiki badge
+
+
 ## [v0.7.13] - 2025-05-22
 
 - Add Sprite#gravity_scale
