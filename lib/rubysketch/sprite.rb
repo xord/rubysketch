@@ -1182,7 +1182,7 @@ module RubySketch
     #
     def offset()
       s, z = @view.scroll, zoom
-      Vector.new -s.x / z, -s.y / z, -s.z / z
+      Vector.new(-s.x / z, -s.y / z, -s.z / z)
     end
 
     # Sets the offset of the sprite world.
@@ -1204,7 +1204,7 @@ module RubySketch
         when nil    then [0,           0,           0]
         else raise ArgumentError
         end
-      @view.scroll_to -x * zoom_, -y * zoom_, -z * zoom_
+      @view.scroll_to(-x * zoom_, -y * zoom_, -z * zoom_)
       offset
     end
 
