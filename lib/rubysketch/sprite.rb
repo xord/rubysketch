@@ -1452,7 +1452,7 @@ module RubySketch
     end
 
     def mouseClicked?()
-      return false unless parent && @pointer && @pointerDownStartPos
+      return false unless @pointer && @pointerDownStartPos && window
       [to_screen(@pointer.pos), @pointerDownStartPos]
         .map {|pos| Rays::Point.new pos.x, pos.y, 0}
         .then {|pos, startPos| (pos - startPos).length < 3}
