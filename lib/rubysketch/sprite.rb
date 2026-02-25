@@ -931,6 +931,20 @@ module RubySketch
       nil
     end
 
+    # Defines mouseWheel block.
+    #
+    # @example Print wheel states on mouse wheel
+    #  sprite.mouseWheel do |event|
+    #    p event.getCount
+    #  end
+    #
+    # @return [nil] nil
+    #
+    def mouseWheel(&block)
+      @view__.mouseWheel = block if block
+      nil
+    end
+
     # Defines touchStarted block.
     #
     # @example Print touches on touch start
@@ -1303,8 +1317,8 @@ module RubySketch
     end
 
     attr_accessor :update,
-      :mousePressed, :mouseReleased, :mouseMoved, :mouseDragged, :mouseClicked,
-      :touchStarted, :touchEnded, :touchMoved,
+      :mousePressed, :mouseReleased, :mouseMoved, :mouseDragged,
+      :mouseClicked, :mouseWheel, :touchStarted, :touchEnded, :touchMoved,
       :keyPressed, :keyReleased, :keyTyped,
       :contact, :contactEnd, :willContact
 
@@ -1381,6 +1395,10 @@ module RubySketch
 
     def on_pointer_cancel(e)
       on_pointer_up e
+    end
+
+    def on_wheel(e)
+      callBlock @mouseWheel, WheelEvent.new(e)
     end
 
     def on_key_down(e)

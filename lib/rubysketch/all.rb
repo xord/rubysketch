@@ -4,8 +4,9 @@ require 'beeps'
 
 module RubySketch
 
-  Vector = Processing::Vector
-  Image  = Processing::Image
+  Vector     = Processing::Vector
+  Image      = Processing::Image
+  WheelEvent = Processing::WheelEvent
 
 end# RubySketch
 
