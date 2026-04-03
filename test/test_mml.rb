@@ -126,6 +126,16 @@ class TestMML < Test::Unit::TestCase
     assert_equal [[0, 2], [2, 1]], times('T60 L4 C  & C E')
   end
 
+  def test_quantize()
+    assert_equal [[0, 1],   [1, 1]],   times('T60 L4      C C')
+    assert_equal [[0, 1],   [1, 1]],   times('T60 L4 Q100 C C')
+    assert_equal [[0, 0.5], [1, 0.5]], times('T60 L4 Q50  C C')
+    assert_equal [[0, 0],   [1, 0]],   times('T60 L4 Q0   C C')
+
+    assert_in_delta 2,              duration('T60 L4      C C')
+    assert_in_delta 2,              duration('T60 L4 Q50  C C')
+  end
+
   def test_rest()
     assert_equal [[0, 1], [2, 1]], times('T60 L4 C    R    C')
     assert_equal [[0, 1], [3, 1]], times('T60 L4 C    R2   C')

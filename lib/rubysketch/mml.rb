@@ -17,7 +17,7 @@ module RubySketch
       def compile!(str)
         scanner = StringScanner.new str.gsub(/;.*\n/, '')
         seq     = Beeps::Sequencer.new
-        note    = Note.new 0, 120, 4, 0, 4, 127, 1, 0
+        note    = Note__.new
         pending = nil
         prevOsc = nil
         tie     = false
@@ -42,6 +42,8 @@ module RubySketch
             note.length   = scanner[1].to_i
           when scanner.scan(/V\s*(\d+)/i)
             note.velocity = scanner[1].to_i
+          when scanner.scan(/Q\s*(\d+)/i)
+            note.quantize = scanner[1].to_i
           when scanner.scan(/R\s*(\d+)?/i)
             note.time += seconds__ scanner[1]&.to_i || note.length, note.bpm
             prevOsc    = nil
@@ -79,8 +81,19 @@ module RubySketch
 
       private
 
+      V_MAX__ = 127.0
+
+      Q_MAX__ = 100.0
+
       # @private
-      Note = Struct.new :time, :bpm, :octave, :tone, :length, :velocity, :frequency, :seconds
+      Note__ = Struct.new(
+        :time, :bpm, :octave, :tone, :length, :velocity, :quantize,
+        :frequency, :seconds) do
+
+        def initialize()
+          super 0, 120, 4, 0, 4, V_MAX__, Q_MAX__, 1, 0
+        end
+      end
 
       # @private
       def seconds__(length, bpm)
@@ -113,21 +126,24 @@ module RubySketch
 
       # @private
       def addNote__(seq, note, prevOsc, state)
-        processor   = toProcessor__ note
-        osc         = findInput__(processor) {_1.class == Beeps::Oscillator}
+        processor, gate = createProcessor__ note
+        osc             = findInput__(processor) {_1.class == Beeps::Oscillator}
         syncPhase__ osc, prevOsc if prevOsc
-        seq.add processor, note.time, note.seconds
-        state.time += note.seconds
+        seq.add processor, note.time, gate
+        state.time     += note.seconds
         return osc
       end
 
       # @private
-      def toProcessor__(note)
+      def createProcessor__(note)
         tone = TONES[note.tone] || (raise ArgumentError, "tone:'#{note.tone}'")
+        gate = note.quantize.clamp(0, Q_MAX__) / Q_MAX__ * note.seconds
+        vel  = note.velocity.clamp(0, V_MAX__) / V_MAX__
+
         osc  = oscillator__ tone, 32, freq: note.frequency
-        env  = Beeps::Envelope.new {note_on; note_off note.seconds}
-        gain = Beeps::Gain.new gain: note.velocity.clamp(0, 127) / 127.0
-        osc >> env >> gain
+        env  = Beeps::Envelope.new {note_on; note_off (gate - 0.01).clamp(0..)}
+        gain = Beeps::Gain.new gain: vel
+        return (osc >> env >> gain), gate
       end
 
       # @private
