@@ -20,3 +20,5 @@ require 'rubysketch/sound'
 require 'rubysketch/easings'
 require 'rubysketch/graphics_context'
 require 'rubysketch/context'
+
+require 'rubysketch/mml'
