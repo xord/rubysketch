@@ -1,5 +1,6 @@
-require 'processing/all'
+require 'strscan'
 require 'beeps'
+require 'processing/all'
 
 
 module RubySketch

@@ -42,6 +42,14 @@ module RubySketch
       not @players.empty?
     end
 
+    # Returns the duration in seconds
+    #
+    # @return [Numeric] duration in seconds
+    #
+    def seconds()
+      @sound.seconds
+    end
+
     # Load a sound file.
     #
     # @param [String] path file path

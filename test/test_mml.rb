@@ -1,10 +1,10 @@
 require_relative 'helper'
 
 
-class TestMMLCompiler < Test::Unit::TestCase
+class TestMML < Test::Unit::TestCase
 
   def compile(str)
-    Reight::MMLCompiler.new.compile(str)
+    RubySketch::MML.compile! str
   end
 
   def procs(str, klass = nil)
