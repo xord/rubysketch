@@ -25,48 +25,50 @@ module RubySketch
         until scanner.eos?
           case
           when scanner.scan(/T\s*(\d+)/i)
-            note.bpm       = scanner[1].to_i
+            note.bpm         = scanner[1].to_i
           when scanner.scan(/O\s*(\d+)/i)
-            note.octave    = scanner[1].to_i
+            note.octave      = scanner[1].to_i
           when scanner.scan(/([<>])/)
-            note.octave   +=
+            note.octave     +=
               case scanner[1]
               when '<' then -1
               when '>' then +1
               else           0
               end
           when scanner.scan(/@\s*(\d+)/)
-            note.tone      = scanner[1].to_i
+            note.tone        = scanner[1].to_i
           when scanner.scan(/L\s*(\d+)/i)
-            note.length    = scanner[1].to_i
+            note.length      = scanner[1].to_i
           when scanner.scan(/V\s*(\d+)/i)
-            note.velocity  = scanner[1].to_i
+            note.velocity    = scanner[1].to_i
           when scanner.scan(/Q\s*(\d+)/i)
-            note.quantize  = scanner[1].to_i
+            note.quantize    = scanner[1].to_i
           when scanner.scan(/K\s*([+-]?\d+)/i)
-            note.transpose = scanner[1].to_i
+            note.transpose   = scanner[1].to_i
           when scanner.scan(/Y\s*([+-]?\d+)/i)
-            note.detune    = scanner[1].to_i
+            note.detune      = scanner[1].to_i
           when scanner.scan(/&/)
-            note.legato    = true
-          when scanner.scan(/R\s*(\d+)?/i)
-            note.legato    = false
+            note.legato      = true
+          when scanner.scan(/\^\s*(\d+)?\s*(\.+)?/)
+            len, dots        = [1, 2].map {scanner[_1]}
+            pending.seconds += seconds__ note, len&.to_i, dots&.size if pending
+          when scanner.scan(/R\s*(\d+)?\s*(\.+)?/i)
+            len, dots        = [1, 2].map {scanner[_1]}
+            note.legato      = false
             addNote__ seq, pending, note, prevOsc if pending
-            pending        = nil
-            prevOsc        = nil
-            note.time     += seconds__ scanner[1]&.to_i || note.length, note.bpm
+            pending          = nil
+            prevOsc          = nil
+            note.time       += seconds__ note, len&.to_i, dots&.size
           when scanner.scan(/([CDEFGAB])\s*([#+-]+)?\s*(\d+)?\s*(\.+)?/i)&.chomp
             char, offset, len, dots = [1, 2, 3, 4].map {scanner[_1]}
-            sec                     = seconds__ len&.to_i || note.length, note.bpm
-            sec                    *= 1 + dots.size.times.map {0.5 ** (_1 + 1)}.sum if dots
 
-            note.frequency = frequency__ char, offset, note.octave, note.transpose, note.detune
-            prevOsc        = addNote__ seq, pending, note, prevOsc if pending
+            note.frequency   = frequency__ note, char, offset
+            prevOsc          = addNote__ seq, pending, note, prevOsc if pending
 
             pending          = note.dup
-            pending.seconds += sec
+            pending.seconds += seconds__ note, len&.to_i, dots&.size
 
-            note.legato = false
+            note.legato      = false
           else
             raise "Unknown input: #{scanner.rest[..10]}"
           end
@@ -108,8 +110,10 @@ module RubySketch
       end
 
       # @private
-      def seconds__(length, bpm)
-        60.0 * 4 / bpm / length
+      def seconds__(note, length, dots)
+        length ||= note.length
+        dots   ||= 0
+        60.0 * 4 / note.bpm / length * (1 + dots.times.map {0.5 ** (_1 + 1)}.sum)
       end
 
       # @private
@@ -123,9 +127,9 @@ module RubySketch
       }.call
 
       # @private
-      def frequency__(note, offset, octave, transpose, detune)
-        distance  = DISTANCES__[[note.downcase, octave.to_i]] ||
-          (raise ArgumentError, "note:'#{note}' octave:'#{octave}'")
+      def frequency__(note, char, offset)
+        distance  = DISTANCES__[[char.downcase, note.octave.to_i]] ||
+          (raise ArgumentError, "char:'#{char}' octave:'#{note.octave}'")
         distance += (offset || '').each_char.reduce(0) {|value, char|
           case char
           when '+', '#' then value + 1
@@ -133,7 +137,7 @@ module RubySketch
           else               value
           end
         }
-        distance += transpose + (detune / 100.0)
+        distance += note.transpose + (note.detune / 100.0)
         440 * (2 ** (distance.to_f / 12))
       end
 
@@ -160,7 +164,7 @@ module RubySketch
           release_time: (nextNote.legato ? 0 : nil)
         }.compact
 
-        osc  = oscillator__ tone, 32, freq: freq
+        osc  = createOscillator__ tone, 32, freq: freq
         env  = Beeps::Envelope.new(**adsr) {
           note_on
           note_off nextNote.legato ? note.seconds : (gate - release).clamp(0..)
@@ -170,7 +174,7 @@ module RubySketch
       end
 
       # @private
-      def oscillator__(type, size, **kwargs)
+      def createOscillator__(type, size, **kwargs)
         case type
         when :noise then Beeps::Oscillator.new type
         else

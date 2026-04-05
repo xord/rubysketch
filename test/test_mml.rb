@@ -102,6 +102,7 @@ class TestMML < Test::Unit::TestCase
   def test_rest()
     assert_equal [[0, 1], [2, 1]], times('T60 L4 C    R    C')
     assert_equal [[0, 1], [3, 1]], times('T60 L4 C    R2   C')
+    assert_equal [[0, 1], [4, 1]], times('T60 L4 C    R2.  C')
     assert_equal [[0, 1], [3, 1]], times('T60 L4 C L2 R L4 C')
   end
 
@@ -122,6 +123,14 @@ class TestMML < Test::Unit::TestCase
     assert_in_delta 1,   gains(    'C').first.gain
     assert_in_delta 0,   gains('V0  C').first.gain
     assert_in_delta 0.5, gains('V63 C').first.gain, 0.01
+  end
+
+  def test_tie()
+    assert_equal 2,    duration('T60 C^')
+    assert_equal 1.5,  duration('T60 C^8')
+    assert_equal 1.75, duration('T60 C^8.')
+    assert_equal 2.75, duration('T60 C^8.^')
+    assert_equal 3.25, duration('T60 C^8.^.')
   end
 
   def test_legato()
