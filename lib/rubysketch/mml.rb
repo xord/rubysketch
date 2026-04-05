@@ -15,7 +15,7 @@ module RubySketch
       end
 
       def compile!(str)
-        scanner = StringScanner.new str.gsub(/[;%].*(?:\n|$)/, '')
+        scanner = StringScanner.new expandLoops__ str.gsub(/[;%].*(?:\n|$)/, '')
         seq     = Beeps::Sequencer.new
         note    = Note__.new
         pending = nil
@@ -99,6 +99,12 @@ module RubySketch
             120, 4, 0, 4, V_MAX__, Q_MAX__, 0, 0,
             false)
         end
+      end
+
+      # @private
+      def expandLoops__(str)
+        nil while str.gsub!(/\[([^\[\]]*)\]\s*(\d+)?/) {$1 * ($2&.to_i || 2)}
+        str
       end
 
       # @private

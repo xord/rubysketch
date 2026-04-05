@@ -162,6 +162,16 @@ class TestMML < Test::Unit::TestCase
     assert_in_delta 220,     oscillators('Y-1200 A').first.freq
   end
 
+  def test_loop()
+    assert_equal 6,  procs('T60 [CDE]')    .size
+    assert_equal 6,  procs('T60 [CDE]2')   .size
+    assert_equal 9,  procs('T60 [CDE]3')   .size
+    assert_equal 3,  procs('T60 [CDE]1')   .size
+    assert_equal 0,  procs('T60 [CDE]0')   .size
+    assert_equal 36, procs('T60 [[CDE]3]4').size
+    assert_equal 12, procs('T60 [[CDE]]')  .size
+  end
+
   def test_comment()
     assert_in_delta 1, duration(<<~EOS)
       ; comment
