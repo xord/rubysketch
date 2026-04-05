@@ -99,6 +99,12 @@ class TestMML < Test::Unit::TestCase
     assert_equal [[0, 1], [1, 1]], times('T60 L4 C C')
   end
 
+  def test_rest()
+    assert_equal [[0, 1], [2, 1]], times('T60 L4 C    R    C')
+    assert_equal [[0, 1], [3, 1]], times('T60 L4 C    R2   C')
+    assert_equal [[0, 1], [3, 1]], times('T60 L4 C L2 R L4 C')
+  end
+
   def test_octave()
     assert_in_delta 440,     oscillators('O4   A').first.freq
     assert_in_delta 440 / 2, oscillators('O3   A').first.freq
@@ -137,10 +143,23 @@ class TestMML < Test::Unit::TestCase
     assert_in_delta 2,              duration('T60 L4 Q50  C C')
   end
 
-  def test_rest()
-    assert_equal [[0, 1], [2, 1]], times('T60 L4 C    R    C')
-    assert_equal [[0, 1], [3, 1]], times('T60 L4 C    R2   C')
-    assert_equal [[0, 1], [3, 1]], times('T60 L4 C L2 R L4 C')
+  def test_transpose()
+    assert_in_delta 466.164, oscillators('K 1  A').first.freq
+    assert_in_delta 466.164, oscillators('K+1  A').first.freq
+    assert_in_delta 415.305, oscillators('K-1  A').first.freq
+    assert_in_delta 493.883, oscillators('K 2  A').first.freq
+    assert_in_delta 880,     oscillators('K 12 A').first.freq
+    assert_in_delta 220,     oscillators('K-12 A').first.freq
+  end
+
+  def test_detune()
+    assert_in_delta 442.549, oscillators('Y 10   A').first.freq
+    assert_in_delta 466.164, oscillators('Y 100  A').first.freq
+    assert_in_delta 466.164, oscillators('Y+100  A').first.freq
+    assert_in_delta 415.305, oscillators('Y-100  A').first.freq
+    assert_in_delta 493.883, oscillators('Y 200  A').first.freq
+    assert_in_delta 880,     oscillators('Y 1200 A').first.freq
+    assert_in_delta 220,     oscillators('Y-1200 A').first.freq
   end
 
   def test_comment()
