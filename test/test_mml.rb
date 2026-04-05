@@ -118,12 +118,13 @@ class TestMML < Test::Unit::TestCase
     assert_in_delta 0.5, gains('V63 C').first.gain, 0.01
   end
 
-  def test_tie()
-    assert_equal [[0, 2]],         times('T60 L4 C  & C')
-    assert_equal [[0, 3]],         times('T60 L4 C  & C & C')
-    assert_equal [[0, 2.5]],       times('T60 L4 C. & C')
-    assert_equal [[0, 3]],         times('T60 L4 C. & C.')
-    assert_equal [[0, 2], [2, 1]], times('T60 L4 C  & C E')
+  def test_legato()
+    assert_equal [[0, 1],   [1,   1]],         times('T60 L4 C  & C')
+    assert_equal [[0, 1.5], [1.5, 1]],         times('T60 L4 C. & C')
+    assert_equal [[0, 1],   [1,   1], [2, 1]], times('T60 L4 C  & C E')
+
+    assert_equal [[0, 1], [1, 0.5]], times('T60 L4 Q50 C & C')
+    assert_equal [[0, 1], [2, 1]],   times('T60 L4     C & R C')
   end
 
   def test_quantize()

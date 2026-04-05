@@ -20,7 +20,6 @@ module RubySketch
         note    = Note__.new
         pending = nil
         prevOsc = nil
-        tie     = false
 
         scanner.skip(/\s*/)
         until scanner.eos?
@@ -44,26 +43,26 @@ module RubySketch
             note.velocity = scanner[1].to_i
           when scanner.scan(/Q\s*(\d+)/i)
             note.quantize = scanner[1].to_i
-          when scanner.scan(/R\s*(\d+)?/i)
-            note.time += seconds__ scanner[1]&.to_i || note.length, note.bpm
-            prevOsc    = nil
-            tie        = false
           when scanner.scan(/&/)
-            tie = true
+            note.legato   = true
+          when scanner.scan(/R\s*(\d+)?/i)
+            note.legato   = false
+            addNote__ seq, pending, note, prevOsc if pending
+            pending       = nil
+            prevOsc       = nil
+            note.time    += seconds__ scanner[1]&.to_i || note.length, note.bpm
           when scanner.scan(/([CDEFGAB])\s*([#+-]+)?\s*(\d+)?\s*(\.+)?/i)&.chomp
-            if pending && !tie
-              prevOsc = addNote__ seq, pending, prevOsc, note
-              pending = nil
-            end
-            tie = false
-
             char, offset, len, dots = [1, 2, 3, 4].map {scanner[_1]}
             sec                     = seconds__ len&.to_i || note.length, note.bpm
             sec                    *= 1 + dots.size.times.map {0.5 ** (_1 + 1)}.sum if dots
 
-            pending         ||= note.dup
-            pending.frequency = frequency__ char, offset, note.octave
-            pending.seconds  += sec
+            note.frequency = frequency__ char, offset, note.octave
+            prevOsc        = addNote__ seq, pending, note, prevOsc if pending
+
+            pending          = note.dup
+            pending.seconds += sec
+
+            note.legato = false
           else
             raise "Unknown input: #{scanner.rest[..10]}"
           end
@@ -71,7 +70,7 @@ module RubySketch
           scanner.skip(/\s*/)
         end
 
-        addNote__ seq, pending, prevOsc, note if pending
+        addNote__ seq, pending, note, prevOsc if pending
         return seq, note.time
       end
 
@@ -82,16 +81,15 @@ module RubySketch
       private
 
       V_MAX__ = 127.0
-
       Q_MAX__ = 100.0
 
       # @private
       Note__ = Struct.new(
-        :time, :bpm, :octave, :tone, :length, :velocity, :quantize,
+        :time, :bpm, :octave, :tone, :length, :velocity, :quantize, :legato,
         :frequency, :seconds) do
 
         def initialize()
-          super 0, 120, 4, 0, 4, V_MAX__, Q_MAX__, 1, 0
+          super 0, 120, 4, 0, 4, V_MAX__, Q_MAX__, false, 1, 0
         end
       end
 
@@ -125,25 +123,35 @@ module RubySketch
       end
 
       # @private
-      def addNote__(seq, note, prevOsc, state)
-        processor, gate = createProcessor__ note
+      def addNote__(seq, note, nextNote, prevOsc)
+        processor, sec  = createProcessor__ note, nextNote
         osc             = findInput__(processor) {_1.class == Beeps::Oscillator}
         syncPhase__ osc, prevOsc if prevOsc
-        seq.add processor, note.time, gate
-        state.time     += note.seconds
+        seq.add processor, note.time, sec
+        nextNote.time  += note.seconds
         return osc
       end
 
       # @private
-      def createProcessor__(note)
+      def createProcessor__(note, nextNote)
         tone = TONES[note.tone] || (raise ArgumentError, "tone:'#{note.tone}'")
+        freq = nextNote.legato ? Beeps::Value.new(note.frequency).tap {
+          _1.insert nextNote.frequency, note.seconds if nextNote.frequency != note.frequency
+        } : note.frequency
         gate = note.quantize.clamp(0, Q_MAX__) / Q_MAX__ * note.seconds
         vel  = note.velocity.clamp(0, V_MAX__) / V_MAX__
+        adsr = {
+          attack_time:  (    note.legato ? 0 : nil),
+          release_time: (nextNote.legato ? 0 : nil)
+        }.compact
 
-        osc  = oscillator__ tone, 32, freq: note.frequency
-        env  = Beeps::Envelope.new {note_on; note_off (gate - 0.01).clamp(0..)}
+        osc  = oscillator__ tone, 32, freq: freq
+        env  = Beeps::Envelope.new(**adsr) {
+          note_on
+          note_off nextNote.legato ? note.seconds : (gate - release).clamp(0..)
+        }
         gain = Beeps::Gain.new gain: vel
-        return (osc >> env >> gain), gate
+        return (osc >> env >> gain), (nextNote.legato ? note.seconds : gate)
       end
 
       # @private
