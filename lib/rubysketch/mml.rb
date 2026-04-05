@@ -15,7 +15,7 @@ module RubySketch
       end
 
       def compile!(str)
-        scanner = StringScanner.new str.gsub(/;.*\n/, '')
+        scanner = StringScanner.new str.gsub(/[;%].*(?:\n|$)/, '')
         seq     = Beeps::Sequencer.new
         note    = Note__.new
         pending = nil

@@ -163,7 +163,14 @@ class TestMML < Test::Unit::TestCase
   end
 
   def test_comment()
-    assert_in_delta 1, duration("; comment\nT60 L4 C")
+    assert_in_delta 1, duration(<<~EOS)
+      ; comment
+      T60 L4 C ; C
+    EOS
+    assert_in_delta 1, duration(<<~EOS)
+      % comment
+      T60 L4 C % C
+    EOS
   end
 
 end# TestMMLCompiler
