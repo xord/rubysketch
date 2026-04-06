@@ -47,14 +47,21 @@ module RubySketch
             note.transpose   = scanner[1].to_i
           when scanner.scan(/Y\s*([+-]?\d+)/i)
             note.detune      = scanner[1].to_i
-          when scanner.scan(/&/)
-            note.legato      = true
+          when scanner.scan(/\&\s*(\d+)?\s*(\.+)?/)
+            len, dots        = [1, 2].map {scanner[_1]}
+            if len || dots
+              pending.seconds += seconds__ note, len&.to_i, dots&.size if pending
+            else
+              note.tie       = true
+            end
           when scanner.scan(/\^\s*(\d+)?\s*(\.+)?/)
             len, dots        = [1, 2].map {scanner[_1]}
             pending.seconds += seconds__ note, len&.to_i, dots&.size if pending
+          when scanner.scan(/_/)
+            note.portamento  = true
           when scanner.scan(/R\s*(\d+)?\s*(\.+)?/i)
             len, dots        = [1, 2].map {scanner[_1]}
-            note.legato      = false
+            note.clearLegatoFlags
             addNote__ seq, pending, note, prevOsc if pending
             pending          = nil
             prevOsc          = nil
@@ -68,7 +75,7 @@ module RubySketch
             pending          = note.dup
             pending.seconds += seconds__ note, len&.to_i, dots&.size
 
-            note.legato      = false
+            note.clearLegatoFlags
           else
             raise "Unknown input: #{scanner.rest[..10]}"
           end
@@ -93,13 +100,21 @@ module RubySketch
       Note__ = Struct.new(
         :time, :frequency, :seconds,
         :bpm, :octave, :tone, :length, :velocity, :quantize, :transpose, :detune,
-        :legato) do
+        :tie, :portamento) do
 
         def initialize()
           super(
             0, 1, 0,
             120, 4, 0, 4, V_MAX__, Q_MAX__, 0, 0,
-            false)
+            false, false)
+        end
+
+        def legato?()
+          self.tie || self.portamento
+        end
+
+        def clearLegatoFlags()
+          self.tie = self.portamento = false
         end
       end
 
@@ -154,23 +169,23 @@ module RubySketch
       # @private
       def createProcessor__(note, nextNote)
         tone = TONES[note.tone] || (raise ArgumentError, "tone:'#{note.tone}'")
-        freq = nextNote.legato ? Beeps::Value.new(note.frequency).tap {
+        freq = nextNote.portamento ? Beeps::Value.new(note.frequency).tap {
           _1.insert nextNote.frequency, note.seconds if nextNote.frequency != note.frequency
         } : note.frequency
         gate = note.quantize.clamp(0, Q_MAX__) / Q_MAX__ * note.seconds
         vel  = note.velocity.clamp(0, V_MAX__) / V_MAX__
         adsr = {
-          attack_time:  (    note.legato ? 0 : nil),
-          release_time: (nextNote.legato ? 0 : nil)
+          attack_time:  (    note.legato? ? 0 : nil),
+          release_time: (nextNote.legato? ? 0 : nil)
         }.compact
 
         osc  = createOscillator__ tone, 32, freq: freq
         env  = Beeps::Envelope.new(**adsr) {
           note_on
-          note_off nextNote.legato ? note.seconds : (gate - release).clamp(0..)
+          note_off nextNote.legato? ? note.seconds : (gate - release).clamp(0..)
         }
         gain = Beeps::Gain.new gain: vel
-        return (osc >> env >> gain), (nextNote.legato ? note.seconds : gate)
+        return (osc >> env >> gain), (nextNote.legato? ? note.seconds : gate)
       end
 
       # @private

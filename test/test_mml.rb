@@ -96,14 +96,20 @@ class TestMML < Test::Unit::TestCase
     assert_in_delta 1, duration('T60 C#4')
     assert_in_delta 2, duration('T60 L4 C C')
 
-    assert_equal [[0, 1], [1, 1]], times('T60 L4 C C')
+    assert_equal [[0, 1], [1, 1]], times('T60 C C')
   end
 
   def test_rest()
-    assert_equal [[0, 1], [2, 1]], times('T60 L4 C    R    C')
-    assert_equal [[0, 1], [3, 1]], times('T60 L4 C    R2   C')
-    assert_equal [[0, 1], [4, 1]], times('T60 L4 C    R2.  C')
-    assert_equal [[0, 1], [3, 1]], times('T60 L4 C L2 R L4 C')
+    assert_equal [[0, 1], [2, 1]], times('T60 C    R    C')
+    assert_equal [[0, 1], [3, 1]], times('T60 C    R2   C')
+    assert_equal [[0, 1], [4, 1]], times('T60 C    R2.  C')
+    assert_equal [[0, 1], [3, 1]], times('T60 C L2 R L4 C')
+  end
+
+  def test_tempo()
+    assert_equal 0.5, duration(     'C')
+    assert_equal 0.5, duration('T120 C')
+    assert_equal 1,   duration('T60  C')
   end
 
   def test_octave()
@@ -119,13 +125,34 @@ class TestMML < Test::Unit::TestCase
     assert_not_equal oscillators('@0 C').first.samples, oscillators('@1 C').first.samples
   end
 
+  def test_length()
+    assert_equal [[0, 1], [1, 1]],   times('T60    C C')
+    assert_equal [[0, 1], [1, 1]],   times('T60 L4 C C')
+    assert_equal [[0, 2], [2, 2]],   times('T60 L2 C C')
+    assert_equal [[0, 2], [2, 1]],   times('T60 L2 C C4')
+  end
+
   def test_velocity()
     assert_in_delta 1,   gains(    'C').first.gain
     assert_in_delta 0,   gains('V0  C').first.gain
     assert_in_delta 0.5, gains('V63 C').first.gain, 0.01
   end
 
-  def test_tie()
+  def test_tie_and()
+    assert_equal 2.5,  duration('T60 C&.')
+    assert_equal 1.5,  duration('T60 C&8')
+    assert_equal 1.75, duration('T60 C&8.')
+    assert_equal 3.25, duration('T60 C&8.&.')
+
+    assert_equal [[0, 1],   [1,   1]],         times('T60 C  & C')
+    assert_equal [[0, 1.5], [1.5, 1]],         times('T60 C. & C')
+    assert_equal [[0, 1],   [1,   1], [2, 1]], times('T60 C  & C E')
+
+    assert_equal [[0, 1], [1, 0.5]], times('T60 Q50 C & C')
+    assert_equal [[0, 1], [2, 1]],   times('T60     C & R C')
+  end
+
+  def test_tie_caret()
     assert_equal 2,    duration('T60 C^')
     assert_equal 1.5,  duration('T60 C^8')
     assert_equal 1.75, duration('T60 C^8.')
@@ -133,13 +160,8 @@ class TestMML < Test::Unit::TestCase
     assert_equal 3.25, duration('T60 C^8.^.')
   end
 
-  def test_legato()
-    assert_equal [[0, 1],   [1,   1]],         times('T60 L4 C  & C')
-    assert_equal [[0, 1.5], [1.5, 1]],         times('T60 L4 C. & C')
-    assert_equal [[0, 1],   [1,   1], [2, 1]], times('T60 L4 C  & C E')
-
-    assert_equal [[0, 1], [1, 0.5]], times('T60 L4 Q50 C & C')
-    assert_equal [[0, 1], [2, 1]],   times('T60 L4     C & R C')
+  def test_portamento()
+    assert_equal [[0, 1], [1, 1], [2, 1]], times('T60 L4 C_D_E')
   end
 
   def test_quantize()
