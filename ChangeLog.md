@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.7.16] - 2026-04-10
+
+- Update dependencies
+
+
 ## [v0.7.15] - 2026-04-09
 
 - Add MML class

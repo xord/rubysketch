@@ -29,8 +29,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'rucy',       '~> 0.3.10'
   s.add_dependency 'beeps',      '~> 0.3.10'
   s.add_dependency 'rays',       '~> 0.3.10'
-  s.add_dependency 'reflexion',  '~> 0.3.11'
-  s.add_dependency 'processing', '~> 1.1.14'
+  s.add_dependency 'reflexion',  '~> 0.3.12'
+  s.add_dependency 'processing', '~> 1.1.15'
 
   s.files            = `git ls-files`.split $/
   s.test_files       = s.files.grep %r{^(test|spec|features)/}
