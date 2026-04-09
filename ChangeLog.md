@@ -1,6 +1,15 @@
 # rubysketch ChangeLog
 
 
+## [v0.7.15] - 2026-04-09
+
+- Add MML class
+- Add Sprite#mouseWheel
+- Update dependencies
+
+- Fix mouseClicked? crash when view is detached from window
+
+
 ## [v0.7.14] - 2025-07-06
 
 - Add RtMidi to podspec
