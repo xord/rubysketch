@@ -1,19 +1,22 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    power_assert (2.0.3)
-    rake (13.1.0)
-    test-unit (3.6.1)
+    power_assert (3.0.1)
+    rake (13.3.1)
+    rexml (3.4.4)
+    test-unit (3.7.7)
       power_assert
-    yard (0.9.34)
+    yard (0.9.39)
 
 PLATFORMS
   arm64-darwin-21
+  arm64-darwin-24
 
 DEPENDENCIES
   rake
+  rexml
   test-unit
   yard
 
 BUNDLED WITH
-   2.4.13
+   2.4.19
