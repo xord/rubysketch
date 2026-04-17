@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.7.18] - 2026-04-17
+
+- Update dependencies
+
+
 ## [v0.7.17] - 2026-04-10
 
 - Update dependencies
