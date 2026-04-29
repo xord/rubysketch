@@ -6,9 +6,9 @@
 
 extern "C"
 {
-	void Init_beeps_native ();
-	void Init_rays_native ();
-	void Init_reflex_native ();
+	void Init_beeps_ext ();
+	void Init_rays_ext ();
+	void Init_reflex_ext ();
 }
 
 
@@ -34,9 +34,9 @@ ReflexViewController_show (UIViewController*, ReflexViewController*)
 		if (done) return;
 		done = YES;
 
-		[CRuby addExtension:@"beeps/native"  init:^{Init_beeps_native();}];
-		[CRuby addExtension:@"rays/native"   init:^{Init_rays_native();}];
-		[CRuby addExtension:@"reflex/native" init:^{Init_reflex_native();}];
+		[CRuby addExtension:@"beeps_ext"  init:^{Init_beeps_ext();}];
+		[CRuby addExtension:@"rays_ext"   init:^{Init_rays_ext();}];
+		[CRuby addExtension:@"reflex_ext" init:^{Init_reflex_ext();}];
 
 		for (NSString *ext in @[
 			@"Xot",

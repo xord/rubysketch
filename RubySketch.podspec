@@ -93,9 +93,9 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "Rays" do |spec|
-    spec    .source_files = "rays/src/*.cpp"
-    spec.osx.source_files = "rays/src/osx/*.{cpp,mm}"
-    spec.ios.source_files = "rays/src/ios/*.{cpp,mm}"
+    spec    .source_files = "rays/src/*.cpp", "rays/src/opengl/*.cpp"
+    spec.osx.source_files = "rays/src/**/osx/*.{cpp,mm}"
+    spec.ios.source_files = "rays/src/**/ios/*.{cpp,mm}"
     spec.ios.frameworks   = %w[GLKit MobileCoreServices AVFoundation]# ImageIO
 
     spec.subspec "Clipper" do |sub|
