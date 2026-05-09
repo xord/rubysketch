@@ -1,6 +1,12 @@
 # rubysketch ChangeLog
 
 
+## [v0.7.19] - 2026-05-10
+
+- Support WebAssembly
+- Sync podspec and extension init symbols with new module layout
+
+
 ## [v0.7.18] - 2026-04-17
 
 - Update dependencies
