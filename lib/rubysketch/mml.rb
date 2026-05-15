@@ -1,14 +1,25 @@
 module RubySketch
 
 
+  # MML (Music Macro Language) compiler.
+  #
   class MML
 
+    # Oscillator tone types selectable with the `@N` command.
+    #
     TONES = %i[
       sine triangle square sawtooth pulse12_5 pulse25 noise
     ].freeze
 
     class << self
 
+      # Compile MML string into a sound.
+      #
+      # @param [String]  str       MML string
+      # @param [Boolean] streaming if true, creates a streaming sound
+      #
+      # @return [Sound] sound object
+      #
       def compile(str, streaming = false)
         seq, duration = compile__! str
         Sound.new Beeps::Sound.new(seq, streaming ? 0 : duration)
@@ -88,6 +99,12 @@ module RubySketch
         return seq, note.time
       end
 
+      # Compile and play MML string.
+      #
+      # @param [String] str MML string
+      #
+      # @return [nil] nil
+      #
       def play(str)
         compile(str).play
       end
