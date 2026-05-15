@@ -10,11 +10,12 @@ module RubySketch
     class << self
 
       def compile(str, streaming = false)
-        seq, duration = compile! str
+        seq, duration = compile__! str
         Sound.new Beeps::Sound.new(seq, streaming ? 0 : duration)
       end
 
-      def compile!(str)
+      # @private
+      def compile__!(str)
         scanner = StringScanner.new expandLoops__ str.gsub(/[;%].*(?:\n|$)/, '')
         seq     = Beeps::Sequencer.new
         note    = Note__.new
