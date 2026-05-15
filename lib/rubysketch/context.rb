@@ -9,6 +9,7 @@ module RubySketch
     SpriteWorld = RubySketch::SpriteWorld
     Circle      = RubySketch::Circle
     Sound       = RubySketch::Sound
+    MML         = RubySketch::MML
 
     # @private
     def initialize(window)
