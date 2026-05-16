@@ -1,6 +1,16 @@
 # rubysketch ChangeLog
 
 
+## [v0.8.0] - 2026-05-17
+
+- [BREAKING] Wheel Y delta now follows top-left origin convention (from reflex)
+
+- Expose MML class at top level and add example
+- Add RDoc to MML class
+- Rewrite README.md
+- CI: Migrate release-gem.yml from actions/create-release to gh release create
+
+
 ## [v0.7.19] - 2026-05-10
 
 - Support WebAssembly
