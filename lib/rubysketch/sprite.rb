@@ -674,7 +674,7 @@ module RubySketch
     #
     # @return [Numeric] gravity scale
     #
-    def gravity_scale=(scale)
+    def gravityScale=(scale)
       @view__.gravity_scale = scale
     end
 
@@ -682,8 +682,20 @@ module RubySketch
     #
     # @return [Numeric] gravity scale
     #
-    def gravity_scale()
+    def gravityScale()
       @view__.gravity_scale
+    end
+
+    # @deprecated Use {#gravityScale=} instead.
+    def gravity_scale=(scale)
+      warn "Sprite#gravity_scale= is deprecated, use #gravityScale= instead", uniq: true
+      self.gravityScale = scale
+    end
+
+    # @deprecated Use {#gravityScale} instead.
+    def gravity_scale()
+      warn "Sprite#gravity_scale is deprecated, use #gravityScale instead", uniq: true
+      gravityScale
     end
 
     # Converts a vector from the screen coordinate

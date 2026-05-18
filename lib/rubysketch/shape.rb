@@ -65,20 +65,26 @@ module RubySketch
       nil
     end
 
-    # Defines contact_end block.
+    # Defines contactEnd block.
     #
     # @example Call jumping() when the shape leaves the ground sprite
-    #  shape.contact_end do |o|
+    #  shape.contactEnd do |o|
     #    jumping if o == groundSprite
     #  end
     #
     # @return [nil] nil
     #
-    def contact_end(&block)
+    def contactEnd(&block)
       @shape.contact_end do |other|
         block.call other.instance_variable_get :@owner__ if block
       end
       nil
+    end
+
+    # @deprecated Use {#contactEnd} instead.
+    def contact_end(&block)
+      warn "Shape#contact_end is deprecated, use #contactEnd instead", uniq: true
+      contactEnd(&block)
     end
 
     # @private
