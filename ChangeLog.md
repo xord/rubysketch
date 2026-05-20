@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.8.1] - 2026-05-20
+
+- Rename snake_case methods to camelCase
+
+
 ## [v0.8.0] - 2026-05-17
 
 - [BREAKING] Wheel Y delta now follows top-left origin convention (from reflex)
