@@ -14,6 +14,7 @@ end# RubySketch
 
 require 'rubysketch/extension'
 require 'rubysketch/helper'
+require 'rubysketch/window'
 
 require 'rubysketch/sprite'
 require 'rubysketch/shape'
