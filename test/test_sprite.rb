@@ -17,6 +17,14 @@ class TestSprite < Test::Unit::TestCase
     RS::Image.new Rays::Image.new(w, h)
   end
 
+  def setup()
+    RS::Context.setCurrent__ RS::Window.new.context
+  end
+
+  def teardown()
+    RS::Context.setCurrent__ nil
+  end
+
   def test_initialize()
     assert_equal vec(0, 0), sprite            .pos
     assert_equal vec(1, 2), sprite(1, 2)      .pos

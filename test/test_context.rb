@@ -4,14 +4,21 @@ require_relative 'helper'
 class TestContext < Test::Unit::TestCase
 
   RS = RubySketch
-  P  = Processing
-
-  def context()
-    RS::Context.new P::Window.new
-  end
 
   def sprite(*args, **kwargs)
     RS::Sprite.new(*args, **kwargs)
+  end
+
+  def context()
+    RS::Context.current__
+  end
+
+  def setup()
+    RS::Context.setCurrent__ RS::Window.new.context
+  end
+
+  def teardown()
+    RS::Context.setCurrent__ nil
   end
 
   def test_addSprite()
