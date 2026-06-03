@@ -2,7 +2,7 @@ require 'rubysketch/all'
 
 
 module RubySketch
-  WINDOW__              = Processing.setup__ RubySketch
+  WINDOW__              = Processing.setup__ Window, Context
   $processing_context__ = WINDOW__.context
 
   refine Object do
