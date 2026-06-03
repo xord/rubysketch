@@ -63,7 +63,7 @@ module RubySketch
       raise 'invalid image' if image && !image.getInternal__.is_a?(Rays::Image)
       raise 'invalid shape' if shape && !shape.getInternal__.is_a?(Reflex::Shape)
 
-      @context__ = context || Context.context__
+      @context__ = context || Context.current__
       @shape__   = shape
       @view__    = View.new(
         self, x: x, y: y, w: w, h: h,
@@ -1147,7 +1147,7 @@ module RubySketch
     #
     def createSprite(*args, klass: nil, context: nil, **kwargs)
       klass   ||= RubySketch::Sprite
-      context ||= Context.context__
+      context ||= Context.current__
       addSprite klass.new(*args, context: context, **kwargs)
     end
 
