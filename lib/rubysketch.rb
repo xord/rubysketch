@@ -6,7 +6,7 @@ module RubySketch
   $processing_context__ = WINDOW__.context
 
   refine Object do
-    Processing.funcs__(WINDOW__.context).each do |func|
+    Processing.funcs__(Context).each do |func|
       define_method func do |*args, **kwargs, &block|
         $processing_context__.__send__ func, *args, **kwargs, &block
       end
@@ -23,7 +23,7 @@ def RubySketch(snake_case: false)
     Processing.alias_snake_case_methods__ RubySketch
 
     refine Object do
-      Processing.funcs__(RubySketch::WINDOW__.context).each do |func|
+      Processing.funcs__(RubySketch::Context).each do |func|
         define_method func do |*args, **kwargs, &block|
           $processing_context__.__send__ func, *args, **kwargs, &block
         end
@@ -42,7 +42,7 @@ begin
 
   w.__send__ :begin_draw
   at_exit do
-    Processing.events__(w.context).each do |event|
+    Processing.events__(w.context.class).each do |event|
       m = begin method event; rescue NameError; nil end
       w.context.__send__(event) {__send__ event} if m
     end
