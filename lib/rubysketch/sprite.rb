@@ -851,7 +851,7 @@ module RubySketch
     # @return [Boolean] is any key pressed or not
     #
     def keyPressed(&block)
-      @view__.keyPressed = block if block
+      setViewBlock__ :keyPressed, block if block
       keyIsPressed
     end
 
@@ -860,7 +860,7 @@ module RubySketch
     # @return [nil] nil
     #
     def keyReleased(&block)
-      @view__.keyReleased = block if block
+      setViewBlock__ :keyReleased, block if block
       nil
     end
 
@@ -869,7 +869,7 @@ module RubySketch
     # @return [nil] nil
     #
     def keyTyped(&block)
-      @view__.keyTyped = block if block
+      setViewBlock__ :keyTyped, block if block
       nil
     end
 
@@ -883,7 +883,7 @@ module RubySketch
     # @return [Boolean] is any mouse button pressed or not
     #
     def mousePressed(&block)
-      @view__.mousePressed = block if block
+      setViewBlock__ :mousePressed, block if block
       @view__.mousePressed?
     end
 
@@ -897,7 +897,7 @@ module RubySketch
     # @return [nil] nil
     #
     def mouseReleased(&block)
-      @view__.mouseReleased = block if block
+      setViewBlock__ :mouseReleased, block if block
       nil
     end
 
@@ -911,7 +911,7 @@ module RubySketch
     # @return [nil] nil
     #
     def mouseMoved(&block)
-      @view__.mouseMoved = block if block
+      setViewBlock__ :mouseMoved, block if block
       nil
     end
 
@@ -925,7 +925,7 @@ module RubySketch
     # @return [nil] nil
     #
     def mouseDragged(&block)
-      @view__.mouseDragged = block if block
+      setViewBlock__ :mouseDragged, block if block
       nil
     end
 
@@ -939,7 +939,7 @@ module RubySketch
     # @return [nil] nil
     #
     def mouseClicked(&block)
-      @view__.mouseClicked = block if block
+      setViewBlock__ :mouseClicked, block if block
       nil
     end
 
@@ -953,7 +953,7 @@ module RubySketch
     # @return [nil] nil
     #
     def mouseWheel(&block)
-      @view__.mouseWheel = block if block
+      setViewBlock__ :mouseWheel, block if block
       nil
     end
 
@@ -967,7 +967,7 @@ module RubySketch
     # @return [nil] nil
     #
     def touchStarted(&block)
-      @view__.touchStarted = block if block
+      setViewBlock__ :touchStarted, block if block
       nil
     end
 
@@ -981,7 +981,7 @@ module RubySketch
     # @return [nil] nil
     #
     def touchEnded(&block)
-      @view__.touchEnded = block if block
+      setViewBlock__ :touchEnded, block if block
       nil
     end
 
@@ -995,7 +995,7 @@ module RubySketch
     # @return [nil] nil
     #
     def touchMoved(&block)
-      @view__.touchMoved = block if block
+      setViewBlock__ :touchMoved, block if block
       nil
     end
 
@@ -1082,6 +1082,17 @@ module RubySketch
       else
         c.rect x, y, w, h
       end
+    end
+
+    # @private
+    def setViewBlock__(name, block)
+      c = @context__
+      @view__.__send__ "#{name}=", block && (proc do |*a, **k, &b|
+        prev, $processing_context__ = $processing_context__, c
+        block.call(*a, **k, &b)
+      ensure
+        $processing_context__       = prev
+      end)
     end
 
   end# Sprite
