@@ -4,7 +4,7 @@ module RubySketch
   # @private
   class Window < Processing::Window
 
-    def initialize(*args, context_class: Context, **kwargs, &block)
+    def initialize(*args, context_class: Context, **kwargs)
       super
     end
 
