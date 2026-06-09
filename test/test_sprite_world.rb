@@ -3,6 +3,8 @@ require_relative 'helper'
 
 class TestSpriteWorld < Test::Unit::TestCase
 
+  include HasContext
+
   RS = RubySketch
 
   def world(*args, **kwargs)
@@ -11,18 +13,6 @@ class TestSpriteWorld < Test::Unit::TestCase
 
   def sprite(*args, **kwargs)
     RS::Sprite.new(*args, **kwargs)
-  end
-
-  def context()
-    RS::Context.current__
-  end
-
-  def setup()
-    RS::Context.setCurrent__ RS::Window.new.context
-  end
-
-  def teardown()
-    RS::Context.setCurrent__ nil
   end
 
   def test_addSprite()

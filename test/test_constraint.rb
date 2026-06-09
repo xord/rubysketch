@@ -3,6 +3,8 @@ require_relative 'helper'
 
 class TestConstraint < Test::Unit::TestCase
 
+  include HasContext
+
   RS = RubySketch
   PI = Math::PI
 
@@ -16,19 +18,6 @@ class TestConstraint < Test::Unit::TestCase
 
   def sprites()
     [sprite(100, 100, 50, 50), sprite(200, 100, 50, 50)]
-  end
-
-  def context()
-    RS::Context.current__
-  end
-
-  def setup()
-    @context = RS::Window.new.context
-    RS::Context.setCurrent__ @context
-  end
-
-  def teardown()
-    RS::Context.setCurrent__ nil
   end
 
   def test_create()
@@ -186,8 +175,8 @@ class TestConstraint < Test::Unit::TestCase
     c = s1.link s2
     assert_equal 0, c.currentDistance # 0 while not active in a world
 
-    @context.addSprite s1
-    @context.addSprite s2
+    context.addSprite s1
+    context.addSprite s2
     s1.dynamic = true
     assert_in_delta 100, c.currentDistance # sprite centers are 100 px apart
   end

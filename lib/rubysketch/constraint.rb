@@ -156,7 +156,7 @@ module RubySketch
     private
 
     def getContext__()
-      sprites.first&.getContext__ || Context.current__
+      sprites.first&.getContext__ || Processing.context
     end
 
     def toDegrees__(angle)
