@@ -1,6 +1,16 @@
 # rubysketch ChangeLog
 
 
+## [v0.9.0] - 2026-06-12
+
+- [BREAKING] Drop redundant drawXxx aliases from GraphicsContext (from processing)
+- [BREAKING] Make pixelDensity a keyword arg in createGraphics (from processing)
+
+- Adopt the per-window Context model from Processing
+- Make context dispatch survive across event paths
+- Rework physics example with walls, FPS, and drag-to-spawn
+
+
 ## [v0.8.1] - 2026-05-20
 
 - Rename snake_case methods to camelCase
