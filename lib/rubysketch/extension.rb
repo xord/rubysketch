@@ -7,7 +7,7 @@ module RubySketch
     module_function
 
     def name(downcase = false)
-      super().split('::')[-2].then {|s|
+      super().split('::')[..-2].join.then {|s|
         downcase ? s.downcase : s
       }
     end
