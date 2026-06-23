@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.9.3] - 2026-06-23
+
+- Update dependencies
+
+
 ## [v0.9.2] - 2026-06-23
 
 - Fix podspec issues and use per-repo branch env vars
