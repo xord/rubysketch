@@ -23,7 +23,7 @@ repos.each do |repo, ver|
     '-c advice.detachedHead=false',
     '--no-single-branch',
     '--depth 1',
-    "--branch #{ENV['RUBYSKETCH_BRANCH'] || ('v' + ver)}"
+    "--branch #{ENV["#{repo.upcase}_BRANCH"] || ('v' + ver)}"
   ]
 
   task :setup => rakefile

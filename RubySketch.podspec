@@ -17,10 +17,10 @@ Pod::Spec.new do |s|
   root = "${PODS_ROOT}/#{s.name}"
   exts = File.read(File.expand_path 'Rakefile', __dir__)
     .lines(chomp: true)
-    .map {|line| line[%r|require\s*['"](\w+)/extension['"]|, 1]}
+    .map {_1[%r|require\s*['"](\w+)/extension['"]|, 1]}
     .compact - [s.name.downcase]
 
-  incdirs = exts.map {|x| "#{root}/#{x}/include"}.concat %W[
+  incdirs = exts.map {"#{root}/#{_1}/include"}.concat %W[
     #{root}/src
     #{root}/beeps/vendor/stk/include
     #{root}/beeps/vendor/AudioFile
@@ -43,8 +43,9 @@ Pod::Spec.new do |s|
   s.ios.compiler_flags = "-DIOS"
   s.library            = %w[c++]
   s.xcconfig           = {
-    "CLANG_CXX_LANGUAGE_STANDARD" => 'c++20',
-    "HEADER_SEARCH_PATHS"         => incdirs.join(' ')
+    "CLANG_CXX_LANGUAGE_STANDARD"  => 'c++20',
+    "GCC_PREPROCESSOR_DEFINITIONS" => '$(inherited) B2_MAX_WORLDS=256',
+    "HEADER_SEARCH_PATHS"          => incdirs.join(' ')
   }
 
   #s.dependency = 'CRuby', git: 'https://github.com/xord/cruby'
@@ -52,7 +53,7 @@ Pod::Spec.new do |s|
   s.source_files     = "src/*.mm"
   s.resource_bundles =
     exts.each_with_object({'RubySketch' => %w[lib VERSION]}) do |ext, hash|
-      hash[ext.capitalize] = %W[#{ext}/lib VERSION]
+      hash[ext.capitalize] = %W[#{ext}/lib #{ext}/VERSION]
     end
 
   s.subspec "Xot" do |spec|
@@ -96,6 +97,7 @@ Pod::Spec.new do |s|
     spec    .source_files = "rays/src/*.cpp", "rays/src/opengl/*.cpp"
     spec.osx.source_files = "rays/src/**/osx/*.{cpp,mm}"
     spec.ios.source_files = "rays/src/**/ios/*.{cpp,mm}"
+    spec.osx.frameworks   = %w[AppKit OpenGL CoreImage CoreVideo CoreMedia AVFoundation]
     spec.ios.frameworks   = %w[GLKit MobileCoreServices AVFoundation]# ImageIO
 
     spec.subspec "Clipper" do |sub|
@@ -115,14 +117,18 @@ Pod::Spec.new do |s|
     spec    .source_files = "reflex/src/*.cpp"
     spec.osx.source_files = "reflex/src/osx/*.{cpp,mm}"
     spec.ios.source_files = "reflex/src/ios/*.{cpp,mm}"
+    spec.osx.frameworks   = %w[Cocoa IOKit GameController]
     spec.ios.frameworks   = %w[CoreMotion GameController]
 
     spec.subspec "Box2D" do |sub|
-      sub.source_files = "reflex/vendor/box2d/src/**/*.cpp"
+      sub.source_files = "reflex/vendor/box2d/src/**/*.c"
     end
 
     spec.subspec "RtMidi" do |sub|
-      sub.source_files = "reflex/vendor/rtmidi/rtmidi/**/*.cpp"
+      sub.source_files   = "reflex/vendor/rtmidi/rtmidi/**/*.cpp"
+      sub.compiler_flags = '-D__MACOSX_CORE__'
+      sub.osx.frameworks = %w[CoreAudio CoreMIDI]
+      sub.ios.frameworks = %w[CoreMIDI]
     end
 
     spec.subspec "Ext" do |ext|
