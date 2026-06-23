@@ -1,6 +1,11 @@
 # rubysketch ChangeLog
 
 
+## [v0.9.5] - 2026-06-23
+
+- Add packager support with bin/rubysketch CLI
+
+
 ## [v0.9.4] - 2026-06-23
 
 - Update dependencies
