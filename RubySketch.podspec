@@ -50,7 +50,7 @@ Pod::Spec.new do |s|
 
   #s.dependency = 'CRuby', git: 'https://github.com/xord/cruby'
 
-  s.source_files     = "src/*.mm"
+  s.ios.source_files = "src/*.mm"
   s.resource_bundles =
     exts.each_with_object({'RubySketch' => %w[lib VERSION]}) do |ext, hash|
       hash[ext.capitalize] = %W[#{ext}/lib #{ext}/VERSION]

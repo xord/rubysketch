@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+require 'rubysketch/extension'
+require 'reflex/packager'
+
+
+profile = Reflex::Packager::Profile.new(
+  pod:          'RubySketch',
+  git:          'https://github.com/xord/rubysketch',
+  version:      RubySketch::Extension.version,
+  libraries:    %w[Xot Rucy Beeps Rays Reflex Processing RubySketch],
+  extensions:   %w[beeps_ext rays_ext reflex_ext],
+  config_files: %w[rubysketch.yml rubysketch.yaml],
+  template:     <<~RUBY)
+    require 'rubysketch'
+    using RubySketch
+
+    setup do
+      setTitle '{{name}}'
+    end
+
+    draw do
+      background 100
+      fill 255, 0, 0
+      ellipse width / 2, height / 2, 100, 100
+    end
+  RUBY
+
+Reflex::Packager::CLI.new(profile).run ARGV.dup
