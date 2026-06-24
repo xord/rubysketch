@@ -11,7 +11,7 @@ profile = Reflex::Packager::Profile.new(
   libraries:    %w[Xot Rucy Beeps Rays Reflex Processing RubySketch],
   extensions:   %w[beeps_ext rays_ext reflex_ext],
   config_files: %w[rubysketch.yml rubysketch.yaml],
-  template:     <<~RUBY)
+  templates:    {'main.rb': <<~MAIN, 'rubysketch.yml': <<~CONFIG})
     require 'rubysketch'
     using RubySketch
 
@@ -21,9 +21,13 @@ profile = Reflex::Packager::Profile.new(
 
     draw do
       background 100
-      fill 255, 0, 0
-      ellipse width / 2, height / 2, 100, 100
+      text 'hello, world!', 100, 100
     end
-  RUBY
+  MAIN
+    name: {{name}}
+    version: 1.0.0
+    #bundle_id: org.xord.rubysketch.example.{{name_id}}
+    #icon: icon.png
+  CONFIG
 
 Reflex::Packager::CLI.new(profile).run ARGV.dup
