@@ -3,7 +3,7 @@
 
 github  = 'https://github.com/xord'
 renames = {reflexion: 'reflex'}
-regexp  = /add\w+dependency.*['"](\w+)['"].*['"]\s*~>\s*([\d\.]+)\s*['"]/
+regexp  = /add\w+dependency.*['"]([\w\-]+)['"].*['"]\s*~>\s*([\d\.]+)\s*['"]/
 repos   = File.readlines('rubysketch.gemspec', chomp: true)
   .map {|s| regexp.match(s)&.values_at 1, 2}
   .compact
