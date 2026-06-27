@@ -54,8 +54,7 @@ module RubySketch
     #  @param [Shape]   shp shape of the sprite for physics calculations
     #
     def initialize(
-      x = 0, y = 0, w = nil, h = nil, image: nil, offset: nil, shape: nil,
-      physics: true, context: nil)
+      x = 0, y = 0, w = nil, h = nil, image: nil, offset: nil, shape: nil, physics: true)
 
       w ||= (image&.width  || shape&.width  || 0)
       h ||= (image&.height || shape&.height || 0)
@@ -63,7 +62,7 @@ module RubySketch
       raise 'invalid image' if image && !image.getInternal__.is_a?(Rays::Image)
       raise 'invalid shape' if shape && !shape.getInternal__.is_a?(Reflex::Shape)
 
-      @context__ = context || Context.current__
+      @world__   = nil
       @shape__   = shape
       @view__    = View.new(
         self, x: x, y: y, w: w, h: h,
@@ -366,7 +365,7 @@ module RubySketch
     # @return [Numeric] radians or degrees depending on angleMode()
     #
     def angle()
-      @context__.fromDegrees__ @view__.angle
+      getContext__.fromDegrees__ @view__.angle
     end
 
     # Sets the rotation angle of the sprite.
@@ -376,7 +375,7 @@ module RubySketch
     # @return [Numeric] angle
     #
     def angle=(angle)
-      @view__.angle = @context__.toDegrees__ angle
+      @view__.angle = getContext__.toDegrees__ angle
       angle
     end
 
@@ -1047,6 +1046,21 @@ module RubySketch
     end
 
     # @private
+    def setWorld__(world)
+      @world__ = world
+    end
+
+    # @private
+    def getWorld__()
+      @world__
+    end
+
+    # @private
+    def getContext__()
+      @world__&.getContext__ || Context.current__
+    end
+
+    # @private
     def drawSprite__(c)
       return if hidden?
       view              = getInternal__
@@ -1086,9 +1100,9 @@ module RubySketch
 
     # @private
     def setViewBlock__(name, block)
-      c = @context__
+      self_ = self
       @view__.__send__ "#{name}=", block && (proc do |*a, **k, &b|
-        prev, $processing_context__ = $processing_context__, c
+        prev, $processing_context__ = $processing_context__, self_.getContext__
         block.call(*a, **k, &b)
       ensure
         $processing_context__       = prev
@@ -1105,7 +1119,8 @@ module RubySketch
     # Create a new physics world.
     #
     def initialize(pixelsPerMeter: 0)
-      @view, @debug = View.new(pixelsPerMeter: pixelsPerMeter), false
+      @context, @debug = nil, false
+      @view            = View.new pixelsPerMeter: pixelsPerMeter
     end
 
     # Creates a new sprite and add it to physics engine.
@@ -1156,10 +1171,9 @@ module RubySketch
     #
     # @return [Sprite] the new sprite object
     #
-    def createSprite(*args, klass: nil, context: nil, **kwargs)
+    def createSprite(*args, klass: nil, **kwargs)
       klass   ||= RubySketch::Sprite
-      context ||= Context.current__
-      addSprite klass.new(*args, context: context, **kwargs)
+      addSprite klass.new(*args, **kwargs)
     end
 
     # Adds sprite to the physics engine.
@@ -1170,8 +1184,10 @@ module RubySketch
     # @return [Sprite] the added sprite
     #
     def addSprite(array = nil, sprite)
+      raise ArgumentError if sprite.getWorld__
       @view.add sprite.getInternal__
-      array&.push sprite
+      array.push sprite if array
+      sprite.setWorld__ self
       sprite
     end
 
@@ -1183,8 +1199,10 @@ module RubySketch
     # @return [Sprite] the removed sprite
     #
     def removeSprite(array = nil, sprite)
+      raise ArgumentError if sprite.getWorld__ != self
       @view.remove sprite.getInternal__
-      array&.delete sprite
+      array.delete sprite if array
+      sprite.setWorld__ nil
       sprite
     end
 
@@ -1312,6 +1330,16 @@ module RubySketch
     # @private
     def getInternal__()
       @view
+    end
+
+    # @private
+    def setContext__(context)
+      @context = context
+    end
+
+    # @private
+    def getContext__()
+      @context
     end
 
   end# SpriteWorld

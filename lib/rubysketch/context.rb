@@ -265,7 +265,7 @@ module RubySketch
     # @return [Sprite] the new sprite object
     #
     def createSprite(*args, **kwargs)
-      @world__.createSprite(*args, context: self, **kwargs)
+      @world__.createSprite(*args, **kwargs)
     end
 
     # Adds sprite to the physics engine.
@@ -307,7 +307,11 @@ module RubySketch
     # @return [SpriteWorld] first added world
     #
     def addWorld(*worlds)
-      worlds.each {@window__.add_overlay _1.getInternal__}
+      raise ArgumentError if worlds.any? {_1.getContext__}
+      worlds.each do |world|
+        world.setContext__ self
+        @window__.add_overlay world.getInternal__
+      end
       worlds.first
     end
 
@@ -318,7 +322,11 @@ module RubySketch
     # @return [SpriteWorld] first removed world
     #
     def removeWorld(*worlds)
-      worlds.each {@window__.remove_overlay _1.getInternal__}
+      raise ArgumentError if worlds.any? {_1.getContext__ != self}
+      worlds.each do |world|
+        @window__.remove_overlay world.getInternal__
+        world.setContext__ nil
+      end
       worlds.first
     end
 
