@@ -1119,8 +1119,8 @@ module RubySketch
     # Create a new physics world.
     #
     def initialize(pixelsPerMeter: 0)
-      @context, @debug = nil, false
-      @view            = View.new pixelsPerMeter: pixelsPerMeter
+      @context, @sprites, @debug = nil, [], false
+      @view                      = View.new pixelsPerMeter: pixelsPerMeter
     end
 
     # Creates a new sprite and add it to physics engine.
@@ -1186,6 +1186,7 @@ module RubySketch
     def addSprite(array = nil, sprite)
       raise ArgumentError if sprite.getWorld__
       @view.add sprite.getInternal__
+      @sprites.push sprite
       array.push sprite if array
       sprite.setWorld__ self
       sprite
@@ -1201,6 +1202,7 @@ module RubySketch
     def removeSprite(array = nil, sprite)
       raise ArgumentError if sprite.getWorld__ != self
       @view.remove sprite.getInternal__
+      @sprites.delete sprite
       array.delete sprite if array
       sprite.setWorld__ nil
       sprite
@@ -1340,6 +1342,11 @@ module RubySketch
     # @private
     def getContext__()
       @context
+    end
+
+    # @private
+    def drawSprite__(c)
+      c.sprite(*@sprites)
     end
 
   end# SpriteWorld
