@@ -161,7 +161,6 @@ module RubySketch
     #
     def x=(n)
       @view__.x = n
-      n
     end
 
     # Returns the y-coordinate position of the sprite.
@@ -180,7 +179,6 @@ module RubySketch
     #
     def y=(n)
       @view__.y = n
-      n
     end
 
     # Returns the z-coordinate position of the sprite.
@@ -199,7 +197,6 @@ module RubySketch
     #
     def z=(n)
       @view__.z = n
-      n
     end
 
     alias pos  position
@@ -221,7 +218,6 @@ module RubySketch
     #
     def left=(n)
       @view__.left = n
-      n
     end
 
     # Returns the top position of the sprite.
@@ -310,7 +306,7 @@ module RubySketch
       @view__.size.toVector
     end
 
-    # Returns the size of the sprite.
+    # Sets the size of the sprite.
     #
     # @return [Vector] size
     #
@@ -457,7 +453,6 @@ module RubySketch
     #
     def vx=(n)
       @view__.velocity = @view__.velocity.tap {|v| v.x = n}
-      n
     end
 
     # Returns the y-axis velocity of the sprite.
@@ -476,7 +471,6 @@ module RubySketch
     #
     def vy=(n)
       @view__.velocity = @view__.velocity.tap {|v| v.y = n}
-      n
     end
 
     alias vel  velocity
@@ -545,7 +539,6 @@ module RubySketch
     #
     def ox=(x)
       self.offset = [x, oy]
-      x
     end
 
     # Returns the y-axis offset of the sprite image.
@@ -564,7 +557,6 @@ module RubySketch
     #
     def oy=(y)
       self.offset = [ox, y]
-      y
     end
 
     # Returns whether the sprite is movable by the physics engine.
@@ -583,7 +575,6 @@ module RubySketch
     #
     def dynamic=(bool)
       @view__.dynamic = bool
-      bool
     end
 
     # Returns the density of the sprite.
@@ -602,7 +593,6 @@ module RubySketch
     #
     def density=(n)
       @view__.density = n
-      n
     end
 
     # Returns the friction of the sprite.
@@ -621,7 +611,6 @@ module RubySketch
     #
     def friction=(n)
       @view__.friction = n
-      n
     end
 
     # Returns the restitution of the sprite.
@@ -640,7 +629,6 @@ module RubySketch
     #
     def restitution=(n)
       @view__.restitution = n
-      n
     end
 
     alias dens  density
@@ -1343,16 +1331,250 @@ module RubySketch
       nil
     end
 
-    # Returns the offset of the sprite world.
+    # Returns the position of the world.
     #
-    # @return [Vector] offset of the sprite world
+    # @return [Vector] position
+    #
+    def position()
+      @view.position.toVector
+    end
+
+    # Sets the position of the world.
+    #
+    # @overload position=(vec)
+    #  @param [Vector] vec position vector
+    #
+    # @overload position=(ary)
+    #  @param [Array<Numeric>] ary an array of positionX and positionY
+    #
+    # @return [Vector] position
+    #
+    def position=(arg)
+      @view.position = arg.is_a?(Vector) ? arg.getInternal__ : arg
+      arg
+    end
+
+    # Returns the x-coordinate position of the world.
+    #
+    # @return [Numeric] world position x
+    #
+    def x()
+      @view.x
+    end
+
+    # Set the x-coordinate position of the world.
+    #
+    # @param [Numeric] n world position x
+    #
+    # @return [Numeric] world position x
+    #
+    def x=(n)
+      @view.x = n
+    end
+
+    # Returns the y-coordinate position of the world.
+    #
+    # @return [Numeric] world position y
+    #
+    def y()
+      @view.y
+    end
+
+    # Set the y-coordinate position of the world.
+    #
+    # @param [Numeric] n world position y
+    #
+    # @return [Numeric] world position y
+    #
+    def y=(n)
+      @view.y = n
+    end
+
+    # Returns the z-coordinate position of the world.
+    #
+    # @return [Numeric] world position z
+    #
+    def z()
+      @view.z
+    end
+
+    # Set the z-coordinate position of the world.
+    #
+    # @param [Numeric] n world position z
+    #
+    # @return [Numeric] world position z
+    #
+    def z=(n)
+      @view.z = n
+    end
+
+    alias pos  position
+    alias pos= position=
+
+    # Returns the left position of the world.
+    #
+    # @return [Numeric] left position
+    #
+    def left()
+      @view.left
+    end
+
+    # Set the left position of the world.
+    #
+    # @param [Numeric] n world left position
+    #
+    # @return [Numeric] world left position
+    #
+    def left=(n)
+      @view.left = n
+    end
+
+    # Returns the top position of the world.
+    #
+    # @return [Numeric] top position
+    #
+    def top()
+      @view.top
+    end
+
+    # Set the top position of the world.
+    #
+    # @param [Numeric] n world top position
+    #
+    # @return [Numeric] world top position
+    #
+    def top=(n)
+      @view.top = n
+    end
+
+    # Returns the right position of the world.
+    #
+    # @return [Numeric] right position
+    #
+    def right()
+      @view.right
+    end
+
+    # Set the right position of the world.
+    #
+    # @param [Numeric] n world right position
+    #
+    # @return [Numeric] world right position
+    #
+    def right=(n)
+      @view.right = n
+    end
+
+    # Returns the bottom position of the world.
+    #
+    # @return [Numeric] bottom
+    #
+    def bottom()
+      @view.bottom
+    end
+
+    # Set the bottom position of the world.
+    #
+    # @param [Numeric] n world bottom position
+    #
+    # @return [Numeric] world bottom position
+    #
+    def bottom=(n)
+      @view.bottom = n
+    end
+
+    # Returns the center position of the world.
+    #
+    # @return [Vector] center position
+    #
+    def center()
+      Vector.new(x + w / 2, y + h / 2, z)
+    end
+
+    # Sets the center position of the world.
+    #
+    # @overload center=(vec)
+    #  @param [Vector] vec center position
+    #
+    # @overload center=(ary)
+    #  @param [Array<Numeric>] ary an array of centerX and centerY
+    #
+    # @return [Vector] center position
+    #
+    def center=(arg)
+      x, y = *(arg.is_a?(Vector) ? arg.getInternal__.to_a : arg)
+      self.pos = [x - w / 2, y - h / 2, z]
+      self.center
+    end
+
+    # Returns the size of the world.
+    #
+    # @return [Vector] size
+    #
+    def size()
+      @view.size.toVector
+    end
+
+    # Sets the size of the world.
+    #
+    # @return [Vector] size
+    #
+    def size=(arg)
+      @view.size = arg.is_a?(Vector) ? arg.getInternal__ : arg
+      arg
+    end
+
+    # Returns the width of the world.
+    #
+    # @return [Numeric] width
+    #
+    def width()
+      @view.width
+    end
+
+    # Sets the width of the world.
+    #
+    # @param [Numeric] w width
+    #
+    # @return [Numeric] width
+    #
+    def width=(w)
+      @view.width = w
+    end
+
+    # Returns the height of the world.
+    #
+    # @return [Numeric] height
+    #
+    def height()
+      @view.height
+    end
+
+    # Sets the height of the world.
+    #
+    # @param [Numeric] h height
+    #
+    # @return [Numeric] height
+    #
+    def height=(h)
+      @view.height = h
+    end
+
+    alias w  width
+    alias w= width=
+    alias h  height
+    alias h= height=
+
+    # Returns the offset of the world.
+    #
+    # @return [Vector] offset of the world
     #
     def offset()
       s, z = @view.scroll, zoom
       Vector.new(-s.x / z, -s.y / z, -s.z / z)
     end
 
-    # Sets the offset of the sprite world.
+    # Sets the offset of the world.
     #
     # @overload offset=(vec)
     #  @param [Vector] vec offset
@@ -1360,7 +1582,7 @@ module RubySketch
     # @overload offset=(ary)
     #  @param [Array<Numeric>] ary an array of offsetX and offsetY
     #
-    # @return [Vector] offset of the sprite world
+    # @return [Vector] offset of the world
     #
     def offset=(arg)
       zoom_   = zoom
@@ -1375,7 +1597,7 @@ module RubySketch
       offset
     end
 
-    # Returns the x-axis offset of the sprite world.
+    # Returns the x-axis offset of the world.
     #
     # @return [Numeric] offset.x
     #
@@ -1383,7 +1605,7 @@ module RubySketch
       offset.x
     end
 
-    # Sets the x-axis offset of the sprite world.
+    # Sets the x-axis offset of the world.
     #
     # @param [Numeric] x x-axis offset
     #
@@ -1393,10 +1615,9 @@ module RubySketch
       o           = offset
       o.x         = x
       self.offset = o
-      x
     end
 
-    # Returns the y-axis offset of the sprite world.
+    # Returns the y-axis offset of the world.
     #
     # @return [Numeric] offset.y
     #
@@ -1404,20 +1625,19 @@ module RubySketch
       offset.y
     end
 
-    # Sets the y-axis offset of the sprite world.
+    # Sets the y-axis offset of the world.
     #
-    # @param [Numeric] x y-axis offset
+    # @param [Numeric] y y-axis offset
     #
     # @return [Numeric] offset.y
     #
-    def oy=(x)
+    def oy=(y)
       o           = offset
       o.y         = y
       self.offset = o
-      y
     end
 
-    # Returns the zoom value of the sprite world.
+    # Returns the zoom value of the world.
     #
     # @return [Numeric] zoom
     #
@@ -1425,7 +1645,7 @@ module RubySketch
       @view.zoom
     end
 
-    # Sets the zoom value of the sprite world.
+    # Sets the zoom value of the world.
     #
     # @return [Numeric] zoom
     #
@@ -1461,7 +1681,14 @@ module RubySketch
 
     # @private
     def drawSprite__(c)
-      c.sprite(*@sprites)
+      o, z_ = offset, zoom
+      c.push do
+        c.clip x, y, w, h
+        c.translate x, y, z
+        c.scale z_, z_
+        c.translate(-o.x, -o.y, -o.z)
+        c.sprite(*@sprites)
+      end
     end
 
   end# SpriteWorld
