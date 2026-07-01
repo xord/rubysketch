@@ -309,8 +309,8 @@ module RubySketch
     def addWorld(*worlds)
       raise ArgumentError if worlds.any? {_1.getContext__}
       worlds.each do |world|
-        world.setContext__ self
         @window__.add_overlay world.getInternal__
+        world.attached__
       end
       worlds.first
     end
@@ -325,7 +325,7 @@ module RubySketch
       raise ArgumentError if worlds.any? {_1.getContext__ != self}
       worlds.each do |world|
         @window__.remove_overlay world.getInternal__
-        world.setContext__ nil
+        world.detached__
       end
       worlds.first
     end

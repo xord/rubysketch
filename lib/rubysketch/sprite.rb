@@ -1330,13 +1330,18 @@ module RubySketch
     def debug? = @view.debug?
 
     # @private
-    def getInternal__()
-      @view
+    def attached__()
+      @context = @view.window.context
     end
 
     # @private
-    def setContext__(context)
-      @context = context
+    def detached__()
+      @context = nil
+    end
+
+    # @private
+    def getInternal__()
+      @view
     end
 
     # @private
