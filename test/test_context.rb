@@ -56,6 +56,12 @@ class TestContext < Test::Unit::TestCase
 
     sprite.tap do |sp|
       ary = []
+      assert_equal sp,             current.addSprite(sp, to: ary)
+      assert_equal [sp], ary
+    end
+
+    sprite.tap do |sp| # deprecated form
+      ary = []
       assert_equal sp,             current.addSprite(ary, sp)
       assert_equal [sp], ary
     end
@@ -70,6 +76,13 @@ class TestContext < Test::Unit::TestCase
     end
 
     sprite.tap do |sp|
+      ary = []
+      current.addSprite sp, to: ary
+      assert_equal sp,             current.removeSprite(sp, from: ary)
+      assert_equal [], ary
+    end
+
+    sprite.tap do |sp| # deprecated form
       ary = []
       current.addSprite ary, sp
       assert_equal sp,             current.removeSprite(ary, sp)

@@ -1178,32 +1178,40 @@ module RubySketch
 
     # Adds sprite to the physics engine.
     #
-    # @param [Array]  array user array to store the sprite
     # @param [Sprite] sprite sprite object
+    # @param [Array]  to     user array to store the sprite
     #
     # @return [Sprite] the added sprite
     #
-    def addSprite(array = nil, sprite)
+    def addSprite(sprite, deprecatedSprite__ = nil, to: nil)
+      if sprite.is_a?(Array)
+        Xot.warn "addSprite(array, sprite) is deprecated; use addSprite(sprite, to: array) instead", uniq: true
+        sprite, to = deprecatedSprite__, sprite
+      end
       raise ArgumentError if sprite.getWorld__
       @view.add sprite.getInternal__
       @sprites.push sprite
-      array.push sprite if array
+      to.push sprite if to
       sprite.setWorld__ self
       sprite
     end
 
     # Removes sprite from the physics engine.
     #
-    # @param [Array]  array user array to remove the sprite
     # @param [Sprite] sprite sprite object
+    # @param [Array]  from   user array to remove the sprite
     #
     # @return [Sprite] the removed sprite
     #
-    def removeSprite(array = nil, sprite)
+    def removeSprite(sprite, deprecatedSprite__ = nil, from: nil)
+      if sprite.is_a?(Array)
+        Xot.warn "removeSprite(array, sprite) is deprecated; use removeSprite(sprite, from: array) instead", uniq: true
+        sprite, from = deprecatedSprite__, sprite
+      end
       raise ArgumentError if sprite.getWorld__ != self
       @view.remove sprite.getInternal__
       @sprites.delete sprite
-      array.delete sprite if array
+      from.delete sprite if from
       sprite.setWorld__ nil
       sprite
     end

@@ -36,6 +36,12 @@ class TestSpriteWorld < Test::Unit::TestCase
 
     sprite.tap do |sp|
       w, ary = world, []
+      assert_equal sp,             w.addSprite(sp, to: ary)
+      assert_equal [sp], ary
+    end
+
+    sprite.tap do |sp| # deprecated form
+      w, ary = world, []
       assert_equal sp,             w.addSprite(ary, sp)
       assert_equal [sp], ary
     end
@@ -51,6 +57,14 @@ class TestSpriteWorld < Test::Unit::TestCase
     end
 
     sprite.tap do |sp|
+      w, ary = world, []
+      w.addSprite sp, to: ary
+      assert_equal [sp], ary
+      assert_equal sp,             w.removeSprite(sp, from: ary)
+      assert_equal [],   ary
+    end
+
+    sprite.tap do |sp| # deprecated form
       w, ary = world, []
       w.addSprite ary, sp
       assert_equal [sp], ary
