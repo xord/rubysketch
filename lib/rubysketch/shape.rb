@@ -83,7 +83,7 @@ module RubySketch
 
     # @deprecated Use {#contactEnd} instead.
     def contact_end(&block)
-      warn "Shape#contact_end is deprecated, use #contactEnd instead", uniq: true
+      Xot.warn "Shape#contact_end is deprecated, use #contactEnd instead", uniq: true
       contactEnd(&block)
     end
 

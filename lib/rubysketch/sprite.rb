@@ -687,13 +687,13 @@ module RubySketch
 
     # @deprecated Use {#gravityScale=} instead.
     def gravity_scale=(scale)
-      warn "Sprite#gravity_scale= is deprecated, use #gravityScale= instead", uniq: true
+      Xot.warn "Sprite#gravity_scale= is deprecated, use #gravityScale= instead", uniq: true
       self.gravityScale = scale
     end
 
     # @deprecated Use {#gravityScale} instead.
     def gravity_scale()
-      warn "Sprite#gravity_scale is deprecated, use #gravityScale instead", uniq: true
+      Xot.warn "Sprite#gravity_scale is deprecated, use #gravityScale instead", uniq: true
       gravityScale
     end
 
