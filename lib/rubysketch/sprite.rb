@@ -942,6 +942,34 @@ module RubySketch
       nil
     end
 
+    # Defines mouseOver block.
+    #
+    # @example Highlight the sprite while hovered
+    #  sprite.mouseOver do
+    #    $hovered = true
+    #  end
+    #
+    # @return [nil] nil
+    #
+    def mouseOver(&block)
+      setViewBlock__ :mouseOver, block if block
+      nil
+    end
+
+    # Defines mouseOut block.
+    #
+    # @example Unhighlight the sprite on unhover
+    #  sprite.mouseOut do
+    #    $hovered = false
+    #  end
+    #
+    # @return [nil] nil
+    #
+    def mouseOut(&block)
+      setViewBlock__ :mouseOut, block if block
+      nil
+    end
+
     # Defines mouseWheel block.
     #
     # @example Print wheel states on mouse wheel
@@ -1389,7 +1417,8 @@ module RubySketch
 
     attr_accessor :update,
       :mousePressed, :mouseReleased, :mouseMoved, :mouseDragged,
-      :mouseClicked, :mouseWheel, :touchStarted, :touchEnded, :touchMoved,
+      :mouseClicked, :mouseOver, :mouseOut, :mouseWheel,
+      :touchStarted, :touchEnded, :touchMoved,
       :keyPressed, :keyReleased, :keyTyped,
       :contact, :contactEnd, :willContact
 
@@ -1466,6 +1495,15 @@ module RubySketch
 
     def on_pointer_cancel(e)
       on_pointer_up e
+    end
+
+    def on_pointer_enter(e)
+      updatePointerStates e
+      callBlock @mouseOver
+    end
+
+    def on_pointer_leave(e)
+      callBlock @mouseOut
     end
 
     def on_wheel(e)
