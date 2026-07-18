@@ -18,6 +18,8 @@ require 'rubysketch/window'
 
 require 'rubysketch/sprite'
 require 'rubysketch/shape'
+require 'rubysketch/pin'
+require 'rubysketch/constraint'
 require 'rubysketch/sound'
 require 'rubysketch/mml'
 require 'rubysketch/easings'

@@ -697,6 +697,80 @@ module RubySketch
       gravityScale
     end
 
+    # Creates a pin that fastens a point on the sprite.
+    #
+    # @overload pin()
+    #  a pin at the center of the sprite
+    # @overload pin(x, y)
+    #  @param [Numeric] x x of the sprite-local position
+    #  @param [Numeric] y y of the sprite-local position
+    #
+    # @return [Pin] a new pin
+    #
+    def pin(x = nil, y = nil)
+      Pin.new self, x, y
+    end
+
+    # Creates a constraint that makes the center of the sprite and the
+    # target point coincide.
+    #
+    # @param [Sprite, Pin, Vector, Array<Numeric>, nil] target
+    #  the center of a sprite, a pin, or a point in the world.
+    #  snaps to the world when target is omitted
+    #
+    # @return [SnapConstraint] a new constraint
+    #
+    def snap(*args, **options, &block)
+      pin.snap(*args, **options, &block)
+    end
+
+    # Creates a constraint that keeps the distance between the center of
+    # the sprite and the target point.
+    #
+    # @param [Sprite, Pin, Vector, Array<Numeric>, nil] target
+    #  the center of a sprite, a pin, or a point in the world.
+    #  links to the world when target is omitted
+    #
+    # @return [LinkConstraint] a new constraint
+    #
+    def link(*args, **options, &block)
+      pin.link(*args, **options, &block)
+    end
+
+    # Creates a constraint that makes the sprite ride on the target like
+    # a wheel: it slides along an axis for the suspension and spins freely.
+    #
+    # @param [Sprite, Pin, Vector, Array<Numeric>, nil] target
+    #  the center of a sprite, a pin, or a point in the world.
+    #  rides on the world when target is omitted
+    #
+    # @return [WheelConstraint] a new constraint
+    #
+    def wheel(*args, **options, &block)
+      pin.wheel(*args, **options, &block)
+    end
+
+    # Creates a constraint that moves the sprite toward the target every
+    # frame.
+    #
+    # @param [Sprite, Pin, Vector, Array<Numeric>, nil] target
+    #  the center of a sprite, a pin, or a point in the world.
+    #  chases nothing when target is omitted
+    #
+    # @return [ChaseConstraint] a new constraint
+    #
+    def chase(*args, **options, &block)
+      pin.chase(*args, **options, &block)
+    end
+
+    # Returns the constraints fastened to the sprite.
+    #
+    # @return [Array<Constraint>] constraints
+    #
+    def constraints()
+      @view__.constraints.map {|c| Constraint.wrap__ c}
+    end
+
     # Converts a vector from the screen coordinate
     #
     # @param [Vector] vec screen coordinate vector
