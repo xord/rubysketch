@@ -1011,11 +1011,11 @@ module RubySketch
     #    $hovered = true
     #  end
     #
-    # @return [nil] nil
+    # @return [Boolean] is the mouse over the sprite or not
     #
     def mouseOver(&block)
       setViewBlock__ :mouseOver, block if block
-      nil
+      @view__.mouseOver?
     end
 
     # Defines mouseOut block.
@@ -1710,6 +1710,7 @@ module RubySketch
       @pointerPrev      = nil
       @pointersPressed  = []
       @pointersReleased = []
+      @pointerOver      = false
       @touches          = []
 
       self.shape  = shape.getInternal__ if shape
@@ -1751,6 +1752,10 @@ module RubySketch
 
     def mouseButton()
       ((@pointersPressed + @pointersReleased) & MOUSE_BUTTONS).last
+    end
+
+    def mouseOver?()
+      @pointerOver
     end
 
     def clickCount()
@@ -1800,10 +1805,12 @@ module RubySketch
 
     def on_pointer_enter(e)
       updatePointerStates e
+      @pointerOver = true
       callBlock @mouseOver
     end
 
     def on_pointer_leave(e)
+      @pointerOver = false
       callBlock @mouseOut
     end
 
