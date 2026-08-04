@@ -1,6 +1,19 @@
 # rubysketch ChangeLog
 
 
+## [v0.10.0] - 2026-08-04
+
+- [BREAKING] Remove the context: parameter from Sprite.new and SpriteWorld#createSprite
+- Add constraint mechanism backed by Reflex constraints
+- Add mouseOver/mouseOut blocks to Sprite, and Sprite#mouseOver to read the state
+- Add sprite(world) support to draw all sprites in a world
+- Add position/size methods to SpriteWorld
+- Deprecate addSprite/removeSprite array params in favor of to:/from: keywords
+- Reject adding a sprite to two worlds, or removing it from another world
+
+- Fix SpriteWorld#oy=
+
+
 ## [v0.9.5] - 2026-06-23
 
 - Add packager support with bin/rubysketch CLI
