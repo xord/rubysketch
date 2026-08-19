@@ -13,7 +13,9 @@ include Xot::Test
 module HasContext
 
   def new_context()
-    RubySketch::Window.new.context
+    window = RubySketch::Window.new
+    (@windows_for_context__ ||= []).push window
+    window.context
   end
 
   def setup()
@@ -24,6 +26,8 @@ module HasContext
   def teardown()
     super
     $processing_context__ = nil
+    @windows_for_context__&.each(&:close)
+    @windows_for_context__ = nil
   end
 
   def context()
