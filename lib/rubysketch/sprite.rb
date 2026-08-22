@@ -1778,12 +1778,20 @@ module RubySketch
     end
 
     def on_pointer_up(e)
+      pointerEnded e, true
+    end
+
+    def on_pointer_cancel(e)
+      pointerEnded e, false
+    end
+
+    private def pointerEnded(e, click)
       updatePointerStates e
       updatePointersPressedAndReleased e, false
 
       if e.any? {|p| p.id == @pointer.id}
         callBlock @mouseReleased
-        callBlock @mouseClicked if mouseClicked?
+        callBlock @mouseClicked if click && mouseClicked?
       end
       callBlock @touchEnded
 
@@ -1797,10 +1805,6 @@ module RubySketch
       mouseMoved = e.drag? ? @mouseDragged : @mouseMoved
       callBlock mouseMoved if e.any? {|p| p.id == @pointer.id}
       callBlock @touchMoved
-    end
-
-    def on_pointer_cancel(e)
-      on_pointer_up e
     end
 
     def on_pointer_enter(e)
