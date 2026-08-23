@@ -40,7 +40,7 @@ module RubySketch
       @window__.update_window = proc do
         fireTimers__
         Beeps.process_streams!
-        Reflex.process_events!
+        Reflex.process_events!# TODO: delete this
       end
 
       @window__.note_on  = proc do |e|
