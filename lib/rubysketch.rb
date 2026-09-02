@@ -19,8 +19,7 @@ def RubySketch(snake_case: false)
   return RubySketch unless snake_case
 
   $rubysketch_refinements_with_snake_case ||= Module.new do
-    Processing.alias_snake_case_methods__ Processing
-    Processing.alias_snake_case_methods__ RubySketch
+    Processing.alias_snake_case_methods__ Processing, RubySketch
 
     refine Object do
       Processing.funcs__(RubySketch::Context).each do |func|
