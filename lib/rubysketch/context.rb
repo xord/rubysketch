@@ -14,15 +14,15 @@ module RubySketch
     # @private
     def initialize(window)
       super
-      @window__          = window
-      @timers__          = {}
-      @firingTimers__    = {}
-      @nextTimerID__     = 0
-      @noteNumber__      = 69
-      @noteFrequency__   = 440
-      @noteVelocity__    = 1
-      @controllerIndex__ = 0
-      @controllerValue__ = 0
+      @window__           = window
+      @timers__           = {}
+      @firingTimers__     = {}
+      @nextTimerID__      = 0
+      @noteNumber__       = 69
+      @noteFrequency__    = 440
+      @noteVelocity__     = 1
+      @controllerNumber__ = 0
+      @controllerValue__  = 0
 
       @world__ = createWorld
 
@@ -33,8 +33,8 @@ module RubySketch
       }
 
       updateControllerStates = -> event {
-        @controllerIndex__ = event.controller
-        @controllerValue__ = event.value
+        @controllerNumber__ = event.controller
+        @controllerValue__  = event.value
       }
 
       @window__.update_window = proc do
@@ -364,12 +364,12 @@ module RubySketch
       @noteVelocity__
     end
 
-    # Returns the last controller index that was changed.
+    # Returns the last controller number that was changed.
     #
-    # @return [Numeric] last controller index
+    # @return [Numeric] last controller number
     #
-    def controllerIndex()
-      @controllerIndex__
+    def controllerNumber()
+      @controllerNumber__
     end
 
     # Returns the last controller value that was changed.
