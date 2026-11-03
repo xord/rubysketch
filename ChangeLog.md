@@ -1,6 +1,18 @@
 # rubysketch ChangeLog
 
 
+## [v0.11.0] - 2026-11-04
+
+- [BREAKING] Rename Context#controllerIndex to #controllerNumber
+- [BREAKING] Raise the deployment targets to macOS 11.0 and iOS 14.0
+- [BREAKING] loadPixels and updatePixels exchange straight alpha, not premultiplied (from processing)
+- [BREAKING] A shader from createShader sees premultiplied samples from texMap and must emit premultiplied color (from processing)
+- [BREAKING] Report wheel deltas in pixels, in the same direction, on every platform (from reflex)
+- Package a macOS app without CocoaPods
+
+- Fix a canceled press, as by a menu popping up, becoming a click
+
+
 ## [v0.10.0] - 2026-08-04
 
 - [BREAKING] Remove the context: parameter from Sprite.new and SpriteWorld#createSprite
